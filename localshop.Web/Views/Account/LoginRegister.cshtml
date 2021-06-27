@@ -1,0 +1,76 @@
+﻿@using localshop.Core.Common
+@model LoginRegisterViewModel
+
+@{
+    ViewBag.Title = "Login - Register";
+}
+
+@section thirdPartyCss {
+    <style>
+        .parsley-errors-list {
+            margin-top: -20px;
+            margin-bottom: 20px;
+        }
+    </style>
+}
+
+@section thirdPartyJs {
+    @Scripts.Render("~/content/client/js/validation")
+
+    <!-- Controller -->
+    @Scripts.Render("~/content/client/js/account/loginRegister")
+}
+
+@Html.Hidden("errorMessage", TempData["ErrorMessage"])
+@Html.Hidden("activePanel", TempData["ActivePanel"])
+
+<div class="breadcrumb-area bg-img" style="background-image:url(@ImageLinks.BackgrounBreadcrumb);">
+    <div class="container">
+        <div class="breadcrumb-content text-center">
+            <h2>@ViewBag.Title</h2>
+            <ul>
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                <li class="active">@ViewBag.Title</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+@ViewBag.Test
+
+<div class="login-register-area pt-85 pb-90">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 col-md-12 ml-auto mr-auto">
+                <div class="login-register-wrapper">
+                    <div class="login-register-tab-list nav">
+                        <a id="loginTab" class="active" data-toggle="tab" href="#lg1">
+                            <h4> login </h4>
+                        </a>
+                        <a id="registerTab" data-toggle="tab" href="#lg2">
+                            <h4> register </h4>
+                        </a>
+                    </div>
+                    <div class="tab-content">
+                        <div id="lg1" class="tab-pane active">
+                            <div class="login-form-container">
+                                <div class="login-register-form">
+                                    @{Html.RenderPartial("_Login", Model.Login);}
+                                </div>
+                            </div>
+                        </div>
+                        <div id="lg2" class="tab-pane">
+                            <div class="login-form-container">
+                                <div class="login-register-form">
+                                    @{Html.RenderPartial("_Register", Model.Register);}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

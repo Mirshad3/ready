@@ -1,0 +1,420 @@
+﻿@using Microsoft.AspNet.Identity
+@using localshop.Core.Common
+@model ProductDetailViewModel
+
+@{
+    ViewBag.Title = "Product";
+}
+
+@section thirdPartyCss {
+    @Styles.Render("~/content/client/css/content-style")
+    <style>
+        .parsley-errors-list {
+            margin-bottom: 20px;
+        }
+    </style>
+}
+
+@section thirdPartyJs {
+    @Scripts.Render("~/content/client/js/validation")
+
+    <!-- Controller -->
+    @Scripts.Render("~/content/client/js/product/detail")
+}
+
+@Html.Hidden("saveSuccess", TempData["SaveSuccess"])
+@Html.Hidden("activePanel", TempData["ActivePanel"])
+
+<div class="breadcrumb-area bg-img" style="background-image:url(@ImageLinks.BackgrounBreadcrumb);">
+    <div class="container">
+        <div class="breadcrumb-content text-center">
+            <h2>@ViewBag.Title</h2>
+            <ul>
+                <li>
+                    <a href="@Url.Action("index", "home")">Home</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("index", "shop")">Shop</a>
+                </li>
+                <li class="active">@ViewBag.Title</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Product detail -->
+@{
+    var countReviews = Model.Reviews.Where(r => r.Review.IsApproved).Count();
+    var totalReviews = Model.Reviews.Where(r => r.Review.IsApproved).Sum(r => r.Review.Rating);
+    var calculateRating = countReviews > 0 ? (int)Math.Round(totalReviews / (double)countReviews, 0) : 0;
+}
+<div class="product-details-area pt-90 pb-90">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6">
+                <div class="product-details-img">
+                    <div class="zoompro-border zoompro-span">
+                        <img class="zoompro" src="@(Model.Product.Images.FirstOrDefault()??ImageLinks.BrokenProductImage)" data-zoom-image="@(Model.Product.Images.FirstOrDefault()??ImageLinks.BrokenProductImage)" alt="" /> @Html.Raw(Model.Status == StatusNames.OutOfStock ? "<span>Stock out</span>" : "")
+                    </div>
+                    <div id="gallery" class="mt-20 product-dec-slider">
+                        @if (Model.Product.Images.Count > 0)
+                        {
+                            foreach (var img in Model.Product.Images)
+                            {
+                                <a data-image="@img" data-zoom-image="@img">
+                                    <img src="@img" alt="" width="100" height="100" style="object-fit:scale-down;">
+                                </a>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div id="product-detail" class="product-details-content pro-details-content-modify">
+                    <span>@Model.Category</span>
+                    <h2>@Model.Product.Name</h2>
+                    <div class="product-ratting-review">
+                        <div class="product-ratting">
+                            @for (int i = 0; i < calculateRating; i++)
+                            {
+                                <i class="la la-star"></i>
+                            }
+                            @for (int i = calculateRating; i < 5; i++)
+                            {
+                                <i class="la la-star-o"></i>
+                            }
+                        </div>
+                        <div class="product-review">
+                            <span>@countReviews Reviews</span>
+                        </div>
+                    </div>
+                    <div class="pro-details-price-wrap">
+                        <div class="product-price">
+                            @if (Model.Product.DiscountPrice != null)
+                            {
+                                if (Model.Product.EndDiscountDate != null)
+                                {
+                                    if (DateTime.Now <= Model.Product.EndDiscountDate.Value)
+                                    {
+                                        <span>$@Model.Product.DiscountPrice</span>
+                                        <span class="old">$@Model.Product.Price</span>
+                                    }
+                                    else
+                                    {
+                                        <span>$@Model.Product.Price</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span>$@Model.Product.DiscountPrice</span>
+                                    <span class="old">$@Model.Product.Price</span>
+                                }
+                            }
+                            else
+                            {
+                                <span>$@Model.Product.Price</span>
+                            }
+                        </div>
+                        @if (Model.Product.DiscountPrice != null)
+                        {
+                            if (Model.Product.EndDiscountDate != null)
+                            {
+                                if (DateTime.Now <= Model.Product.EndDiscountDate.Value)
+                                {
+                                    var percetage = 100 - (Model.Product.DiscountPrice * 100 / Model.Product.Price); ;
+                                    <div class="dec-rang"><span>- @Math.Round(percetage.Value)%</span></div>
+                                }
+                            }
+                            else
+                            {
+                                var percetage = 100 - (Model.Product.DiscountPrice * 100 / Model.Product.Price); ;
+                                <div class="dec-rang"><span>- @Math.Round(percetage.Value)%</span></div>
+                            }
+                        }
+                    </div>
+                    <div class="product-details-content mb-2">
+                        <div class="ck-content overflow-hidden">
+                            @Html.Raw(Model.Product.ShortDesciption)
+                        </div>
+                    </div>
+                    <div class="pro-details-quality">
+                        <div class="cart-plus-minus">
+                            <input class="cart-plus-minus-box" type="text" name="Quantity" value="1">
+                        </div>
+                    </div>
+                    <div class="pro-details-compare-wishlist">
+                        <div class="pro-details-compare">
+                            <a title="Add To Compare" href="javascript:void(0)" class="add-to-compare" data-productid="@Model.Product.Id"><i class="la la-retweet"></i> Compare</a>
+                        </div>
+                        <div class="pro-details-wishlist">
+                            <a title="Add To Wishlist" href="javascript:void(0)" class="add-to-wishlist" data-productid="@Model.Product.Id"><i class="la la-heart-o"></i> Add to wish list</a>
+                        </div>
+                    </div>
+                    @if (Model.Status != StatusNames.OutOfStock)
+                    {
+                        <div class="pro-details-buy-now btn-hover btn-hover-radious">
+                            <a class="add-to-cart" href="javascript:void(0)" data-productid="@Model.Product.Id">Add To Cart</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Description / Detail / Reviews -->
+<div class="description-review-wrapper pb-90">
+    <div class="container">
+        <div class="row">
+            <div class="ml-auto mr-auto col-lg-10">
+                <div class="dec-review-topbar nav mb-40">
+                    <a id="des1" class="active" data-toggle="tab" href="#des-details1">Description</a> 
+                    <a id="des3" data-toggle="tab" href="#des-details3">Reviews</a>
+                </div>
+                <div class="tab-content dec-review-bottom">
+                    <div id="des-details1" class="tab-pane active">
+                        <div class="description-wrap ck-content">
+                            @Html.Raw(Model.Product.LongDescription)
+                        </div>
+                    </div>
+                    <div id="des-details2" class="tab-pane ">
+                        <div class="specification-wrap table-responsive">
+                            <table>
+                                <tbody>
+                                    @{
+                                        var propSpecification = ViewData.ModelMetadata.Properties.First(p => p.PropertyName == "ProductSpecification");
+                                    }
+
+                                    @foreach (var prop in propSpecification.Properties)
+                                    {
+                                        if (prop.PropertyName == "ProductId")
+                                        {
+                                            continue;
+                                        }
+                                        if (prop.Model != null)
+                                        {
+                                            <tr>
+                                                <td class="width1">@prop.GetDisplayName()</td>
+                                                @if (prop.ModelType == typeof(bool?))
+                                                {
+                                                    <td>@((bool)prop.Model == true ? "Yes" : "No")</td>
+                                                }
+                                                else
+                                                {
+                                                    <td>@prop.Model</td>
+                                                }
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="des-details3" class="tab-pane">
+                        @* Get user review *@
+                        @{
+                            bool closeReview = false;
+                        }
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            var userId = User.Identity.GetUserId();
+                            var currentReview = Model.Reviews.FirstOrDefault(r => r.Review.UserId == userId);
+                            if (currentReview != null)
+                            {
+                                closeReview = true;
+                                <div class="dec-review-wrap mb-50" @Html.Raw(currentReview.Review.IsApproved ? "" : "style='opacity:0.7'")>
+                                    <div class="row">
+                                        <div class="col-xl-3 col-lg-4 col-md-5">
+                                            <div class="dec-review-img-wrap">
+                                                <div class="dec-client-name">
+                                                    <h4>@Html.Raw(string.IsNullOrWhiteSpace(currentReview.Name) ? "<span class='text-secondary'>(no name)</span>" : currentReview.Name)</h4>
+                                                    <div class="dec-client-rating">
+                                                        @for (int i = 0; i < currentReview.Review.Rating; i++)
+                                                        {
+                                                            <i class="la la-star"></i>
+                                                        }
+                                                        @for (int i = currentReview.Review.Rating; i < 5; i++)
+                                                        {
+                                                            <i class="la la-star-o"></i>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-9 col-lg-8 col-md-7">
+                                            <div class="dec-review-content">
+                                                <p>@currentReview.Review.Body</p>
+                                                <div class="review-content-bottom">
+                                                    <div class="review-date align-self-center">
+                                                        <span>@currentReview.Review.DateAdded.ToShortDateString()</span>
+                                                    </div>
+                                                    <div>
+                                                        @if (!currentReview.Review.IsApproved)
+                                                        {
+                                                            <abbr title="Your review is waiting for the acceptant from admin!">Pending...</abbr>
+                                                        }
+                                                        <a href="javascript:void(0)" class="text-danger ml-20 ls-delete-review" data-productid="@Model.Product.Id">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                Model.Reviews.Remove(currentReview);
+                            }
+                        }
+
+                        @* Get other user reviews *@
+                        @foreach (var r in Model.Reviews)
+                        {
+                            if (!r.Review.IsApproved)
+                            {
+                                continue;
+                            }
+                            <div class="dec-review-wrap mb-50">
+                                <div class="row">
+                                    <div class="col-xl-3 col-lg-4 col-md-5">
+                                        <div class="dec-review-img-wrap">
+                                            <div class="dec-client-name">
+                                                <h4>@Html.Raw(string.IsNullOrWhiteSpace(r.Name) ? "<span class='text-secondary'>(no name)</span>" : r.Name)</h4>
+                                                <div class="dec-client-rating">
+                                                    @for (int i = 0; i < r.Review.Rating; i++)
+                                                    {
+                                                        <i class="la la-star"></i>
+                                                    }
+                                                    @for (int i = r.Review.Rating; i < 5; i++)
+                                                    {
+                                                        <i class="la la-star-o"></i>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-9 col-lg-8 col-md-7">
+                                        <div class="dec-review-content">
+                                            <p>@r.Review.Body</p>
+                                            <div class="review-content-bottom">
+                                                <div class="review-date align-self-center">
+                                                    <span>@r.Review.DateAdded.ToShortDateString()</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        @*<div class="dec-review-wrap mb-50">
+                                <div class="row">
+                                    <div class="col-xl-3 col-lg-4 col-md-5">
+                                        <div class="dec-review-img-wrap">
+                                            <div class="dec-review-img">
+                                                <img src="/Assets/client/images/product-details/review-2.png" alt="review">
+                                            </div>
+                                            <div class="dec-client-name">
+                                                <h4>Jonathon Doe</h4>
+                                                <div class="dec-client-rating">
+                                                    <i class="la la-star"></i>
+                                                    <i class="la la-star"></i>
+                                                    <i class="la la-star"></i>
+                                                    <i class="la la-star"></i>
+                                                    <i class="la la-star-half-o"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-9 col-lg-8 col-md-7">
+                                        <div class="dec-review-content">
+                                            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,</p>
+                                            <div class="review-content-bottom">
+                                                <div class="review-like">
+                                                    <span><i class="la la-heart-o"></i> 24 Likes</span>
+                                                </div>
+                                                <div class="review-date">
+                                                    <span>25 Jun 2019</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div id="review-box" class="dec-review-wrap @(closeReview?"d-none":"")">
+                                <div class="border p-4">
+                                    <h3>Write a review</h3>
+                                    <hr />
+                                    @{Html.RenderPartial("_AddReview", new localshop.Core.DTO.ReviewDTO() { ProductId = Model.Product.Id });}
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Related products -->
+<div class="product-area pb-85">
+    <div class="container">
+        <div class="section-title-6 mb-50 text-center">
+            <h2>Related Product</h2>
+        </div>
+        <div class="product-slider-active owl-carousel">
+            @foreach (var p in Model.Related.Take(10))
+            {
+                <div class="product-wrap">
+                    <div class="product-img mb-15">
+                        <a href="@Url.Action("detail", "product", new { metaTitle = p.Product.MetaTitle })"><img src="@(p.Product.Images.FirstOrDefault()??ImageLinks.BrokenProductImage)" alt="product"></a>
+                        <div class="product-action">
+                            <a title="Wishlist" href="javascript:void(0)" class="add-to-wishlist" data-productid="@p.Product.Id"><i class="la la-heart-o"></i></a>
+                            <a title="Compare" href="javascript:void(0)" class="add-to-compare" data-productid="@p.Product.Id"><i class="la la-retweet"></i></a>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <span>@p.Category</span>
+                        <h4><a href="@Url.Action("detail", "product", new { metaTitle = p.Product.MetaTitle })">@p.Product.Name</a></h4>
+                        <div class="price-addtocart">
+                            <div class="product-price">
+                                @if (p.Product.DiscountPrice != null)
+                                {
+                                    if (p.Product.EndDiscountDate != null)
+                                    {
+                                        if (DateTime.Now <= p.Product.EndDiscountDate.Value)
+                                        {
+                                            <span>$@p.Product.DiscountPrice</span>
+                                            <span class="old">$@p.Product.Price</span>
+                                        }
+                                        else
+                                        {
+                                            <span>$@p.Product.Price</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span>$@p.Product.DiscountPrice</span>
+                                        <span class="old">$@p.Product.Price</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span>$@p.Product.Price</span>
+                                }
+                            </div>
+                            @if (p.Status != StatusNames.OutOfStock)
+                            {
+                                <div class="product-addtocart">
+                                    <a class="add-to-cart" title="Add To Cart" href="javascript:void(0)" data-productid="@p.Product.Id">+ Add To Cart</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

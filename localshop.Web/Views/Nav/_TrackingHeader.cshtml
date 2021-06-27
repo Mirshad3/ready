@@ -1,0 +1,107 @@
+﻿@using localshop.Core.Common
+@model string
+
+<!-- Navigation -->
+<header class="header-area header-padding-4">
+    <div class="main-header-wrap">
+        <div class="header-top pt-15 pb-15 bg-black-3">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-lg-4">
+                        <div class="welcome">
+                            <p>
+                                Welcome to localshop
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="setting-wrap-2">
+                            <div class="setting-content2-right">
+                                @Html.ActionLink("Compare", "index", "compare")
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    @Html.ActionLink("Wishlist", "index", "wishlist")
+                                    @Html.ActionLink("My Account", "index", "account")
+                                    if (User.IsInRole(RoleNames.Root) ||
+                                        User.IsInRole(RoleNames.Administrator) ||
+                                        User.IsInRole(RoleNames.Modifier))
+                                    {
+                                        <a href="@Url.Action("index", "dashboard", new { Area="Admin" })">Dashboard</a>
+                                    }
+
+                                    using (Html.BeginForm("logout", "account", FormMethod.Post, new { @class = "ml-4 d-inline-block" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <button class="rounded btn-dark" type="submit">Logout</button>
+                                    }
+                                }
+                                else
+                                {
+                                    @Html.ActionLink("Sign in", "login", "account", new { returnUrl = Request.Url.AbsolutePath }, null)
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-middle border-top-2 pt-30 pb-30 bg-black-3">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-lg-2">
+                        <div class="logo">
+                            <a href="@Url.Action("index", "home")"><img src="@ImageLinks.LogoLight" width="200" alt="logo"></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-10">
+                        <div class="header-contact-search-wrap">
+                            <div class="search-style-3 w-100">
+                                @using (Html.BeginForm("index", "tracking", FormMethod.Get))
+                                {
+                                    <div class="form-search-3">
+                                        <input id="search" class="input-text w-100" name="id" placeholder="Enter your Order ID" type="search">
+                                        <button>
+                                            <i class="la la-search"></i>
+                                        </button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile header -->
+    <div class="header-small-mobile">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-12 mb-4">
+                    <div class="mobile-logo">
+                        <a href="@Url.Action("index","home")">
+                            <img alt="" src="@ImageLinks.LogoDark" width="180">
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Search mobile -->
+                <div class="col-12 mb-4">
+                    <div class="header-contact-search-wrap">
+                        <div class="search-style-3 w-100">
+                            @using (Html.BeginForm("index", "tracking", FormMethod.Get))
+                            {
+                                <div class="form-search-3">
+                                    <input id="search" class="input-text w-100 bg-light text-dark" name="id" placeholder="Enter your OrderID" type="search">
+                                    <button>
+                                        <i class="la la-search"></i>
+                                    </button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

@@ -1,0 +1,109 @@
+﻿@model SidebarViewModel
+
+<div class="left-side-menu">
+
+    <div class="slimscroll-menu">
+
+        <!-- User box -->
+        <div class="user-box text-center">
+            <img src="@Model.User.Image" alt="user-img" title="@Model.User.FullName" class="rounded-circle img-thumbnail avatar-lg">
+            @Html.ActionLink((string.IsNullOrWhiteSpace(Model.User.FullName) ? User.Identity.Name : Model.User.FullName), "profile", "account", null, new { @class = "text-dark dropdown-toggle h5 mt-2 mb-1 d-block" })
+            <p class="badge badge-primary">@Model.Role</p>
+        </div>
+
+        <!--- Sidemenu -->
+        <div id="sidebar-menu">
+
+            <ul class="metismenu" id="side-menu">
+
+                <li class="menu-title">Navigation</li>
+
+                <li>
+                    <a href="@Url.Action("index", "dashboard")">
+                        <i class="mdi mdi-view-dashboard"></i>
+                        <span> Dashboard </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="@Url.Action("index", "user")">
+                        <i class="mdi mdi-account-multiple"></i>
+                        <span> User </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);">
+                        <i class="mdi mdi-home"></i>
+                        <span> Home page </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li><a href="@Url.Action("specialfeatured", "homepage")">Special featured</a></li>
+                        <li><a href="@Url.Action("banners", "homepage")">Banners</a></li>
+                        <li><a href="@Url.Action("addbanner", "homepage")">Add banner</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);">
+                        <i class="mdi mdi-package-variant"></i>
+                        <span> Product </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li><a href="@Url.Action("index", "product")">Product list</a></li>
+                        <li><a href="@Url.Action("add", "product")">Add product</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);">
+                        <i class="mdi mdi-comment-check"></i>
+                        <span> Reviews </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li><a href="@Url.Action("index", "review")">Review list</a></li>
+                        <li><a href="@Url.Action("waiting", "review")">Waiting list</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="@Url.Action("index", "order")">
+                        <i class="mdi mdi-square-inc-cash"></i>
+                        <span> Order </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="@Url.Action("index", "category")">
+                        <i class="mdi mdi-format-line-weight"></i>
+                        <span> Category </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="@Url.Action("index", "contact")">
+                        <i class="mdi mdi-email"></i>
+                        <span> Contact </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="@Url.Action("index", "configuration")">
+                        <i class="mdi mdi-settings"></i>
+                        <span> Configuration </span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+        <!-- End Sidebar -->
+
+        <div class="clearfix"></div>
+
+    </div>
+    <!-- Sidebar -left -->
+
+</div>

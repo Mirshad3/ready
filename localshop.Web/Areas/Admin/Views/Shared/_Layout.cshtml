@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>localshop - @(ViewBag.Title ?? "electronic store")</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="localshop" name="HauNguyen" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    @using localshop.Core.Common
+    <!-- third party css -->
+    @RenderSection("thirdPartyCss", required: false)
+    <!-- third party css end -->
+    <!-- App css -->
+    @Styles.Render("~/content/admin/css/vendor")
+    <link href="~/Assets/admin/css/icons.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+    <!-- Pre-loader -->
+    @*<div id="preloader">
+            <div id="status">
+                <div class="spinner">Loading...</div>
+            </div>
+        </div>*@
+    <!-- End Preloader-->
+    <!-- Begin page -->
+    <div id="wrapper">
+
+        <!-- Topbar Start -->
+        @RenderSection("topbar", required: true)
+        <!-- end Topbar -->
+        <!-- ========== Left Sidebar Start ========== -->
+        @if (User.IsInRole(RoleNames.Root) ||
+        User.IsInRole(RoleNames.Administrator))
+        {
+            @Html.Action("sidebar", "nav")
+        }
+        @if (User.IsInRole(RoleNames.Modifier))
+        {
+            @Html.Action("sidebarVendor", "nav")
+        }
+
+        <!-- Left Sidebar End -->
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        <div class="content-page">
+            <div class="content">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+
+                    @RenderBody()
+
+                </div> <!-- container-fluid -->
+
+            </div> <!-- content -->
+            <!-- Footer Start -->
+            <footer class="footer">
+                @Html.Action("footer", "nav")
+            </footer>
+            <!-- end Footer -->
+
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+
+    </div>
+    <!-- END wrapper -->
+    <!-- Vendor js -->
+    @Scripts.Render("~/content/admin/js/vendor")
+
+    <!-- third party js -->
+    @RenderSection("thirdPartyJs", required: false)
+    <!-- third party js ends -->
+    <!-- App js -->
+    @Scripts.Render("~/content/admin/js/app", "~/content/modernizr")
+    @Scripts.Render("~/content/removeAds")
+</body>
+</html>
+

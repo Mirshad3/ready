@@ -1,0 +1,68 @@
+﻿@using localshop.Core.Common
+@model IEnumerable<localshop.Core.DTO.BannerDTO>
+
+@{
+    ViewBag.Title = "banners";
+}
+
+@section topbar {
+    @Html.Action("topbar", "nav", new { header = NavigationHeader.Banners })
+}
+
+@section thirdPartyCss {
+    @Styles.Render("~/content/admin/css/datatables_sweetalert", "~/content/admin/css/toastr")
+}
+
+@section thirdPartyJs {
+    @Scripts.Render("~/content/admin/js/datatables_sweetalert", "~/content/admin/js/toastr")
+
+    <!-- Controller -->
+    @Scripts.Render("~/Assets/admin/js/controllers/homePage/banners.js")
+}
+
+@Html.Hidden("saveSuccess", TempData["SaveSuccess"])
+
+<div class="row">
+    <div class="col-12">
+        <div class="card-box overflow-auto">
+            <table id="datatable" class="table table-bordered table-striped nowrap">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Link</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var banner in Model)
+                    {
+                        <tr data-banner-id="@banner.Id">
+                            <td>
+                                <img class="mr-1" src="@banner.Image" alt="banner" style="object-fit:scale-down; max-width:500px;">
+                            </td>
+                            <td>
+                                <a href="@banner.Link" title="@banner.Link" target="_blank">@StringHelper.Truncate(banner.Link, 50)</a>
+                            </td>
+                            <td class="text-center">
+                                <a href="@Url.Action("editbanner", "homepage", new { id=banner.Id })" class="btn btn-outline-primary btn-sm"><i class="far fa-edit"></i></a>
+                                <a href="javascript:void(0)" class="btn btn-outline-danger btn-sm ls-banner-delete"><i class="far fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    }
+                    @*<tr>
+                            <td>
+                                <img class="mr-1" src="~/assets/admin/images/big/bg.jpg" alt="" style="object-fit:scale-down; max-width:500px;">
+                            </td>
+                            <td>
+                                <a href="#" title="" target="_blank">content</a>
+                            </td>
+                            <td class="text-center">
+                                <a href="#" class="btn btn-outline-primary btn-sm"><i class="far fa-edit"></i></a>
+                                <a href="#" class="btn btn-outline-danger btn-sm"><i class="far fa-trash-alt"></i></a>
+                            </td>
+                        </tr>*@
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div> <!-- end row -->

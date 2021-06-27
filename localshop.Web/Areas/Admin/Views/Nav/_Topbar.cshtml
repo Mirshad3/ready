@@ -1,0 +1,186 @@
+﻿@using localshop.Core.Common
+@model TopbarViewModel
+
+<div class="navbar-custom">
+    <ul class="list-unstyled topnav-menu float-right mb-0">
+
+        <!-- SEARCH -->
+        @*<li class="d-none d-sm-block">
+            <form class="app-search">
+                <div class="app-search-box">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search...">
+                        <div class="input-group-append">
+                            <button class="btn" type="submit">
+                                <i class="fe-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </li>*@
+
+        <!-- NOTIFICATION -->
+        @*<li class="dropdown notification-list">
+            <a class="nav-link dropdown-toggle  waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                <i class="fe-bell noti-icon"></i>
+                <span class="badge badge-danger rounded-circle noti-icon-badge">9</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-lg">
+
+                <!-- item-->
+                <div class="dropdown-item noti-title">
+                    <h5 class="m-0">
+                        <span class="float-right">
+                            <a href="" class="text-dark">
+                                <small>Clear All</small>
+                            </a>
+                        </span>Notification
+                    </h5>
+                </div>
+
+                <div class="slimscroll noti-scroll">
+
+                    <!-- item-->
+                    <a href="javascript:void(0);" class="dropdown-item notify-item active">
+                        <div class="notify-icon">
+                            <img src="~/Assets/admin/images/users/user-1.jpg" class="img-fluid rounded-circle" alt="" />
+                        </div>
+                        <p class="notify-details">Cristina Pride</p>
+                        <p class="text-muted mb-0 user-msg">
+                            <small>Hi, How are you? What about our next meeting</small>
+                        </p>
+                    </a>
+
+                    <!-- item-->
+                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                        <div class="notify-icon bg-primary">
+                            <i class="mdi mdi-comment-account-outline"></i>
+                        </div>
+                        <p class="notify-details">
+                            Caleb Flakelar commented on Admin
+                            <small class="text-muted">1 min ago</small>
+                        </p>
+                    </a>
+
+                    <!-- item-->
+                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                        <div class="notify-icon">
+                            <img src="~/Assets/admin/images/users/user-4.jpg" class="img-fluid rounded-circle" alt="" />
+                        </div>
+                        <p class="notify-details">Karen Robinson</p>
+                        <p class="text-muted mb-0 user-msg">
+                            <small>Wow ! this admin looks good and awesome design</small>
+                        </p>
+                    </a>
+
+                    <!-- item-->
+                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                        <div class="notify-icon bg-warning">
+                            <i class="mdi mdi-account-plus"></i>
+                        </div>
+                        <p class="notify-details">
+                            New user registered.
+                            <small class="text-muted">5 hours ago</small>
+                        </p>
+                    </a>
+
+                    <!-- item-->
+                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                        <div class="notify-icon bg-info">
+                            <i class="mdi mdi-comment-account-outline"></i>
+                        </div>
+                        <p class="notify-details">
+                            Caleb Flakelar commented on Admin
+                            <small class="text-muted">4 days ago</small>
+                        </p>
+                    </a>
+
+                    <!-- item-->
+                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                        <div class="notify-icon bg-secondary">
+                            <i class="mdi mdi-heart"></i>
+                        </div>
+                        <p class="notify-details">
+                            Carlos Crouch liked
+                            <b>Admin</b>
+                            <small class="text-muted">13 days ago</small>
+                        </p>
+                    </a>
+                </div>
+
+                <!-- All-->
+                <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-item notify-all">
+                    View all
+                    <i class="fi-arrow-right"></i>
+                </a>
+
+            </div>
+        </li>*@
+
+        <!-- PROFILE -->
+        <li class="dropdown notification-list">
+            <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                <img src="@Model.User.Image" alt="user-image" class="rounded-circle">
+                <span class="pro-user-name ml-1">
+                    @(Model.User.FullName ?? User.Identity.Name) <i class="mdi mdi-chevron-down"></i>
+                </span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                <!-- item-->
+                <a href="@Url.Action("profile", "account")" class="dropdown-item notify-item">
+                    <i class="fe-user"></i>
+                    <span>My Account</span>
+                </a>
+
+                <div class="dropdown-divider"></div>
+
+                <!-- item-->
+                @using (Html.BeginForm("logout", "account", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <button class="dropdown-item notify-item" type="submit">
+                        <i class="fe-log-out"></i>
+                        <span>Logout</span>
+                    </button>
+                }
+            </div>
+        </li>
+
+        <li>
+            <a href="/" class="nav-link waves-effect" target="_blank">
+                localshop
+                <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </li>
+
+
+    </ul>
+
+    <!-- LOGO -->
+    <div class="logo-box">
+        <a href="/admin" class="logo text-center">
+            <span class="logo-lg">
+                <img src="@ImageLinks.LogoDark" alt="" height="16">
+                <!-- <span class="logo-lg-text-light">Xeria</span> -->
+            </span>
+            <span class="logo-sm">
+                <!-- <span class="logo-sm-text-dark">X</span> -->
+                <img src="@ImageLinks.LogoIcon" alt="" height="24">
+            </span>
+        </a>
+    </div>
+
+    <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
+        <li>
+            <button class="button-menu-mobile disable-btn waves-effect">
+                <i class="fe-menu"></i>
+            </button>
+        </li>
+
+        <li>
+            <h4 class="page-title-main">@Model.Header</h4>
+        </li>
+
+    </ul>
+</div>

@@ -1,0 +1,85 @@
+﻿@using localshop.Core.Common
+@using System.Configuration
+
+<footer class="footer-area bg-black-3 pt-100 section-padding-4">
+    <div class="container-fluid">
+        <div class="footer-top pb-60">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-12 col-sm-6">
+                    <div class="footer-widget footer-contact-wrap-2 mb-40">
+                        <a href="/"><img src="@ImageLinks.LogoLight" width="250" alt="logo"></a>
+                        <div class="footer-contact-content-2">
+                            <div class="footer-info-hm5">
+                                <span>Phone</span>
+                                <p>@ConfigurationManager.AppSettings["Phone"]</p>
+                            </div>
+                            <div class="footer-info-hm5">
+                                <span>Mail</span>
+                                <p><a href="mailto:@ConfigurationManager.AppSettings["Mail"]">@ConfigurationManager.AppSettings["Mail"]</a></p>
+                            </div>
+                            <div class="footer-social-hm5">
+                                <span>Follow us</span>
+                                <ul>
+                                    <li><a href="@ConfigurationManager.AppSettings["Facebook"]" target="_blank">Facebook</a></li>
+                                    <li><a href="@ConfigurationManager.AppSettings["Twitter"]" target="_blank">Twitter</a></li>
+                                    <li><a href="@ConfigurationManager.AppSettings["Github"]" target="_blank">Github</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 col-12 col-sm-6">
+                    <div class="footer-widget mb-40 ml-55 mrg-md-footer">
+                        <div class="footer-title-4">
+                            <h3>Shop Info</h3>
+                        </div>
+                        <div class="footer-list-4">
+                            <ul>
+                                <li>@Html.ActionLink("Wishlist", "index", "wishlist")</li>
+                                <li>@Html.ActionLink("Checkout", "index", "checkout")</a></li>
+                                <li>@Html.ActionLink("Cart", "index", "cart")</li>
+                                <li>@Html.ActionLink("Shopping Detail", "orders", "account")</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-12 col-sm-6">
+                    <div class="footer-widget mb-40 ml-200">
+                        <div class="footer-title-4">
+                            <h3>Support</h3>
+                        </div>
+                        <div class="footer-list-4">
+                            <ul>
+                                <li>@Html.ActionLink("Contact info", "index", "contact")</li>
+                                <li>@Html.ActionLink("Tracking order", "index", "tracking")</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-12 col-sm-6">
+                    <div class="footer-widget mb-40 f-right">
+                        <div class="footer-title-4">
+                            <h3>About</h3>
+                        </div>
+                        <div class="footer-list-4">
+                            <ul>
+                                <li><a href="https://github.com/dinhhau1807/localshop" target="_blank">localshop corporation</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom pt-20 pb-20 border-top-3">
+        <div class="container-fluid">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-lg-6 col-md-6 col-sm-6 text-center">
+                    <div class="copyright-2">
+                        <p>Copyright © <a href="@Url.Action("index", "home")">localshop</a>. All Right Reserved</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

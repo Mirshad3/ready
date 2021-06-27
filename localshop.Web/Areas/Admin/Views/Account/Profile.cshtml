@@ -1,0 +1,50 @@
+﻿@model localshop.Domain.Entities.ApplicationUser
+
+@{
+    ViewBag.Title = "profile";
+}
+
+@section topbar {
+    @Html.Action("topbar", "nav", new { header = NavigationHeader.AccountProfile })
+}
+
+<div class="row">
+    <div class="col-xl-6 col-md-10 m-auto">
+        <div class="text-center card-box">
+            <div>
+                <img src="@Model.Image" class="rounded-circle avatar-xl img-thumbnail mb-2" alt="profile-image">
+
+                <p class="font-weight-bold font-15 mb-3">
+                    @Model.FullName
+                </p>
+
+                <div class="text-left">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="text-muted font-13"><strong>Mobile :</strong><span class="ml-2">@Model.PhoneNumber</span></p>
+
+                            <p class="text-muted font-13"><strong>Email :</strong> <span class="ml-2">@Model.Email</span></p>
+
+                            <p class="text-muted font-13"><strong>Country :</strong> <span class="ml-2">@Model.Country</span></p>
+
+                            <p class="text-muted font-13"><strong>City :</strong> <span class="ml-2">@Model.City</span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-muted font-13"><strong>Zip :</strong><span class="ml-2">@Model.Zip</span></p>
+
+                            <p class="text-muted font-13"><strong>State :</strong> <span class="ml-2">@Model.State</span></p>
+
+                            <p class="text-muted font-13"><strong>Address 1 :</strong> <span class="ml-2">@Model.Address1</span></p>
+                            
+                            <p class="text-muted font-13"><strong>Address 2 :</strong> <span class="ml-2">@Model.Address2</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <a  href="@Url.Action("updateprofile", "account")" class="btn btn-primary btn-rounded waves-effect waves-light">Edit profile</a>
+            </div>
+
+        </div>
+
+    </div> <!-- end col -->
+</div>

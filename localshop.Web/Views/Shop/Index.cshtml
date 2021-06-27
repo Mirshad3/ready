@@ -1,0 +1,679 @@
+﻿@using localshop.Core.Common
+@using localshop.Models
+
+@model ShopViewModel
+
+@{
+    ViewBag.Title = "Shop";
+
+    var currentCountProduct = (Model.PagingInfo.CurrentPage - 1) * Model.PagingInfo.ItemsPerPage;
+}
+
+@section thirdPartyCss {
+    @Styles.Render("~/content/client/css/content-style")
+}
+
+@section thirdPartyJs {
+    <!-- Controller -->
+    @Scripts.Render("~/content/client/js/shop/index")
+
+    <script>
+        $(document).ready(function () {
+            var sliderrange = $('#slider-range');
+            var amountprice = $('#amount');
+            var minPrice = $('#minPrice');
+            var maxPrice = $('#maxPrice');
+            $(function () {
+                sliderrange.slider({
+                    range: true,
+                    min: @Model.Filter.PriceFilter.MinPrice,
+                    max: @Model.Filter.PriceFilter.MaxPrice,
+                    values: [@(Model.Filter.MinPrice ?? Model.Filter.PriceFilter.MinPrice), @(Model.Filter.MaxPrice ?? Model.Filter.PriceFilter.MaxPrice)],
+                    slide: function (event, ui) {
+                        amountprice.val("$" + ui.values[0] + " - $" + ui.values[1]);
+                        minPrice.val(ui.values[0]);
+                        maxPrice.val(ui.values[1]);
+                    }
+                });
+                amountprice.val("$" + sliderrange.slider("values", 0) + " - $" + sliderrange.slider("values", 1));
+                minPrice.val(sliderrange.slider("values", 0));
+                maxPrice.val(sliderrange.slider("values", 1));
+            });
+        });
+    </script>
+}
+
+@Html.Hidden("filterViewMode", Model.Filter.ViewMode)
+
+<div class="breadcrumb-area bg-img" style="background-image:url(@ImageLinks.BackgrounBreadcrumb);">
+    <div class="container">
+        <div class="breadcrumb-content text-center">
+            <h2>@ViewBag.Title</h2>
+            <ul>
+                <li>
+                    <a href="@Url.Action("index", "home")">Home</a>
+                </li>
+                <li class="active">@ViewBag.Title</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="shop-area pt-90 pb-90 section-padding-4">
+    <div class="container-fluid">
+        <div class="row flex-row-reverse">
+
+            <!-- Right bar -->
+            <div class="col-lg-9">
+                <!-- Header sort -->
+                <div class="shop-topbar-wrapper">
+                    <div class="shop-topbar-left">
+                        <div class="view-mode nav">
+                            @using (Html.BeginForm("index", "shop", null, FormMethod.Get))
+                            {
+                                if (Model.Filter.View != null)
+                                {
+                                    <input type="hidden" name="view" value="@Html.ValueFor(m => m.Filter.View)" />
+                                }
+                                if (Model.Filter.SortBy != null)
+                                {
+                                    <input type="hidden" name="sortBy" value="@Html.ValueFor(m => m.Filter.SortBy)" />
+                                }
+                                if (Model.Filter.Category != null)
+                                {
+                                    <input type="hidden" name="category" value="@Html.ValueFor(m => m.Filter.Category)" />
+                                }
+                                if (Model.Filter.MinPrice != null && Model.Filter.MaxPrice != null)
+                                {
+                                    <input type="hidden" name="minPrice" value="@Html.ValueFor(m => m.Filter.MinPrice)" />
+                                    <input type="hidden" name="maxPrice" value="@Html.ValueFor(m => m.Filter.MaxPrice)" />
+                                }
+
+                                <input type="hidden" name="viewMode" value="@Html.ValueFor(m => m.Filter.ViewMode)" />
+                                <a id="shop1" href="#shop-1" data-toggle="tab"><i class="la la-th"></i></a>
+                                <a id="shop2" href="#shop-2" data-toggle="tab"><i class="la la-list-ul"></i></a>
+                            }
+                        </div>
+                        @if (Model.Products.Count > 0)
+                        {
+                            <p>Showing @(currentCountProduct + 1) - @((Model.PagingInfo.ItemsPerPage + currentCountProduct) >= Model.Filter.FilteredResult ? Model.Filter.FilteredResult : (Model.PagingInfo.ItemsPerPage + currentCountProduct)) of @Model.Filter.FilteredResult results </p>
+                        }
+                        else
+                        {
+                            <p>No results found!</p>
+                        }
+                    </div>
+                    <div class="product-sorting-wrapper">
+                        <div class="product-shorting shorting-style">
+                            <label>View:</label>
+                            <select id="viewSort">
+                                <option value="20" @(Model.PagingInfo.ItemsPerPage == 20 ? "selected" : "")>20</option>
+                                <option value="30" @(Model.PagingInfo.ItemsPerPage == 30 ? "selected" : "")>30</option>
+                                <option value="50" @(Model.PagingInfo.ItemsPerPage == 50 ? "selected" : "")>50</option>
+                            </select>
+                        </div>
+                        <div class="product-show shorting-style">
+                            <label>Sort by:</label>
+                            <select id="sortBy">
+                                <option value="@(SortByEnums.Default)" @(Model.Filter.SortBy.GetValueOrDefault(SortByEnums.Default) == SortByEnums.Default ? "selected" : "")>Default</option>
+                                <option value="@(SortByEnums.NameAZ)" @(Model.Filter.SortBy.GetValueOrDefault(SortByEnums.Default) == SortByEnums.NameAZ ? "selected" : "")>Name: A - Z</option>
+                                <option value="@(SortByEnums.NameZA)" @(Model.Filter.SortBy.GetValueOrDefault(SortByEnums.Default) == SortByEnums.NameZA ? "selected" : "")>Name: Z - A</option>
+                                <option value="@(SortByEnums.PriceLowToHigh)" @(Model.Filter.SortBy.GetValueOrDefault(SortByEnums.Default) == SortByEnums.PriceLowToHigh ? "selected" : "")>Price: Low - High</option>
+                                <option value="@(SortByEnums.PriceHightToLow)" @(Model.Filter.SortBy.GetValueOrDefault(SortByEnums.Default) == SortByEnums.PriceHightToLow ? "selected" : "")>Price: High - Low</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Product list-->
+                <div class="shop-bottom-area">
+                    <div class="tab-content jump">
+
+                        <!-- List style 1 -->
+                        <div id="shop-1" class="tab-pane active">
+                            <div class="row">
+                                @foreach (var product in Model.Products)
+                                {
+                                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+                                        <div class="product-wrap product-border-2 pro-hover-shadow mb-40">
+                                            <div class="product-img mb-15">
+                                                @if (product.Status == StatusNames.OutOfStock)
+                                                {
+                                                    <span class="new-stock"><span>Stock <br>Out</span></span>
+                                                }
+                                                else if (product.Product.DiscountPrice != null)
+                                                {
+                                                    var percetage = 100 - (product.Product.DiscountPrice * 100 / product.Product.Price);
+                                                    if (percetage >= 15)
+                                                    {
+                                                        if (product.Product.EndDiscountDate != null)
+                                                        {
+                                                            if (DateTime.Now <= product.Product.EndDiscountDate.Value)
+                                                            {
+                                                                <span class="price-dec">-@Math.Round(percetage.Value)%</span>
+                                                            }
+                                                            else if ((DateTime.Now - product.Product.DateAdded).TotalDays <= 7)
+                                                            {
+                                                                <span class="price-dec font-dec">NEW</span>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="price-dec">-@Math.Round(percetage.Value)%</span>
+                                                        }
+                                                    }
+                                                    else if ((DateTime.Now - product.Product.DateAdded).TotalDays <= 7)
+                                                    {
+                                                        <span class="price-dec font-dec">NEW</span>
+                                                    }
+                                                }
+                                                else if ((DateTime.Now - product.Product.DateAdded).TotalDays <= 7)
+                                                {
+                                                    <span class="price-dec font-dec">NEW</span>
+                                                }
+                                                <a href="@Url.Action("detail", "product", new { metaTitle=product.Product.MetaTitle })"><img src="@(product.Product.Images.FirstOrDefault()??ImageLinks.BrokenProductImage)" alt="@product.Product.Name"></a>
+                                                <div class="product-action-2">
+                                                    <a title="Compare" class="add-to-compare" href="javascript:void(0)" data-productid="@product.Product.Id"><i class="la la-repeat"></i></a>
+                                                    @*<a data-toggle="modal" data-target="#productModal" title="Quick View" href="javascript:void(0)"><i class="la la-search"></i></a>*@
+                                                    <a title="Wishlist" class="add-to-wishlist" href="javascript:void(0)" data-productid="@product.Product.Id"><i class="la la-heart-o"></i></a>
+                                                    @if (product.Status != StatusNames.OutOfStock)
+                                                    {
+                                                        <a title="Add To Cart" class="add-to-cart" href="javascript:void(0)" data-productid="@product.Product.Id"><i class="la la-cart-plus"></i></a>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="product-content px-4 pb-4">
+                                                <span class="d-inline-block">@product.Category</span>
+                                                <h4 class="overflow-hidden"><a href="@Url.Action("detail", "product", new { metaTitle=product.Product.MetaTitle })">@product.Product.Name</a></h4>
+                                                <div class="price-addtocart mt-2">
+                                                    <div class="product-price">
+                                                        @if (product.Product.DiscountPrice != null)
+                                                        {
+                                                            if (product.Product.EndDiscountDate != null)
+                                                            {
+                                                                if (DateTime.Now <= product.Product.EndDiscountDate.Value)
+                                                                {
+                                                                    <span>$@product.Product.DiscountPrice</span>
+                                                                    <span class="old">$@product.Product.Price</span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span>$@product.Product.Price</span>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>$@product.Product.DiscountPrice</span>
+                                                                <span class="old">$@product.Product.Price</span>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>$@product.Product.Price</span>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div> <!-- End row -->
+                        </div>
+
+                        <!-- List style 2 -->
+                        <div id="shop-2" class="tab-pane">
+                            @foreach (var product in Model.Products)
+                            {
+                                <div class="shop-list-wrap mb-30">
+                                    <div class="row">
+                                        <div class="col-xl-4 col-lg-5 col-md-6 col-sm-6">
+                                            <div class="product-list-img">
+                                                <a href="@Url.Action("detail", "product", new { metaTitle=product.Product.MetaTitle })">
+                                                    <img src="@(product.Product.Images.FirstOrDefault()??ImageLinks.BrokenProductImage)" alt="Product Style">
+                                                </a>
+                                                @*<div class="product-list-quickview">
+                                                        <a data-toggle="modal" data-target="#productModal" title="Quick View" href="javascript:void(0)"><i class="la la-plus"></i></a>
+                                                    </div>*@
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-8 col-lg-7 col-md-6 col-sm-6">
+                                            <div class="shop-list-content">
+                                                <span>@product.Category</span>
+                                                <h4 class="overflow-hidden"><a href="@Url.Action("detail", "product", new { metaTitle=product.Product.MetaTitle })">@product.Product.Name</a></h4>
+                                                <div class="pro-list-price">
+                                                    @if (product.Product.DiscountPrice != null)
+                                                    {
+                                                        if (product.Product.EndDiscountDate != null)
+                                                        {
+                                                            if (DateTime.Now <= product.Product.EndDiscountDate.Value)
+                                                            {
+                                                                <span>$@product.Product.DiscountPrice</span>
+                                                                <span class="old-price">$@product.Product.Price</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>$@product.Product.Price</span>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>$@product.Product.DiscountPrice</span>
+                                                            <span class="old">$@product.Product.Price</span>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>$@product.Product.Price</span>
+                                                    }
+                                                </div>
+                                                <div class="ck-content my-2 overflow-hidden">@Html.Raw(product.Product.ShortDesciption)</div>
+                                                <div class="product-list-action">
+                                                    <a title="Wishlist" class="add-to-wishlist" href="javascript:void(0)" data-productid="@product.Product.Id"><i class="la la-heart-o"></i></a>
+                                                    <a title="Compare" class="add-to-compare" href="javascript:void(0)" data-productid="@product.Product.Id"><i class="la la-retweet"></i></a>
+                                                    @if (product.Status != StatusNames.OutOfStock)
+                                                    {
+                                                        <a title="Add To Cart" class="add-to-cart" href="javascript:void(0)" data-productid="@product.Product.Id"><i class="la la-shopping-cart"></i></a>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        <!-- Pagination -->
+                        @if (Model.Products.Count == 0)
+                        {
+                            <div class="text-center">
+                                No results found!
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="pagination-style text-center">
+                                @Html.PageLinks(Model.PagingInfo, l => Url.Action("index", "shop",
+                                new
+                                     {
+                                      page = l,
+                                      view = Model.Filter.View,
+                                      sortBy = Model.Filter.SortBy,
+                                      search = Model.Filter.Search,
+                                      category = Model.Filter.Category,
+                                      minPrice = Model.Filter.MinPrice,
+                                      maxPrice = Model.Filter.MaxPrice,
+                                      viewMode = Model.Filter.ViewMode
+                                     }))
+                            </div>
+                        }
+                    </div>
+                </div> <!-- End product list -->
+            </div>
+
+
+            <!-- Left bar -->
+            <div class="col-lg-3">
+                <div class="shop-topbar-wrapper py-2 px-0 border-0">
+                    <a href="@Url.Action("index", "shop")" class="btn btn-block btn-lg btn-outline-danger">Reset filter</a>
+                </div>
+
+                <div class="sidebar-wrapper">
+
+                    @* Search box *@
+                    <div class="sidebar-widget">
+                        <h4 class="sidebar-title">Search </h4>
+                        <div class="sidebar-search mb-40 mt-20">
+                            @using (Html.BeginForm("index", "shop", null, FormMethod.Get, new { @class = "sidebar-search-form" }))
+                            {
+                                if (Model.Filter.View != null)
+                                {
+                                    <input type="hidden" name="view" value="@Html.ValueFor(m => m.Filter.View)" />
+                                }
+                                if (Model.Filter.SortBy != null)
+                                {
+                                    <input type="hidden" name="sortBy" value="@Html.ValueFor(m => m.Filter.SortBy)" />
+                                }
+                                if (Model.Filter.Category != null)
+                                {
+                                    <input type="hidden" name="category" value="@Html.ValueFor(m => m.Filter.Category)" />
+                                }
+                                if (Model.Filter.MinPrice != null && Model.Filter.MaxPrice != null)
+                                {
+                                    <input type="hidden" name="minPrice" value="@Html.ValueFor(m => m.Filter.MinPrice)" />
+                                    <input type="hidden" name="maxPrice" value="@Html.ValueFor(m => m.Filter.MaxPrice)" />
+                                }
+                                if (Model.Filter.ViewMode != null)
+                                {
+                                    <input type="hidden" name="viewMode" value="@Html.ValueFor(m => m.Filter.ViewMode)" />
+                                }
+
+                                <input type="text" name="search" value="@Html.ValueFor(m => m.Filter.Search)" placeholder="Search name..." />
+                                <button>
+                                    <i class="la la-search"></i>
+                                </button>
+                            }
+                        </div>
+                    </div>
+
+                    @* Category filter *@
+                    <div class="sidebar-widget shop-sidebar-border pt-40">
+                        <h4 class="sidebar-title">Shop By Categories</h4>
+                        <div class="shop-catigory mt-20">
+                            @using (Html.BeginForm("index", "shop", null, FormMethod.Get, new { @class = "mb-2" }))
+                            {
+                                if (!string.IsNullOrWhiteSpace(Model.Filter.Search))
+                                {
+                                    <input type="hidden" name="search" value="@Html.ValueFor(m => m.Filter.Search)" />
+                                }
+                                if (Model.Filter.View != null)
+                                {
+                                    <input type="hidden" name="view" value="@Html.ValueFor(m => m.Filter.View)" />
+                                }
+                                if (Model.Filter.SortBy != null)
+                                {
+                                    <input type="hidden" name="sortBy" value="@Html.ValueFor(m => m.Filter.SortBy)" />
+                                }
+                                if (Model.Filter.MinPrice != null && Model.Filter.MaxPrice != null)
+                                {
+                                    <input type="hidden" name="minPrice" value="@Html.ValueFor(m => m.Filter.MinPrice)" />
+                                    <input type="hidden" name="maxPrice" value="@Html.ValueFor(m => m.Filter.MaxPrice)" />
+                                }
+                                if (Model.Filter.ViewMode != null)
+                                {
+                                    <input type="hidden" name="viewMode" value="@Html.ValueFor(m => m.Filter.ViewMode)" />
+                                }
+
+                                <a href="javascript:void(0)" onclick="$(this).parent().submit()">All</a>
+                            }
+                            <ul id="faq">
+
+                                @foreach (var category in Model.Categories)
+                                {
+                                    <li>
+                                        @using (Html.BeginForm("index", "shop", null, FormMethod.Get, new { @class = "sidebar-search-form" }))
+                                        {
+                                            if (!string.IsNullOrWhiteSpace(Model.Filter.Search))
+                                            {
+                                                <input type="hidden" name="search" value="@Html.ValueFor(m => m.Filter.Search)" />
+                                            }
+                                            if (Model.Filter.View != null)
+                                            {
+                                                <input type="hidden" name="view" value="@Html.ValueFor(m => m.Filter.View)" />
+                                            }
+                                            if (Model.Filter.SortBy != null)
+                                            {
+                                                <input type="hidden" name="sortBy" value="@Html.ValueFor(m => m.Filter.SortBy)" />
+                                            }
+                                            if (Model.Filter.MinPrice != null && Model.Filter.MaxPrice != null)
+                                            {
+                                                <input type="hidden" name="minPrice" value="@Html.ValueFor(m => m.Filter.MinPrice)" />
+                                                <input type="hidden" name="maxPrice" value="@Html.ValueFor(m => m.Filter.MaxPrice)" />
+                                            }
+                                            if (Model.Filter.ViewMode != null)
+                                            {
+                                                <input type="hidden" name="viewMode" value="@Html.ValueFor(m => m.Filter.ViewMode)" />
+                                            }
+
+                                            <input type="hidden" name="category" value="@category.Name" />
+                                            <a href="javascript:void(0)" class="@(category.Name == Model.Filter.Category?"text-danger":"")"
+                                               onclick="$(this).parent().submit()">@category.Name</a>
+                                        }
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+
+                    @* Price filter *@
+                    <div class="shop-price-filter mt-35 shop-sidebar-border pt-40 sidebar-widget">
+                        <h4 class="sidebar-title">Price Filter</h4>
+                        <div class="price-filter mt-20">
+                            <span>Range:  $@Model.Filter.PriceFilter.MinPrice - @Model.Filter.PriceFilter.MaxPrice </span>
+                            <div id="slider-range"></div>
+                            <div class="price-slider-amount">
+                                <div class="label-input">
+                                    <input type="text" id="amount" name="price" placeholder="Add Your Price" />
+                                </div>
+                                @using (Html.BeginForm("index", "shop", null, FormMethod.Get, new { @class = "sidebar-search-form" }))
+                                {
+                                    if (!string.IsNullOrWhiteSpace(Model.Filter.Search))
+                                    {
+                                        <input type="hidden" name="search" value="@Html.ValueFor(m => m.Filter.Search)" />
+                                    }
+                                    if (Model.Filter.View != null)
+                                    {
+                                        <input type="hidden" name="view" value="@Html.ValueFor(m => m.Filter.View)" />
+                                    }
+                                    if (Model.Filter.SortBy != null)
+                                    {
+                                        <input type="hidden" name="sortBy" value="@Html.ValueFor(m => m.Filter.SortBy)" />
+                                    }
+                                    if (Model.Filter.Category != null)
+                                    {
+                                        <input type="hidden" name="category" value="@Html.ValueFor(m => m.Filter.Category)" />
+                                    }
+                                    if (Model.Filter.ViewMode != null)
+                                    {
+                                        <input type="hidden" name="viewMode" value="@Html.ValueFor(m => m.Filter.ViewMode)" />
+                                    }
+
+                                    <input id="minPrice" type="hidden" name="minPrice" />
+                                    <input id="maxPrice" type="hidden" name="maxPrice" />
+
+                                    <button type="submit">Filter</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    @* Status filter *@
+                    @*<div class="sidebar-widget shop-sidebar-border pt-40 mt-40">
+                            <h4 class="sidebar-title">Refine By </h4>
+                            <div class="sidebar-widget-list mt-20">
+                                <ul>
+                                    @foreach (var status in Model.Statuses)
+                                    {
+                                        var countProduct = Model.Products.Where(p => p.Product.StatusId == status.Id).Count();
+                                        <li>
+                                            <div class="sidebar-widget-list-left">
+
+                                                <a href="javscript:void(0)"><input type="checkbox"> @status.Name <span>@countProduct</span> </a>
+                                                <span class="checkmark"></span>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>*@
+
+                    @* Colour filter *@
+                    @*<div class="sidebar-widget pt-40 mt-40 shop-sidebar-border">
+                            <h4 class="sidebar-title">Colour </h4>
+                            <div class="sidebar-widget-list mt-20">
+                                <ul>
+                                    <li>
+                                        <div class="sidebar-widget-list-left">
+                                            <input type="checkbox" value=""> <a href="#">Green <span>7</span> </a>
+                                            <span class="checkmark"></span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="sidebar-widget-list-left">
+                                            <input type="checkbox" value=""> <a href="#">Cream <span>8</span> </a>
+                                            <span class="checkmark"></span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="sidebar-widget-list-left">
+                                            <input type="checkbox" value=""> <a href="#">Blue <span>9</span> </a>
+                                            <span class="checkmark"></span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="sidebar-widget-list-left">
+                                            <input type="checkbox" value=""> <a href="#">Black <span>3</span> </a>
+                                            <span class="checkmark"></span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>*@
+
+                    @* Size filter *@
+                    @*<div class="sidebar-widget pt-40 mt-40 shop-sidebar-border">
+                            <h4 class="sidebar-title">Size </h4>
+                            <div class="sidebar-widget-list mt-20">
+                                <ul>
+                                    <li>
+                                        <div class="sidebar-widget-list-left">
+                                            <input type="checkbox" value=""> <a href="#">XL <span>4</span> </a>
+                                            <span class="checkmark"></span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="sidebar-widget-list-left">
+                                            <input type="checkbox" value=""> <a href="#">L <span>5</span> </a>
+                                            <span class="checkmark"></span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="sidebar-widget-list-left">
+                                            <input type="checkbox" value=""> <a href="#">SM <span>6</span> </a>
+                                            <span class="checkmark"></span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="sidebar-widget-list-left">
+                                            <input type="checkbox" value=""> <a href="#">XXL <span>7</span> </a>
+                                            <span class="checkmark"></span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>*@
+
+                    @* Tags filter *@
+                    @*<div class="sidebar-widget pt-40 mt-40 shop-sidebar-border">
+                            <h4 class="sidebar-title">Popular Tags </h4>
+                            <div class="sidebar-widget-tag mt-20">
+                                <ul>
+                                    <li><a href="#">Clothing</a></li>
+                                    <li><a href="#">Accessories</a></li>
+                                    <li><a href="#">For Men</a></li>
+                                    <li><a href="#">Women</a></li>
+                                    <li><a href="#">Fashion</a></li>
+                                </ul>
+                            </div>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*<!-- Modal -->
+    <div class="modal fade" id="productModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-5 col-sm-12 col-xs-12">
+                            <div class="tab-content quickview-big-img">
+                                <div id="pro-1" class="tab-pane fade show active">
+                                    <img src="/Assets/client/images/product/quickview-l1.jpg" alt="">
+                                </div>
+                                <div id="pro-2" class="tab-pane fade">
+                                    <img src="/Assets/client/images/product/quickview-l2.jpg" alt="">
+                                </div>
+                                <div id="pro-3" class="tab-pane fade">
+                                    <img src="/Assets/client/images/product/quickview-l3.jpg" alt="">
+                                </div>
+                                <div id="pro-4" class="tab-pane fade">
+                                    <img src="/Assets/client/images/product/quickview-l2.jpg" alt="">
+                                </div>
+                            </div>
+                            <!-- Thumbnail Large Image End -->
+                            <!-- Thumbnail Image End -->
+                            <div class="quickview-wrap mt-15">
+                                <div class="quickview-slide-active owl-carousel nav nav-style-2" role="tablist">
+                                    <a class="active" data-toggle="tab" href="#pro-1"><img src="/Assets/client/images/product/quickview-s1.jpg" alt=""></a>
+                                    <a data-toggle="tab" href="#pro-2"><img src="/Assets/client/images/product/quickview-s2.jpg" alt=""></a>
+                                    <a data-toggle="tab" href="#pro-3"><img src="/Assets/client/images/product/quickview-s3.jpg" alt=""></a>
+                                    <a data-toggle="tab" href="#pro-4"><img src="/Assets/client/images/product/quickview-s4.jpg" alt=""></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7 col-sm-12 col-xs-12">
+                            <div class="product-details-content quickview-content">
+                                <span>Life Style</span>
+                                <h2>LaaVista Depro, FX 829 v1</h2>
+                                <div class="product-ratting-review">
+                                    <div class="product-ratting">
+                                        <i class="la la-star"></i>
+                                        <i class="la la-star"></i>
+                                        <i class="la la-star"></i>
+                                        <i class="la la-star"></i>
+                                        <i class="la la-star-half-o"></i>
+                                    </div>
+                                    <div class="product-review">
+                                        <span>40+ Reviews</span>
+                                    </div>
+                                </div>
+                                <div class="pro-details-color-wrap">
+                                    <span>Color:</span>
+                                    <div class="pro-details-color-content">
+                                        <ul>
+                                            <li class="green"></li>
+                                            <li class="yellow"></li>
+                                            <li class="red"></li>
+                                            <li class="blue"></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="pro-details-size">
+                                    <span>Size:</span>
+                                    <div class="pro-details-size-content">
+                                        <ul>
+                                            <li><a href="#">s</a></li>
+                                            <li><a href="#">m</a></li>
+                                            <li><a href="#">xl</a></li>
+                                            <li><a href="#">xxl</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="pro-details-price-wrap">
+                                    <div class="product-price">
+                                        <span>$210.00</span>
+                                        <span class="old">$230.00</span>
+                                    </div>
+                                    <div class="dec-rang"><span>- 30%</span></div>
+                                </div>
+                                <div class="pro-details-quality">
+                                    <div class="cart-plus-minus">
+                                        <input class="cart-plus-minus-box" type="text" name="qtybutton" value="02">
+                                    </div>
+                                </div>
+                                <div class="pro-details-compare-wishlist">
+                                    <div class="pro-details-compare">
+                                        <a title="Add To Compare" href="#"><i class="la la-retweet"></i> Compare</a>
+                                    </div>
+                                    <div class="pro-details-wishlist">
+                                        <a title="Add To Wishlist" href="#"><i class="la la-heart-o"></i> Add to wish list</a>
+                                    </div>
+                                </div>
+                                <div class="pro-details-buy-now btn-hover btn-hover-radious">
+                                    <a href="#">Add To Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal end -->*@

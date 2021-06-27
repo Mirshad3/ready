@@ -1,0 +1,78 @@
+﻿@using localshop.Core.Common
+@model IEnumerable<localshop.Core.DTO.ContactDTO>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@section topbar {
+    @Html.Action("topbar", "nav", new { header = NavigationHeader.Contact })
+}
+
+@section thirdPartyCss {
+    @Styles.Render("~/content/admin/css/datatables_sweetalert", "~/content/admin/css/toastr")
+}
+
+@section thirdPartyJs {
+    @Scripts.Render("~/content/admin/js/datatables_sweetalert", "~/content/admin/js/toastr")
+
+    <!-- Controller -->
+    @Scripts.Render("~/content/admin/js/contact/index")
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card-box overflow-auto">
+            <h4 class="mt-0 header-title">Message</h4>
+            <p class="text-muted font-14 mb-3">
+                Click to see full message
+            </p>
+
+            <table id="datatable" class="table table-hover table-bordered nowrap">
+                <thead>
+                    <tr>
+                        <td>Id</td>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Subject</th>
+                        <th>Message</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var contact in Model)
+                    {
+                        <tr class="@(contact.IsRead?"":"bg-soft-blue")" data-target="#messageModal" data-toggle="modal" data-contactid="@contact.Id">
+                            <td>@contact.Id</td>
+                            <td>@contact.Name</td>
+                            <td>@contact.Email</td>
+                            <td>@contact.Subject</td>
+                            <td>
+                                @StringHelper.Truncate(contact.Message, 30)
+                            </td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)" class="btn btn-outline-danger btn-sm ls-contact-delete"><i class="far fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div> <!-- end row -->
+<!-- Modal -->
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="messageModalTitle">...</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="messageModalBody" class="modal-body">
+                ...
+            </div>
+        </div>
+    </div>
+</div>

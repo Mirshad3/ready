@@ -1,0 +1,112 @@
+﻿@using localshop.Core.Common
+@model IEnumerable<ProductViewModel>
+
+@{
+    ViewBag.Title = "Wishlist";
+}
+
+<div class="breadcrumb-area bg-img" style="background-image:url(@ImageLinks.BackgrounBreadcrumb);">
+    <div class="container">
+        <div class="breadcrumb-content text-center">
+            <h2>@ViewBag.Title</h2>
+            <ul>
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                <li class="active">@ViewBag.Title</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="pt-90 pb-90 section-padding-4">
+    <div class="container-fluid">
+        <div class="row">
+            @if (Model.Count() == 0)
+            {
+                <div class="text-center w-100">
+                    <h3>Your wishlist is empty!</h3>
+                </div>
+            }
+            else
+            {
+                foreach (var p in Model)
+                {
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                        <div class="product-wrap product-border-3 product-img-zoom mb-30">
+                            <div class="product-img">
+                                <a href="@Url.Action("detail", "product", new { metaTitle = p.Product.MetaTitle })">
+                                    <img src="@(p.Product.Images.FirstOrDefault() ?? ImageLinks.BrokenProductImage)" alt="@p.Product.Name">
+                                </a>
+                                <div class="product-action-4">
+                                    <div class="product-action-4-style">
+                                        <a data-tooltip="Compare" href="javascript:void(0)" class="add-to-compare" data-productid="@p.Product.Id"><i class="la la-random"></i></a>
+                                        <a data-tooltip="Wishlist" href="javascript:void(0)" data-productid="@p.Product.Id" class="add-to-wishlist"><i class="la la-heart"></i></a>
+                                        <a data-tooltip="Add To Cart" href="javascript:void(0)" data-productid="@p.Product.Id" class="add-to-cart"><i class="la la-cart-plus"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-content product-content-padding">
+                                <h4>
+                                    <a href="@Url.Action("detail", "product", new { metaTitle = p.Product.MetaTitle })">
+                                        @p.Product.Name
+                                    </a>
+                                </h4>
+                                <div class="price-addtocart">
+                                    <div class="product-price">
+                                        @if (p.Product.DiscountPrice != null)
+                                        {
+                                            if (p.Product.EndDiscountDate != null)
+                                            {
+                                                if (DateTime.Now <= p.Product.EndDiscountDate.Value)
+                                                {
+                                                    <span>$@p.Product.DiscountPrice</span>
+                                                    <span class="old">$@p.Product.Price</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>$@p.Product.Price</span>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <span>$@p.Product.DiscountPrice</span>
+                                                <span class="old">$@p.Product.Price</span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span>$@p.Product.Price</span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                @*<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                        <div class="product-wrap product-border-3 product-img-zoom mb-30">
+                            <div class="product-img">
+                                <a href="product-details.html"><img src="/Assets/client/images/product/pro-hm5-2.jpg" alt="product"></a>
+                                <div class="product-action-4">
+                                    <div class="product-action-4-style">
+                                        <a data-tooltip="Add To Cart" href="#"><i class="la la-cart-plus"></i></a>
+                                        <a data-tooltip="Wishlist" href="#"><i class="la la-heart"></i></a>
+                                        <a data-tooltip="Compare" href="#"><i class="la la-random"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-content product-content-padding">
+                                <h4><a href="product-details.html">Golden Easy Spot Chair.</a></h4>
+                                <div class="price-addtocart">
+                                    <div class="product-price">
+                                        <span>$220.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+            }
+        </div>
+    </div>
+</div>

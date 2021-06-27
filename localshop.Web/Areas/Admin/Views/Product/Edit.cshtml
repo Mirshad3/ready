@@ -1,0 +1,193 @@
+﻿@using localshop.Core.Common
+@model ProductViewModel
+
+@{
+    ViewBag.Title = "edit product";
+}
+
+@section topbar {
+    @Html.Action("topbar", "nav", new { header = NavigationHeader.EditProduct })
+}
+
+@section thirdPartyCss {
+    @Styles.Render("~/content/admin/css/dropify", "~/content/admin/css/toastr")
+
+    <style>
+        .ck-editor__editable_inline {
+            min-height: 150px;
+        }
+
+        #productImages img {
+            width: 150px;
+            height: 150px;
+            object-fit: scale-down;
+        }
+    </style>
+}
+
+@section thirdPartyJs {
+    @Scripts.Render("~/content/admin/js/validation", "~/content/admin/js/toastr")
+
+    <!-- CKFinder -->
+    <script src="~/Assets/plugins/CKFinderScripts/ckfinder.js"></script>
+
+    <!-- CKEditor -->
+    <script src="~/Assets/plugins/ckeditor5-build-classic-16.0.0/ckeditor.js"></script>
+
+    <!-- Controller -->
+    @Scripts.Render("~/content/admin/js/product/edit")
+}
+
+<div class="row">
+    <div class="col-12">
+        @using (Html.BeginForm("edit", "product", FormMethod.Post, new { role = "form", data_parsley_validate = "", novalidate = "" }))
+        {
+            <div class="text-danger">
+                <div class="row">
+                    <div class="col">
+                        @Html.ValidationSummary(true)
+                    </div>
+                </div>
+            </div>
+            @Html.AntiForgeryToken()
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="mt-0 header-title">Product infomation</h4>
+                        <p class="text-muted font-14">
+                            Add product information below
+                        </p>
+
+                        <div class="p-2">
+                            <div class="form-horizontal">
+                                @{Html.RenderPartial("_Add_Edit_Product", Model.Product);}
+
+                                <div class="form-group row">
+                                    @Html.LabelFor(m => m.CategoryId, new { @class = "col-sm-2 col-form-label" })
+                                    <div class="col-sm-10">
+                                        @Html.DropDownListFor(m => m.CategoryId, new SelectList(Model.Categories, "Id", "Name"), "- Select category -", new { @class = "form-control", required = "" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    @Html.LabelFor(m => m.StatusId, new { @class = "col-sm-2 col-form-label" })
+                                    <div class="col-sm-10">
+                                        @Html.DropDownListFor(m => m.StatusId, new SelectList(Model.Statuses, "Id", "Name"), new { @class = "form-control", required = "" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-0">
+                                    <div class="d-flex justify-content-end flex-sm-row flex-column align-items-center">
+                                        <div class="custom-control custom-switch d-sm-inline-block align-self-center mr-sm-4 mr-0 mb-sm-0 mb-2">
+                                            @Html.CheckBoxFor(m => m.IsFeatured, new { @class = "custom-control-input" })
+                                            <label class="custom-control-label" for="@Html.IdFor(m=>m.IsFeatured)">Featured product ?</label>
+                                        </div>
+                                        <div class="custom-control custom-switch d-sm-inline-block align-self-center mr-sm-4 mr-0 mb-sm-0 mb-2">
+                                            @Html.CheckBoxFor(m => m.IsActive, new { @class = "custom-control-input" })
+                                            <label class="custom-control-label" for="@Html.IdFor(m=>m.IsActive)">Show product ?</label>
+                                        </div>
+                                        <div class="d-sm-inline-block">
+                                            <a href="@Url.Action("index", "product")" class="btn btn-light waves-effect waves-dark">
+                                                Cancel
+                                            </a>
+                                            <button type="reset" class="btn btn-light waves-effect waves-dark">
+                                                Reset
+                                            </button>
+                                            <button class="btn btn-primary waves-effect waves-light" type="submit">
+                                                Save Changes
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div> <!-- end row -->
+            </div> <!-- end card-box -->
+
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="d-flex">
+                            <div>
+                                <h4 class="mt-0 header-title">Product images</h4>
+                                <p class="text-muted font-14">
+                                    Add images for product
+                                </p>
+                            </div>
+                            <button type="button" class="btn btn-primary ml-auto align-self-start btn-choose-images">Choose images</button>
+                        </div>
+                        @Html.HiddenFor(m => m.Images)
+                        <div class="d-flex flex-wrap" id="productImages">
+                            @foreach (var image in Model.Product.Images)
+                            {
+                                <div class="position-relative m-2">
+                                    <img src="@image" />
+                                    <a href="javascript:void(0)" class="position-absolute px-1 bg-light clear-image" style="top:0;left:0;"><span class="fas fa-times"></span></a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div> <!-- end row -->
+            </div> <!-- end card-box -->
+
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="mt-0 header-title">Product specifications</h4>
+                        <p class="text-muted font-14">
+                            Add product specifications below
+                        </p>
+
+                        <div class="p-2">
+                            <div class="form-horizontal">
+                                @{
+                                    var propSpecification = ViewData.ModelMetadata.Properties.First(p => p.PropertyName == "ProductSpecification");
+                                }
+                                @foreach (var prop in propSpecification.Properties)
+                                {
+                                    if (prop.PropertyName == "ProductId")
+                                    {
+                                        @Html.Hidden($"ProductSpecification.{prop.PropertyName}")
+                                        continue;
+                                    }
+
+                                    if (prop.ModelType == typeof(bool?))
+                                    {
+                                        <div class="row">
+                                            <div class="col-sm-2"></div>
+                                            <div class="col-sm-10">
+                                                <div class="form-group form-check">
+                                                    @Html.CheckBox($"ProductSpecification.{prop.PropertyName}", new { @class = "form-check-input" })
+                                                    @Html.Label($"ProductSpecification.{prop.PropertyName}", prop.DisplayName, new { @class = "form-check-label" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="form-group row">
+                                            @Html.Label($"ProductSpecification.{prop.PropertyName}", prop.DisplayName, new { @class = "col-sm-2 col-form-label" })
+                                            <div class="col-sm-10">
+                                                @if (prop.ModelType == typeof(int?))
+                                                {
+                                                    @Html.TextBox($"ProductSpecification.{prop.PropertyName}", null, new { @class = "form-control", data_parsley_type = "digits" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBox($"ProductSpecification.{prop.PropertyName}", null, new { @class = "form-control" })
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- end row -->
+            </div> <!-- end card-box -->
+        }
+    </div><!-- end col -->
+</div>
+<!-- end row -->

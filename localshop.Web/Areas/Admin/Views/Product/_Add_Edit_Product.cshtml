@@ -1,0 +1,56 @@
+﻿@model localshop.Core.DTO.ProductDTO
+
+@Html.HiddenFor(m => m.Id)
+
+<div class="form-group row">
+    @Html.LabelFor(m => m.Sku, new { @class = "col-sm-2 col-form-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.Sku, new { @class = "form-control", placeholder = "Enter product SKU", required = "" })
+    </div>
+</div>
+
+<div class="form-group row">
+    @Html.LabelFor(m => m.Name, new { @class = "col-sm-2 col-form-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Enter product name", required = "" })
+    </div>
+</div>
+
+<div class="form-group row">
+    @Html.LabelFor(m => m.Price, new { @class = "col-sm-2 col-form-label" })
+    <div class="col-sm-5">
+        @Html.TextBoxFor(m => m.Price, new { @class = "form-control", placeholder = "Enter product price", required = "", data_parsley_decimal = "" })
+    </div>
+    <div class="col-sm-5">
+        @Html.TextBoxFor(m => m.DiscountPrice, new { @class = "form-control mt-2 mt-sm-0", placeholder = "Enter product discount price", data_parsley_decimal = "", data_parsley_lt = $"#{Html.IdFor(m => m.Price)}" })
+    </div>
+</div>
+
+<div id="end-discount-date" class="form-group row">
+    @Html.LabelFor(m => m.EndDiscountDate, new { @class = "col-sm-2 col-form-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.EndDiscountDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", placeholder = "Enter product price" })
+    </div>
+</div>
+
+<div class="form-group row">
+    @Html.LabelFor(m => m.Quantity, new { @class = "col-sm-2 col-form-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.Quantity, new { @class = "form-control", placeholder = "Enter product quantity", required = "", data_parsley_type = "digits" })
+    </div>
+</div>
+
+<div class="form-group row">
+    @Html.LabelFor(m => m.ShortDesciption, new { @class = "col-sm-2 col-form-label" })
+    <div class="col-sm-10">
+        @Html.TextAreaFor(m => m.ShortDesciption, new { @class = "form-control", placeholder = "Enter short description" })
+    </div>
+</div>
+
+<div class="form-group row">
+    @Html.LabelFor(m => m.LongDescription, new { @class = "col-sm-2 col-form-label" })
+    <div class="col-sm-10">
+        @Html.TextAreaFor(m => m.LongDescription, new { @class = "form-control", placeholder = "Enter long description" })
+    </div>
+</div>
+

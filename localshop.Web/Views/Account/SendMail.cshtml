@@ -1,0 +1,29 @@
+﻿@model string
+
+@{
+    ViewBag.Title = "Confirm";
+}
+
+<div class="pt-90 pb-90">
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <div class="text-success mb-2"><i class="la la-4x la-check-circle"></i></div>
+                <h2 class="text-success font-weight-bold">Thank you!</h2>
+                <p class="lead">Your account is registered! An email is sent to your inbox for a confirmation.</p>
+                <div class="pt-20">
+                    <a href="@Url.Action("index", "shop")" class="btn btn-success">
+                        Continue to shopping
+                    </a>
+                    @using (Html.BeginForm("resendConfirmMail", "account", FormMethod.Post, new { @class = "d-inline-block" }))
+                    {
+                        <input type="hidden" name="UserId" value="@Model" />
+                        <button type="submit" class="btn btn-outline-secondary ml-3">
+                            Re-send confirmation email
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

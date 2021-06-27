@@ -1,0 +1,68 @@
+﻿@using localshop.Core.Common
+@model string
+
+@{
+    ViewBag.Title = "Account";
+}
+
+<div class="breadcrumb-area bg-img" style="background-image:url(@ImageLinks.BackgrounBreadcrumb);">
+    <div class="container">
+        <div class="breadcrumb-content text-center">
+            <h2>@ViewBag.Title</h2>
+            <ul>
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                <li class="active">@ViewBag.Title</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="my-account-wrapper pt-100 pb-100 section-padding-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- My Account Page Start -->
+                <div class="myaccount-page-wrapper">
+                    <!-- My Account Tab Menu Start -->
+                    <div class="row">
+                        <div class="col-lg-3 col-md-4">
+                            <div class="myaccount-tab-menu nav" role="tablist">
+                                <a href="#dashboard" class="active"><i class="fa fa-dashboard"></i> Dashboard</a>
+                                <a href="@Url.Action("orders", "account")"><i class="fa fa-cart-arrow-down"></i> Orders</a>
+                                <a href="@Url.Action("info", "account")"><i class="fa fa-map-marker"></i> Account info</a>
+                                <a href="@Url.Action("updateinfo", "account")"><i class="fa fa-user"></i> Update info</a>
+                                <a href="@Url.Action("changepassword", "account")"><i class="fa fa-user"></i> Change Password</a>
+                            </div>
+                        </div>
+                        <!-- My Account Tab Menu End -->
+                        <!-- My Account Tab Content Start -->
+                        <div class="col-lg-9 col-md-8">
+                            <div class="tab-content" id="myaccountContent">
+                                <!-- Single Tab Content Start -->
+                                <div class="tab-pane fade show active" id="dashboad" role="tabpanel">
+                                    <div class="myaccount-content">
+                                        <h3>Dashboard</h3>
+                                        @using (Html.BeginForm("logout", "account", FormMethod.Post, new { @class = "d-inline" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <div class="welcome">
+                                                <p>
+                                                    Hello, <strong>@Model</strong> (If Not <strong>@Model!</strong>
+                                                    <a href="javascript:void(0)" class="logout" onclick="$(this).closest('form').submit()"> Logout</a>)
+                                                </p>
+                                            </div>
+                                        }
+                                        <p class="mb-0">From your account dashboard. you can easily check & view your recent orders, manage your shipping and billing addresses and edit your password and account details.</p>
+                                    </div>
+                                </div>
+                                <!-- Single Tab Content End -->
+                            </div>
+                        </div> <!-- My Account Tab Content End -->
+                    </div>
+                </div> <!-- My Account Page End -->
+            </div>
+        </div>
+    </div>
+</div>

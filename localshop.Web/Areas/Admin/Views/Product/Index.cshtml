@@ -1,0 +1,155 @@
+﻿@using localshop.Core.Common
+
+@model ListProductViewModel
+
+@{
+    ViewBag.Title = "product";
+}
+
+@section topbar {
+    @Html.Action("topbar", "nav", new { header = NavigationHeader.ProductIndex })
+}
+
+@section thirdPartyCss {
+    @Styles.Render("~/content/admin/css/datatables_sweetalert", "~/content/admin/css/toastr")
+}
+
+@section thirdPartyJs {
+    @Scripts.Render("~/content/admin/js/datatables_sweetalert", "~/content/admin/js/toastr")
+    
+    <!-- Controller -->
+    @Scripts.Render("~/content/admin/js/product/index")
+}
+
+@Html.Hidden("saveSuccess", TempData["SaveSuccess"])
+
+<div class="row">
+    <div class="col-12">
+        <div class="card-box overflow-auto">
+            <table id="datatable" class="table table-bordered table-striped nowrap">
+                <thead>
+                    <tr>
+                        <th>Product name</th>
+                        <th>SKU</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Status</th>
+                        <th>Date Added/Modified</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var product in Model.Products)
+                    {
+                        var productCategory = Model.Categories.FirstOrDefault(c => c.Id == product.CategoryId);
+                        var productStatus = Model.Statuses.FirstOrDefault(s => s.Id == product.StatusId);
+
+                        <tr data-product-id=@product.Id>
+                            <td>
+                                <img class="mr-1" src="@(product.Images.Count>0?product.Images.First():"/Assets/admin/images/no-image.png")" alt="image" height="60" width="60" style="object-fit:scale-down;">
+                                <p class="d-inline-block align-middle mb-0">
+                                    <a href="@Url.Action("detail", "product", new { Area = "", metaTitle=product.MetaTitle})" target="_blank"
+                                       class="d-inline-block align-middle mb-0 product-name" title="@product.Name">@product.Name.Truncate(40)</a>
+                                    <br />
+                                    <span class="text-muted font-13">@(productCategory != null ? productCategory.Name : "")</span>
+                                </p>
+                            </td>
+                            <td>@product.Sku</td>
+                            <td>
+                                @if (product.DiscountPrice != null)
+                                {
+                                    if (product.EndDiscountDate != null)
+                                    {
+                                        if (DateTime.Now <= product.EndDiscountDate.Value)
+                                        {
+                                            <strong class="text-danger">$@product.DiscountPrice</strong>
+                                            <br />
+                                            <del class="text-muted">$@product.Price</del>
+                                        }
+                                        else
+                                        {
+                                            <strong>$@product.Price</strong>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <strong class="text-danger">$@product.DiscountPrice</strong>
+                                        <br />
+                                        <del class="text-muted">$@product.Price</del>
+                                    }
+                                }
+                                else
+                                {
+                                    <strong>$@product.Price</strong>
+                                }
+                            </td>
+                            <td>@product.Quantity</td>
+                            <td>
+                                @if (productStatus != null)
+                                {
+                                    if (productStatus.Name == StatusNames.InStock)
+                                    {
+                                        <span class="badge badge-success">@productStatus.Name</span>
+                                    }
+
+                                    if (productStatus.Name == StatusNames.OutOfStock)
+                                    {
+                                        <span class="badge badge-warning">@productStatus.Name</span>
+                                    }
+
+                                    if (product.IsFeatured)
+                                    {
+                                        <br />
+                                        <span class="badge badge-light text-warning">Featured <i class="mdi mdi-star"></i></span>
+                                    }
+
+                                    if (!product.IsActive)
+                                    {
+                                        <br />
+                                        <span class="badge badge-secondary">Disabled</span>
+                                    }
+                                }
+                            </td>
+                            <td>
+                                <span>Added: @product.DateAdded.ToShortDateString()</span>
+                                @if (product.DateModified != null)
+                                {
+                                    <br />
+                                    <strong>Modified: @product.DateModified.Value.ToShortDateString()</strong>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <a href="@Url.Action("edit", "product", new { id=product.Id })" class="btn btn-outline-primary btn-sm ls-product-edit"><i class="far fa-edit"></i></a>
+                                <a href="javascript:void(0)" class="btn btn-outline-danger btn-sm ls-product-delete"><i class="far fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    }
+                    @*<tr>
+                            <td>
+                                <img class="mr-1" src="~/assets/admin/images/big/bg.jpg" alt="" height="60" width="60" style="object-fit:scale-down;">
+                                <p class="d-inline-block align-middle mb-0">
+                                    <a href="" class="d-inline-block align-middle mb-0 product-name">Adidas Footboll</a>
+                                    <br />
+                                    <span class="text-muted font-13">Laptop</span>
+                                </p>
+                            </td>
+                            <td>F123</td>
+                            <td>
+                                <strong class="text-danger">$120</strong>
+                                <br />
+                                <del class="text-muted">$200</del>
+                            </td>
+                            <td>20</td>
+                            <td><span class="badge badge-success">In stock</span></td>
+                            <td>12/12/2012</td>
+                            <td class="text-center">
+                                <a href="#" class="btn btn-outline-primary btn-sm"><i class="far fa-edit"></i></a>
+                                <a href="#" class="btn btn-outline-danger btn-sm"><i class="far fa-trash-alt"></i></a>
+                            </td>
+                        </tr>*@
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div> <!-- end row -->

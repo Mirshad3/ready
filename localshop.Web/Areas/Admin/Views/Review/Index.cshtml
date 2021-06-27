@@ -1,0 +1,111 @@
+﻿@using localshop.Core.Common
+
+@model IEnumerable<ReviewViewModel>
+
+@{
+    ViewBag.Title = "review list";
+}
+
+@section topbar {
+    @Html.Action("topbar", "nav", new { header = NavigationHeader.ReviewList })
+}
+
+@section thirdPartyCss {
+    @Styles.Render("~/content/admin/css/datatables_sweetalert", "~/content/admin/css/toastr")
+}
+
+@section thirdPartyJs {
+    @Scripts.Render("~/content/admin/js/datatables_sweetalert", "~/content/admin/js/toastr")
+
+    <!-- Controller -->
+    @Scripts.Render("~/content/admin/js/review/index")
+}
+
+@Html.Hidden("saveSuccess", TempData["SaveSuccess"])
+
+<div class="row">
+    <div class="col-12">
+        <div class="card-box overflow-auto">
+            <table id="datatable" class="table table-bordered table-striped nowrap">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Name</th>
+                        <th>Rating</th>
+                        <th>Review</th>
+                        <th>Date Added</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var r in Model)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("detail", "product", new { area="", metaTitle=r.Product.MetaTitle })" title="@r.Product.Name" target="_blank">@StringHelper.Truncate(r.Product.Name, 20)</a>
+                            </td>
+                            <td>@r.Name</td>
+                            <td>
+                                <ul class="d-flex list-unstyled m-0 text-warning">
+                                    @for (int i = 0; i < r.Review.Rating; i++)
+                                    {
+                                        <li class="mdi mdi-star"></li>
+                                    }
+                                    @for (int i = r.Review.Rating; i < 5; i++)
+                                    {
+                                        <li class="mdi mdi-star-outline"></li>
+                                    }
+                                </ul>
+                            </td>
+                            <td>@StringHelper.Truncate(r.Review.Body, 60)</td>
+                            <td>@r.Review.DateAdded</td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)" class="btn btn-outline-primary btn-sm ls-review-detail" title="View detail"
+                                   data-toggle="modal" data-target="#detailModal"
+                                   data-productid="@r.Review.ProductId" data-userid="@r.Review.UserId">
+                                    <i class="far fa-eye"></i>
+                                </a>
+                                <a href="javascript:void(0)" class="btn btn-outline-danger btn-sm ls-review-delete" title="Delete review"
+                                   data-productid="@r.Review.ProductId" data-userid="@r.Review.UserId">
+                                    <i class="far fa-trash-alt"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div> <!-- end row -->
+
+<div id="detailModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="detailModal" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <h4 id="detailModalTitle">(Name)</h4>
+                    <div class="detailModalRating">
+                        <ul class="d-flex list-unstyled m-0 text-warning">
+                            <li class="mdi mdi-star"></li>
+                            <li class="mdi mdi-star"></li>
+                            <li class="mdi mdi-star"></li>
+                            <li class="mdi mdi-star"></li>
+                            <li class="mdi mdi-star-outline"></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <span class="mr-auto">12/12/2012</span>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <a href="#" type="button" class="btn btn-primary" target="_blank">View on product page</a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

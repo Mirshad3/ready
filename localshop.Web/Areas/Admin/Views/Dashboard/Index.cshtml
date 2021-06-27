@@ -1,0 +1,208 @@
+﻿@{
+    ViewBag.Title = "dashboard";
+}
+
+@section topbar {
+    @Html.Action("topbar", "nav", new { header = NavigationHeader.Dashboard })
+}
+
+ 
+<div class="content">
+    <!-- Content Header (Page header) -->
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 mx-auto mt-4 btn btn-outline-secondary btn-lg">
+                <div class="panel panel-bd">
+                    <div class="panel-body">
+                        <div class="statistic-box">
+                            <h2>
+                                <span class="slight" style="margin-left: 70px;">
+                                    <img src="~/Assets/images/useravatars/user_1b163a52-6387-43b1-9258-1b73f20fa68d.jpg" height="40" width="40">
+                                </span>
+                            </h2>
+                            <div class="small" style="font-size: 17px;margin-top: 20px;text-align: center;"><a href="/SalesEntry/Index">Sales Entry</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 mx-auto mt-4 btn btn-outline-secondary btn-lg">
+                <div class="panel panel-bd">
+                    <div class="panel-body">
+
+                        <div class="statistic-box">
+
+                            <h2><span class="slight" style="margin-left: 70px;"><img src="~/Assets/images/useravatars/user_1b163a52-6387-43b1-9258-1b73f20fa68d.jpg" height="40" width="40"> </span></h2>
+                            <div class="small" style="font-size: 17px;margin-top: 20px;text-align: center;"><a href="/NewPurchase/Index">Purchase Entry</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 mx-auto mt-4 btn btn-outline-secondary btn-lg">
+                <div class="panel panel-bd">
+                    <div class="panel-body">
+                        <div class="statistic-box">
+
+                            <h2><span class="slight" style="margin-left: 70px;"><img src="~/Assets/images/useravatars/user_1b163a52-6387-43b1-9258-1b73f20fa68d.jpg" height="40" width="40"> </span></h2>
+                            <div class="small" style="font-size: 17px;margin-top: 20px;text-align: center;"><a href="/Product/Create">Add Product</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 mx-auto mt-4 btn btn-outline-secondary btn-lg">
+                <div class="panel panel-bd">
+                    <div class="panel-body">
+                        <div class="statistic-box">
+
+                            <h2><span class="slight" style="margin-left: 70px;"><img src="~/Assets/images/useravatars/user_1b163a52-6387-43b1-9258-1b73f20fa68d.jpg" height="40" width="40"> </span></h2>
+                            <div class="small" style="font-size: 17px;margin-top: 20px;text-align: center;"><a href="/Expens/Create">Add Expense</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+
+            <div class="col-xs-12 col-md-6  ">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Total Bills</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <canvas id="barChartLoc" class="col-xs-12 col-md-12" style="height:310px"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Statistics<i style="font-size:small">-Last Three Months</i></h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <!--work progress start-->
+                        <section class="panel">
+
+                            <table class="table table-hover personal-task">
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>
+                                            Number Of Sales
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-important">
+                                                
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div id="work-progress1"><canvas width="47" height="20" style="display: inline-block; width: 47px; height: 20px; vertical-align: top;"></canvas></div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>2</td>
+                                        <td>
+                                            Total Sales
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-important">
+
+                                                Rs  
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div id="work-progress1"><canvas width="47" height="20" style="display: inline-block; width: 47px; height: 20px; vertical-align: top;"></canvas></div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>3</td>
+                                        <td>
+                                            Number Of Expenses
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-success">
+                                              
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div id="work-progress2"><canvas width="47" height="22" style=" width: 47px; height: 22px; vertical-align: top;"></canvas></div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>4</td>
+                                        <td>
+                                            Total Expense
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-success">
+                                                Rs  
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div id="work-progress2"><canvas width="47" height="22" style="display: inline-block; width: 47px; height: 22px; vertical-align: top;"></canvas></div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>5</td>
+                                        <td>
+                                            Number Of Purchase
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-success">
+                                               
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div id="work-progress2"><canvas width="47" height="22" style=" width: 47px; height: 22px; vertical-align: top;"></canvas></div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>6</td>
+                                        <td>
+                                            Total Purchase
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-success">
+                                                Rs  
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div id="work-progress2"><canvas width="47" height="22" style="display: inline-block; width: 47px; height: 22px; vertical-align: top;"></canvas></div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+
+
+
+                                </tbody>
+                            </table>
+                        </section>
+                        <!--work progress end-->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section> <!-- /.content -->
+</div>
+

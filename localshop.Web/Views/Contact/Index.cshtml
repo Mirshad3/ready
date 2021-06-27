@@ -1,0 +1,108 @@
+﻿@using localshop.Core.Common
+@using System.Configuration
+
+@model localshop.Core.DTO.ContactDTO
+
+@{
+    ViewBag.Title = "Contact";
+}
+
+@section thirdPartyCss {
+    <style>
+        .parsley-errors-list {
+            margin-top: -20px;
+            margin-bottom: 20px;
+        }
+    </style>
+}
+
+@section thirdPartyJs {
+    @Scripts.Render("~/content/client/js/validation")
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGM-62ap9R-huo50hJDn05j3x-mU9151Y"></script>
+
+    <!-- Controller -->
+    @Scripts.Render("~/content/client/js/contact/index")
+}
+
+@Html.Hidden("sendMessageSuccess", TempData["SendMessageSuccess"])
+
+<div class="breadcrumb-area bg-img" style="background-image:url('@ImageLinks.BackgrounBreadcrumb');">
+    <div class="container">
+        <div class="breadcrumb-content text-center">
+            <h2>@ViewBag.Title</h2>
+            <ul>
+                <li>
+                    <a href="@Url.Action("index", "home")">Home</a>
+                </li>
+                <li class="active">@ViewBag.Title</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="contact-area pt-85 pb-90">
+    <div class="container">
+        <div class="contact-info-wrap mb-50">
+            <h3>contact info</h3>
+            <div class="row">
+                <div class="col-lg-4 col-md-4">
+                    <div class="single-contact-info text-center mb-30">
+                        <i class="ti-location-pin"></i>
+                        <h4>our address</h4>
+                        <p>@ConfigurationManager.AppSettings["Address"]</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <div class="single-contact-info extra-contact-info text-center mb-30">
+                        <ul>
+                            <li>
+                                <i class="ti-mobile"></i>@ConfigurationManager.AppSettings["Phone"]
+                            </li>
+                            <li>
+                                <i class="ti-email"></i>
+                                <a href="mailto:@ConfigurationManager.AppSettings["Mail"]">@ConfigurationManager.AppSettings["Mail"]</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <div class="single-contact-info text-center mb-30">
+                        <i class=" ti-alarm-clock"></i>
+                        <h4>openning hour</h4>
+                        <p>@ConfigurationManager.AppSettings["OpeningTime"]</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-map pb-90">
+            <div id="map"></div>
+        </div>
+
+        <div class="get-in-touch-wrap">
+            <h3>Get In Touch</h3>
+            <div class="contact-from contact-shadow">
+                @using (Html.BeginForm("sendmessage", "contact", FormMethod.Post, new { data_parsley_validate = "", no_validate = "" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="row">
+                        <div class="col-lg-6">
+                            @Html.TextBoxFor(m => m.Name, new { placeholder = "Name", required = "" })
+                        </div>
+                        <div class="col-lg-6">
+                            @Html.TextBoxFor(m => m.Email, new { placeholder = "Email", type = "email", required = "" })
+                        </div>
+                        <div class="col-lg-12">
+                            @Html.TextBoxFor(m => m.Subject, new { placeholder = "Subject", required = "" })
+                        </div>
+                        <div class="col-lg-12">
+                            @Html.TextAreaFor(m => m.Message, new { placeholder = "Your message", required = "" })
+                        </div>
+                        <div class="col-lg-12">
+                            <button class="submit" type="submit">Send Message</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,72 @@
+﻿@model localshop.Areas.Admin.Models.Configuration
+
+@{
+    ViewBag.Title = "configuration";
+}
+
+@section topbar {
+    @Html.Action("topbar", "nav", new { header = NavigationHeader.Configuration })
+}
+
+@section thirdPartyCss {
+    @Styles.Render("~/content/admin/css/toastr")
+}
+
+@section thirdPartyJs {
+    @Scripts.Render("~/content/admin/js/toastr")
+
+    <!-- Controller -->
+    @Scripts.Render("~/content/admin/js/configuration/index")
+}
+
+@Html.Hidden("saveSuccess", TempData["SaveSuccess"])
+
+<div class="row">
+    <div class="col-12">
+        @using (Html.BeginForm("update", "configuration", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="mt-0 header-title">App infomation</h4>
+                        <p class="text-muted font-14">
+                            Update app information below
+                        </p>
+
+                        <div class="p-2">
+                            <div class="form-horizontal">
+                                @foreach (var prop in ViewData.ModelMetadata.Properties)
+                                {
+                                    <div class="form-group row">
+                                        @Html.Label(prop.PropertyName, new { @class = "col-sm-2 col-form-label" })
+                                        <div class="col-sm-10">
+                                            @Html.TextBox(prop.PropertyName, prop.Model, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                }
+
+                                <div class="form-group mb-0">
+                                    <div class="d-flex justify-content-end flex-sm-row flex-column align-items-center">
+                                        <div class="d-sm-inline-block">
+                                            <a href="@Url.Action("index", "dashboard")" class="btn btn-light waves-effect waves-dark">
+                                                Cancel
+                                            </a>
+                                            <button type="reset" class="btn btn-light waves-effect waves-dark">
+                                                Reset
+                                            </button>
+                                            <button class="btn btn-primary waves-effect waves-light" type="submit">
+                                                Save Changes
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div> <!-- end row -->
+            </div> <!-- end card-box -->
+        }
+    </div>
+</div>

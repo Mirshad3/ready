@@ -1,0 +1,137 @@
+﻿@using localshop.Core.Common
+@model localshop.Models.Compare
+
+@{
+    ViewBag.Title = "Compare";
+}
+
+<div class="breadcrumb-area bg-img" style="background-image:url('@ImageLinks.BackgrounBreadcrumb');">
+    <div class="container">
+        <div class="breadcrumb-content text-center">
+            <h2>@ViewBag.Title</h2>
+            <ul>
+                <li>
+                    <a href="@Url.Action("index", "home")">Home</a>
+                </li>
+                <li class="active">Compare</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="compare-page-wrapper pt-90 pb-90 section-padding-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- Compare Page Content Start -->
+                <div class="compare-page-content-wrap">
+                    @if (Model.LineCollection.Count == 0)
+                    {
+                        <h3 class="text-center">Your compare list is empty!</h3>
+                    }
+                    else
+                    {
+                        <div class="compare-table table-responsive">
+                            <table class="table table-bordered mb-0">
+                                <tbody>
+                                    <tr>
+                                        <td class="first-column">Product</td>
+                                        @foreach (var l in Model.LineCollection)
+                                        {
+                                            <td class="product-image-title">
+                                                <a href="@Url.Action("detail", "product", new { metaTitle=l.Product.MetaTitle })" class="image">
+                                                    <img class="img-fluid" src="@(l.Product.Images.FirstOrDefault()??ImageLinks.BrokenProductImage)" alt="Compare Product" style="max-width:300px">
+                                                </a>
+                                                <a href="javascript:void(0)" class="category">@l.Category</a>
+                                                <a href="@Url.Action("detail", "product", new { metaTitle=l.Product.MetaTitle })" class="title">@l.Product.Name</a>
+                                            </td>
+                                        }
+                                        @*<td class="product-image-title">
+                                                <a href="single-product.html" class="image">
+                                                    <img class="img-fluid" src="Assets/client/images/product/pro-hm1-2.jpg" alt="Compare Product">
+                                                </a>
+                                                <a href="#" class="category">Table </a>
+                                                <a href="single-product-group.html" class="title">Demo Product Name</a>
+                                            </td>*@
+                                    </tr>
+                                    <tr>
+                                        <td class="first-column">Price</td>
+                                        @foreach (var l in Model.LineCollection)
+                                        {
+                                            if (l.Product.DiscountPrice != null)
+                                            {
+                                                if (l.Product.EndDiscountDate != null)
+                                                {
+                                                    if (DateTime.Now <= l.Product.EndDiscountDate.Value)
+                                                    {
+                                                        <td class="pro-price">@l.Product.DiscountPrice.Value</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="pro-price">@l.Product.Price</td>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <td class="pro-price">@l.Product.DiscountPrice.Value</td>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <td class="pro-price">@l.Product.Price</td>
+                                            }
+                                        }
+                                        @*<td class="pro-price">$295</td>*@
+                                    </tr>
+                                    <tr>
+                                        <td class="first-column">Stock</td>
+                                        @foreach (var l in Model.LineCollection)
+                                        {
+                                            <td class="pro-stock">@l.Status</td>
+                                        }
+                                        @*<td class="pro-stock">Stock Out</td>*@
+                                    </tr>
+                                    
+                                    @{Html.RenderPartial("_Specification", Model.LineCollection);}
+
+                                    <tr>
+                                        <td class="first-column">Add to cart</td>
+                                        @foreach (var l in Model.LineCollection)
+                                        {
+                                            if (l.Status == StatusNames.OutOfStock)
+                                            {
+                                                <td><a href="javascript:void(0)" class="check-btn disabled">Add to Cart</a></td>
+                                            }
+                                            else
+                                            {
+                                                <td><a href="javascript:void(0)" class="check-btn add-to-cart" data-productid="@l.Product.Id">Add to Cart</a></td>
+                                            }
+                                        }
+                                        @*<td><a href="cart.html" class="check-btn">Add to Cart</a></td>*@
+                                    </tr>
+                                    <tr>
+                                        <td class="first-column">Remove</td>
+                                        @foreach (var l in Model.LineCollection)
+                                        {
+                                            <td class="pro-remove">
+                                                @using (Html.BeginForm("removeFromCompare", "compare", FormMethod.Post))
+                                                {
+                                                    <input type="hidden" value="@l.Product.Id" name="ProductId" />
+                                                    <button type="submit"><i class="la la-trash"></i></button>
+                                                }
+                                            </td>
+
+                                        }
+                                        @*<td class="pro-remove">
+                                                <button><i class="la la-trash"></i></button>
+                                            </td>*@
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+                <!-- Compare Page Content End -->
+            </div>
+        </div>
+    </div>
+</div>

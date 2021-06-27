@@ -1,0 +1,106 @@
+﻿@model localshop.Core.DTO.UpdateProfileDTO
+
+@{
+    ViewBag.Title = "update profile";
+}
+
+@section topbar {
+    @Html.Action("topbar", "nav", new { header = NavigationHeader.AccountProfile })
+}
+
+@section thirdPartyCss {
+    @Styles.Render("~/content/admin/css/dropify")
+}
+
+@section thirdPartyJs {
+    @Scripts.Render("~/content/admin/js/validation", "~/content/admin/js/dropify")
+}
+
+<div class="row">
+    <div class="col-xl-7 col-md-11 m-auto">
+        <div class="text-center card-box">
+            <div>
+                <img src="@Model.Image" class="rounded-circle avatar-xl img-thumbnail mb-2" alt="profile-image">
+
+                <p class="font-weight-bold font-15">
+                    @Model.FullName
+                </p>
+
+                <div class="text-left">
+                    <div class="row">
+                        <div class="col">
+                            @using (Html.BeginForm("updateprofile", "account", FormMethod.Post, new { enctype = "multipart/form-data", data_parsley_validate = "", novalidate = "" }))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        @Html.LabelFor(m => m.FirstName)
+                                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", parsley_trigger = "change", required = "", placeholder = "Enter firstname" })
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        @Html.LabelFor(m => m.LastName)
+                                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", parsley_trigger = "change", required = "", placeholder = "Enter lastname" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.PhoneNumber)
+                                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", parsley_trigger = "change", required = "", placeholder = "Enter phone number" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Country)
+                                    @Html.TextBoxFor(m => m.Country, new { @class = "form-control", parsley_trigger = "change", required = "", placeholder = "Enter country" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Zip)
+                                    @Html.TextBoxFor(m => m.Zip, new { @class = "form-control", parsley_trigger = "change", required = "", placeholder = "Enter zip" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.City)
+                                    @Html.TextBoxFor(m => m.City, new { @class = "form-control", parsley_trigger = "change", required = "", placeholder = "Enter city" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.State)
+                                    @Html.TextBoxFor(m => m.State, new { @class = "form-control", parsley_trigger = "change", placeholder = "Enter state" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Address1)
+                                    @Html.TextBoxFor(m => m.Address1, new { @class = "form-control", parsley_trigger = "change", required = "", placeholder = "Enter address 1" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Address2)
+                                    @Html.TextBoxFor(m => m.Address2, new { @class = "form-control", parsley_trigger = "change", placeholder = "Enter address 2" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Image)
+                                    @Html.TextBoxFor(m => m.Image, new { @class = "dropify", data_default_file = Model.Image.Split(new string[] { "?t=" }, StringSplitOptions.RemoveEmptyEntries)[0], type = "file" })
+                                </div>
+
+                                <div class="form-group text-right mb-0">
+                                    <a href="@Url.Action("profile", "account")" class="btn btn-light waves-effect waves-dark">
+                                        Cancel
+                                    </a>
+                                    <button type="reset" class="btn btn-light waves-effect waves-dark">
+                                        Reset
+                                    </button>
+                                    <button class="btn btn-primary waves-effect waves-light" type="submit">
+                                        Save Changes
+                                    </button>
+                                </div>
+                            }
+                        </div><!-- end col -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- end col -->

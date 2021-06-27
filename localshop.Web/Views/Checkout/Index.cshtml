@@ -1,0 +1,132 @@
+﻿@using localshop.Core.Common
+@model localshop.ViewModels.CheckoutViewModel
+
+@{
+    ViewBag.Title = "Checkout";
+}
+
+@section thirdPartyCss {
+    <style>
+        .parsley-errors-list {
+            margin-bottom: 10px;
+        }
+    </style>
+}
+
+@section thirdPartyJs {
+    @Scripts.Render("~/content/client/js/validation")
+
+    <!-- Controller -->
+    @Scripts.Render("~/content/client/js/checkout/index")
+}
+
+@Html.Hidden("outOfStock", TempData["OutOfStock"])
+
+<div class="breadcrumb-area bg-img" style="background-image:url('@ImageLinks.BackgrounBreadcrumb');">
+    <div class="container">
+        <div class="breadcrumb-content text-center">
+            <h2>@ViewBag.Title</h2>
+            <ul>
+                <li>
+                    <a href="@Url.Action("index", "cart")">Cart</a>
+                </li>
+                <li class="active">@ViewBag.Title</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="checkout-main-area pt-90 pb-90">
+    <div class="container">
+        @if (!Request.IsAuthenticated)
+        {
+            <div class="customer-zone mb-20">
+                <p class="cart-page-title">Returning customer? <a href="@Url.Action("login", "account", new { returnUrl=Request.Url.AbsolutePath })">Click here to login</a></p>
+            </div>
+        }
+
+        @using (Html.BeginForm("placeorder", "checkout", FormMethod.Post, new { data_parsley_validate = "", no_validate = "" }))
+        {
+            @Html.AntiForgeryToken();
+            <div class="checkout-wrap pt-30">
+                <div class="row">
+
+                    <!-- Billing information -->
+                    @{Html.RenderPartial("_Add_Order", Model.Order);}
+
+                    <!-- Order area -->
+                    <div class="col-lg-5">
+                        <div class="your-order-area">
+                            <h3>Your order</h3>
+                            <div class="your-order-wrap gray-bg-4">
+                                <div class="your-order-info-wrap">
+                                    <div class="your-order-info">
+                                        <ul>
+                                            <li>Product <span>Total</span></li>
+                                        </ul>
+                                    </div>
+                                    <div class="your-order-middle">
+                                        <ul>
+                                            @foreach (var product in Model.OrderDetails)
+                                            {
+                                                <li class="row">
+                                                    <div class="d-inline-block col-7 pl-0">@product.Name</div>
+                                                    <strong class="text-danger col-2 pr-0">x @product.Quantity</strong>
+                                                    <span class="col-3 text-right p-0">$@product.SubTotal</span>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                    <div class="your-order-info order-subtotal">
+                                        <ul>
+                                            <li>Subtotal <span>$@Model.Order.SubTotal</span></li>
+                                        </ul>
+                                    </div>
+                                    <div class="your-order-info order-shipping">
+                                        <ul>
+                                            <li>
+                                                Shipping <p>$0</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="your-order-info order-total">
+                                        <ul>
+                                            <li>Total <span>$@Model.Order.SubTotal</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="payment-method">
+                                    <div class="pay-top sin-payment">
+                                        <input id="payment-method-1" class="input-radio" type="radio" value="@PaymentMethod.DirectBankTransfer" checked="checked" name="@Html.NameFor(m => m.PaymentMethod)">
+                                        <label for="payment-method-1">Direct Bank Transfer</label>
+                                        <div class="payment-box payment_method_bacs">
+                                            <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference.</p>
+                                            <p class="font-weight-bold">Agribank:</p>
+                                            <p>Account number: 0099000999999</p>
+                                            <p>Name: Anh Hậu</p>
+                                            <p>Agency: TP.HCM</p>
+                                        </div>
+                                    </div>
+                                    <div class="pay-top sin-payment">
+                                        <input id="payment-method-2" class="input-radio" type="radio" value="@PaymentMethod.CashOnDelivery" name="@Html.NameFor(m => m.PaymentMethod)">
+                                        <label for="payment-method-2">Cash on delivery (COD)</label>
+                                        <div class="payment-box payment_method_bacs">
+                                            <p>You will pay directly to the courier after receiving the goods.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="Place-order mt-40">
+                                <a href="javascript:void(0)" onclick="$(this).closest('form').submit()">Place Order</a>
+                            </div>
+                        </div>
+                        <div class="p-2">
+                            <a href="@Url.Action("index", "cart")"><i class="la la-arrow-left"></i> Return to cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>

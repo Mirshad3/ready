@@ -1,0 +1,80 @@
+﻿@model localshop.Core.DTO.BannerDTO
+
+@{
+    ViewBag.Title = "add banner";
+}
+
+@section topbar {
+    @Html.Action("topbar", "nav", new { header = NavigationHeader.AddBanner })
+}
+
+@section thirdPartyCss {
+    @Styles.Render("~/content/admin/css/toastr")
+}
+
+@section thirdPartyJs {
+    @Scripts.Render("~/content/admin/js/validation", "~/content/admin/js/toastr")
+
+    <!-- CKFinder -->
+    <script src="~/Assets/plugins/CKFinderScripts/ckfinder.js"></script>
+
+    <!-- Controller -->
+    @Scripts.Render("~/content/admin/js/homePage/addBanner")
+}
+
+@Html.Hidden("errorMessage", TempData["ErrorMessage"])
+
+<div class="row">
+    <div class="col-12">
+        @using (Html.BeginForm("addbanner", "homepage", FormMethod.Post, new { role = "form", data_parsley_validate = "", novalidate = "" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="mt-0 header-title">Banner infomation</h4>
+                        <p class="text-muted font-14">
+                            Add banner information below
+                        </p>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(m => m.Link, new { @class = "col-sm-2 col-form-label" })
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(m => m.Link, new { @class = "form-control", required = "" })
+                            </div>
+                        </div>
+
+                        <div class="text-right">
+                            <a href="@Url.Action("banners", "homepage")" class="btn btn-light">Cancel</a>
+                            <button type="reset" class="btn btn-light">Reset</button>
+                            <button class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </div>
+                </div> <!-- end row -->
+            </div> <!-- end card-box -->
+
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="d-flex">
+                            <div>
+                                <h4 class="mt-0 header-title">Banner image</h4>
+                                <p class="text-muted font-14">
+                                    Add banner image
+                                </p>
+                            </div>
+                            <button type="button" class="btn btn-primary ml-auto align-self-start btn-choose-banner-image">Choose image</button>
+                        </div>
+                        @Html.HiddenFor(m => m.Image)
+                        <div class="d-flex flex-wrap justify-content-center" id="banner-image">
+                            @*<div class="position-relative">
+                                    <img src="~/Assets/admin/images/small/img-1.jpg" alt="" style="max-width:100%" />
+                                    <a href="javascript:void(0)" class="position-absolute px-1 bg-light clear-image" style="top:0;left:0;"><span class="fas fa-times"></span></a>
+                                </div>*@
+                        </div>
+                    </div>
+                </div> <!-- end row -->
+            </div> <!-- end card-box -->
+        }
+    </div>
+</div>

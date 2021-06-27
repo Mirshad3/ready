@@ -1,0 +1,30 @@
+﻿@model localshop.Core.DTO.ReviewDTO
+
+@using (Html.BeginForm("add", "review", FormMethod.Post, new { data_parsley_validate = "", no_validate = "" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.ProductId)
+
+    <div class="form-group">
+        <label>Rating</label>
+        <span class="star-cb-group">
+            <input type="radio" id="rating-5" name="@Html.NameFor(m => m.Rating)" value="5" /><label for="rating-5">5</label>
+            <input type="radio" id="rating-4" name="@Html.NameFor(m => m.Rating)" value="4" checked="checked" /><label for="rating-4">4</label>
+            <input type="radio" id="rating-3" name="@Html.NameFor(m => m.Rating)" value="3" /><label for="rating-3">3</label>
+            <input type="radio" id="rating-2" name="@Html.NameFor(m => m.Rating)" value="2" /><label for="rating-2">2</label>
+            <input type="radio" id="rating-1" name="@Html.NameFor(m => m.Rating)" value="1" /><label for="rating-1">1</label>
+            <input type="radio" id="rating-0" name="@Html.NameFor(m => m.Rating)" value="0" class="star-cb-clear" /><label for="rating-0">0</label>
+        </span>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Body)
+        @Html.TextAreaFor(m => m.Body, new { required = "", placeholder = "Write your review here", data_parsley_length = "[6, 1500]" })
+    </div>
+
+    <div class="button-box">
+        <div class="text-right">
+            <button class="btn btn-danger" type="submit">Post review</button>
+        </div>
+    </div>
+}

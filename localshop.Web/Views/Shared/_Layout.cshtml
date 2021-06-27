@@ -1,0 +1,62 @@
+﻿<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>localshop - @(ViewBag.Title ?? "Electronic store")</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- CSS
+    ============================================ -->
+    <!-- Bootstrap CSS -->
+    @Styles.Render("~/content/client/css/vendor")
+
+    <!-- Icon Font CSS -->
+    <link rel="stylesheet" href="~/Assets/client/css/vendor/line-awesome.css">
+    <link rel="stylesheet" href="~/Assets/client/css/vendor/themify.css">
+    <link href="~/Assets/bootstrap.min.css" rel="stylesheet" />
+    <!-- Plugins CSS -->
+    @Styles.Render("~/content/client/css/vendor/plugins")
+
+    @RenderSection("thirdPartyCss", false)
+
+    <!-- Main CSS -->
+    @Styles.Render("~/content/client/css/app")
+</head>
+
+<body>
+    @Html.Hidden("userAuthorized", User.Identity.IsAuthenticated.ToString().ToLower())
+    <div class="main-wrapper">
+        <!-- Header -->
+        @Html.Action("header", "nav")
+
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+        @RenderBody()
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+        <!-- Footer -->
+        @Html.Action("footer", "nav")
+    </div>
+    <script src="~/Assets/bootstrap.min.js"></script>
+    <!-- JS
+    ============================================ -->
+    <!-- Core JS -->
+    @Scripts.Render("~/content/client/js/vendor")
+
+    <!-- Plugins JS -->
+    @Scripts.Render("~/content/client/js/vendor/plugins")
+    @Scripts.Render("~/content/removeAds")
+
+    @RenderSection("thirdPartyJs", false)
+
+    <!-- Main JS -->
+    @Scripts.Render("~/content/client/js/app")
+</body>
+
+</html>

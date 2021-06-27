@@ -1,0 +1,80 @@
+﻿
+@model ListAddCategoryViewModel
+
+@{
+    ViewBag.Title = "category";
+}
+
+@section topbar {
+    @Html.Action("topbar", "nav", new { header = NavigationHeader.CategoryIndex })
+}
+
+@section thirdPartyCss {
+    @Styles.Render("~/content/admin/css/datatables_sweetalert", "~/content/admin/css/toastr")
+}
+
+@section thirdPartyJs {
+    @Scripts.Render("~/content/admin/js/datatables_sweetalert", "~/content/admin/js/toastr", "~/content/admin/js/validation")
+
+    <!-- Controller -->
+    @Scripts.Render("~/content/admin/js/category/index")
+}
+
+@Html.Hidden("addSuccess", TempData["AddSuccess"])
+
+<div class="row">
+    <div class="col-12">
+        <div class="card-box">
+            @{Html.RenderPartial("_Add", Model.AddCategory);}
+        </div>
+
+        <div class="card-box overflow-auto">
+            <table id="datatable" class="table table-bordered table-striped nowrap">
+                <thead>
+                    <tr>
+                        <th>Category name</th>
+                        <th>Products</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var category in Model.Categories)
+                    {
+                        <tr data-category-id="@category.Category.Id">
+                            <td>@category.Category.Name</td>
+                            <td>@category.ProductCount</td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)" class="btn btn-outline-primary btn-sm ls-category-edit" data-toggle="modal" data-target=".bs-edit-modal" title="Edit"><i class="far fa-edit"></i></a>
+                                <a href="javascript:void(0)" class="btn btn-outline-danger btn-sm ls-category-delete" title="Delete"><i class="far fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div> <!-- end row -->
+
+<div id="editModal" class="modal fade bs-edit-modal" tabindex="-1" role="dialog" aria-labelledby="EditCategoryModal" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myCenterModalLabel">Edit category</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="editCategory" role="form" data-parsley-validate novalidate>
+                    <input type="hidden" id="categoryId" />
+                    <div class="form-group">
+                        <label for="categoryName">Category name</label>
+                        <input class="form-control" type="text" id="categoryName" required placeholder="Enter category name" />
+                    </div>
+                    <div class="text-right">
+                        <button class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

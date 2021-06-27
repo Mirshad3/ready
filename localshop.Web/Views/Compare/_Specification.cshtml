@@ -1,0 +1,63 @@
+﻿@using System.Reflection
+@using System.ComponentModel.DataAnnotations
+@model IEnumerable<localshop.Models.CompareLine>
+
+@{
+    var countItems = Model.Count();
+    var properties = typeof(localshop.Core.DTO.ProductSpecificationDTO).GetProperties();
+}
+
+@foreach (var prop in properties)
+{
+    if (prop.Name == "ProductId")
+    {
+        continue;
+    }
+
+    // Check if all item not have value of this property => not show
+    var countNull = 0;
+    foreach (var l in Model)
+    {
+        var propSpecification = l.ProductSpecification;
+        foreach (var propSpec in propSpecification.GetType().GetProperties())
+        {
+            if (propSpec.Name == prop.Name)
+            {
+                if (propSpec.GetValue(propSpecification) == null)
+                {
+                    countNull++;
+                }
+                break;
+            }
+        }
+    }
+
+    if (countNull == countItems)
+    {
+        continue;
+    }
+
+    var name = prop.GetCustomAttribute<DisplayAttribute>()?.Name;
+    <tr>
+        <td>@(name ?? prop.Name)</td>
+        @foreach (var l in Model)
+        {
+            var propSpecification = l.ProductSpecification;
+            foreach (var propSpec in propSpecification.GetType().GetProperties())
+            {
+                if (propSpec.Name == prop.Name)
+                {
+                    if (propSpec.PropertyType == typeof(bool?))
+                    {
+                        <td>@(propSpec.GetValue(propSpecification) as bool? == true ? "Yes" : "No")</td>
+                    }
+                    else
+                    {
+                        <td>@propSpec.GetValue(propSpecification)</td>
+                    }
+                    break;
+                }
+            }
+        }
+    </tr>
+}

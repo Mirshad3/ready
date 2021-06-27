@@ -1,0 +1,340 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F63E41DD-AF83-4021-A855-C19D0DE1A8BC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>localshop.Domain</RootNamespace>
+    <AssemblyName>localshop.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.9.0.0\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.3\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="NewId, Version=3.0.2.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\NewId.3.0.2\lib\net452\NewId.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Abstractions\ICategoryRepository.cs" />
+    <Compile Include="Abstractions\IContactRepository.cs" />
+    <Compile Include="Abstractions\IHomePageRepository.cs" />
+    <Compile Include="Abstractions\IOrderRepository.cs" />
+    <Compile Include="Abstractions\IProductRepository.cs" />
+    <Compile Include="Abstractions\IReviewRepository.cs" />
+    <Compile Include="Abstractions\IStatusRepository.cs" />
+    <Compile Include="Abstractions\IWislistRepository.cs" />
+    <Compile Include="Concretes\ApplicationDbContext.cs" />
+    <Compile Include="Concretes\CategoryRepository.cs" />
+    <Compile Include="Concretes\ContactRepository.cs" />
+    <Compile Include="Concretes\HomePageRepository.cs" />
+    <Compile Include="Concretes\OrderRepository.cs" />
+    <Compile Include="Concretes\ProductRepository.cs" />
+    <Compile Include="Concretes\ReviewRepository.cs" />
+    <Compile Include="Concretes\StatusRepository.cs" />
+    <Compile Include="Concretes\WishlistRepository.cs" />
+    <Compile Include="Entities\ApplicationRole.cs" />
+    <Compile Include="Entities\ApplicationUser.cs" />
+    <Compile Include="Entities\Banner.cs" />
+    <Compile Include="Entities\Category.cs" />
+    <Compile Include="Entities\Contact.cs" />
+    <Compile Include="Entities\Image.cs" />
+    <Compile Include="Entities\Order.cs" />
+    <Compile Include="Entities\OrderDetail.cs" />
+    <Compile Include="Entities\OrderStatus.cs" />
+    <Compile Include="Entities\PaymentMethod.cs" />
+    <Compile Include="Entities\Product.cs" />
+    <Compile Include="Entities\ProductSpecification.cs" />
+    <Compile Include="Entities\Review.cs" />
+    <Compile Include="Entities\SpecialFeatured.cs" />
+    <Compile Include="Entities\Status.cs" />
+    <Compile Include="Entities\Tag.cs" />
+    <Compile Include="Entities\Wishlist.cs" />
+    <Compile Include="Migrations\202001221649359_Add_ApplicationUserProperties.cs" />
+    <Compile Include="Migrations\202001221649359_Add_ApplicationUserProperties.designer.cs">
+      <DependentUpon>202001221649359_Add_ApplicationUserProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001272019315_Add_Product.cs" />
+    <Compile Include="Migrations\202001272019315_Add_Product.designer.cs">
+      <DependentUpon>202001272019315_Add_Product.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001281227575_Add_Image.cs" />
+    <Compile Include="Migrations\202001281227575_Add_Image.designer.cs">
+      <DependentUpon>202001281227575_Add_Image.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001281444208_Add_Category.cs" />
+    <Compile Include="Migrations\202001281444208_Add_Category.designer.cs">
+      <DependentUpon>202001281444208_Add_Category.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001281453156_Add_FK_Product_Category.cs" />
+    <Compile Include="Migrations\202001281453156_Add_FK_Product_Category.designer.cs">
+      <DependentUpon>202001281453156_Add_FK_Product_Category.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001290820246_Edit_Product.cs" />
+    <Compile Include="Migrations\202001290820246_Edit_Product.designer.cs">
+      <DependentUpon>202001290820246_Edit_Product.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001290822285_Add_Status.cs" />
+    <Compile Include="Migrations\202001290822285_Add_Status.designer.cs">
+      <DependentUpon>202001290822285_Add_Status.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001290827018_Add_Tag.cs" />
+    <Compile Include="Migrations\202001290827018_Add_Tag.designer.cs">
+      <DependentUpon>202001290827018_Add_Tag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001290831045_Add_ProductTag.cs" />
+    <Compile Include="Migrations\202001290831045_Add_ProductTag.designer.cs">
+      <DependentUpon>202001290831045_Add_ProductTag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002150816140_Add_Order.cs" />
+    <Compile Include="Migrations\202002150816140_Add_Order.designer.cs">
+      <DependentUpon>202002150816140_Add_Order.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002151007301_Add_OrderDetail.cs" />
+    <Compile Include="Migrations\202002151007301_Add_OrderDetail.designer.cs">
+      <DependentUpon>202002151007301_Add_OrderDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002171025555_Edit_Order_AllowNull_ShipDate.cs" />
+    <Compile Include="Migrations\202002171025555_Edit_Order_AllowNull_ShipDate.designer.cs">
+      <DependentUpon>202002171025555_Edit_Order_AllowNull_ShipDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002181406372_Add_PaymentMethod.cs" />
+    <Compile Include="Migrations\202002181406372_Add_PaymentMethod.designer.cs">
+      <DependentUpon>202002181406372_Add_PaymentMethod.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002181427131_Add_OrderStatus.cs" />
+    <Compile Include="Migrations\202002181427131_Add_OrderStatus.designer.cs">
+      <DependentUpon>202002181427131_Add_OrderStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002181710552_Update_Order_Add_FK_OrderStatus_FK_PaymentMethod.cs" />
+    <Compile Include="Migrations\202002181710552_Update_Order_Add_FK_OrderStatus_FK_PaymentMethod.designer.cs">
+      <DependentUpon>202002181710552_Update_Order_Add_FK_OrderStatus_FK_PaymentMethod.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002191943097_Add_Contact.cs" />
+    <Compile Include="Migrations\202002191943097_Add_Contact.designer.cs">
+      <DependentUpon>202002191943097_Add_Contact.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002201425469_Add_SpecialFeatured.cs" />
+    <Compile Include="Migrations\202002201425469_Add_SpecialFeatured.designer.cs">
+      <DependentUpon>202002201425469_Add_SpecialFeatured.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002220951108_Add_Banner.cs" />
+    <Compile Include="Migrations\202002220951108_Add_Banner.designer.cs">
+      <DependentUpon>202002220951108_Add_Banner.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002231057148_Update_Product_Add_IsFeatured.cs" />
+    <Compile Include="Migrations\202002231057148_Update_Product_Add_IsFeatured.designer.cs">
+      <DependentUpon>202002231057148_Update_Product_Add_IsFeatured.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002231538509_Update_Product_Add_EndDiscountDate.cs" />
+    <Compile Include="Migrations\202002231538509_Update_Product_Add_EndDiscountDate.designer.cs">
+      <DependentUpon>202002231538509_Update_Product_Add_EndDiscountDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002260655566_Add_Whishlist.cs" />
+    <Compile Include="Migrations\202002260655566_Add_Whishlist.designer.cs">
+      <DependentUpon>202002260655566_Add_Whishlist.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002260743499_Edit_Wishlist_RenameTable.cs" />
+    <Compile Include="Migrations\202002260743499_Edit_Wishlist_RenameTable.designer.cs">
+      <DependentUpon>202002260743499_Edit_Wishlist_RenameTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002260754583_Edit_Wishlist_RemoveId.cs" />
+    <Compile Include="Migrations\202002260754583_Edit_Wishlist_RemoveId.designer.cs">
+      <DependentUpon>202002260754583_Edit_Wishlist_RemoveId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003011109586_Add_Review.cs" />
+    <Compile Include="Migrations\202003011109586_Add_Review.designer.cs">
+      <DependentUpon>202003011109586_Add_Review.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003011339020_Update_Review_Add_DateAdded.cs" />
+    <Compile Include="Migrations\202003011339020_Update_Review_Add_DateAdded.designer.cs">
+      <DependentUpon>202003011339020_Update_Review_Add_DateAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003031424345_Add_ProductSpecification.cs" />
+    <Compile Include="Migrations\202003031424345_Add_ProductSpecification.designer.cs">
+      <DependentUpon>202003031424345_Add_ProductSpecification.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202106051036584_latest.cs" />
+    <Compile Include="Migrations\202106051036584_latest.designer.cs">
+      <DependentUpon>202106051036584_latest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202106240557538_team.cs" />
+    <Compile Include="Migrations\202106240557538_team.designer.cs">
+      <DependentUpon>202106240557538_team.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\localshop.Core\localshop.Core.csproj">
+      <Project>{6986eb4d-bb27-454d-85fd-962c7d64d21f}</Project>
+      <Name>localshop.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202001221649359_Add_ApplicationUserProperties.resx">
+      <DependentUpon>202001221649359_Add_ApplicationUserProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001272019315_Add_Product.resx">
+      <DependentUpon>202001272019315_Add_Product.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001281227575_Add_Image.resx">
+      <DependentUpon>202001281227575_Add_Image.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001281444208_Add_Category.resx">
+      <DependentUpon>202001281444208_Add_Category.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001281453156_Add_FK_Product_Category.resx">
+      <DependentUpon>202001281453156_Add_FK_Product_Category.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001290820246_Edit_Product.resx">
+      <DependentUpon>202001290820246_Edit_Product.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001290822285_Add_Status.resx">
+      <DependentUpon>202001290822285_Add_Status.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001290827018_Add_Tag.resx">
+      <DependentUpon>202001290827018_Add_Tag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001290831045_Add_ProductTag.resx">
+      <DependentUpon>202001290831045_Add_ProductTag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002150816140_Add_Order.resx">
+      <DependentUpon>202002150816140_Add_Order.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002151007301_Add_OrderDetail.resx">
+      <DependentUpon>202002151007301_Add_OrderDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002171025555_Edit_Order_AllowNull_ShipDate.resx">
+      <DependentUpon>202002171025555_Edit_Order_AllowNull_ShipDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002181406372_Add_PaymentMethod.resx">
+      <DependentUpon>202002181406372_Add_PaymentMethod.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002181427131_Add_OrderStatus.resx">
+      <DependentUpon>202002181427131_Add_OrderStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002181710552_Update_Order_Add_FK_OrderStatus_FK_PaymentMethod.resx">
+      <DependentUpon>202002181710552_Update_Order_Add_FK_OrderStatus_FK_PaymentMethod.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002191943097_Add_Contact.resx">
+      <DependentUpon>202002191943097_Add_Contact.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002201425469_Add_SpecialFeatured.resx">
+      <DependentUpon>202002201425469_Add_SpecialFeatured.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002220951108_Add_Banner.resx">
+      <DependentUpon>202002220951108_Add_Banner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002231057148_Update_Product_Add_IsFeatured.resx">
+      <DependentUpon>202002231057148_Update_Product_Add_IsFeatured.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002231538509_Update_Product_Add_EndDiscountDate.resx">
+      <DependentUpon>202002231538509_Update_Product_Add_EndDiscountDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002260655566_Add_Whishlist.resx">
+      <DependentUpon>202002260655566_Add_Whishlist.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002260743499_Edit_Wishlist_RenameTable.resx">
+      <DependentUpon>202002260743499_Edit_Wishlist_RenameTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002260754583_Edit_Wishlist_RemoveId.resx">
+      <DependentUpon>202002260754583_Edit_Wishlist_RemoveId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003011109586_Add_Review.resx">
+      <DependentUpon>202003011109586_Add_Review.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003011339020_Update_Review_Add_DateAdded.resx">
+      <DependentUpon>202003011339020_Update_Review_Add_DateAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003031424345_Add_ProductSpecification.resx">
+      <DependentUpon>202003031424345_Add_ProductSpecification.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106051036584_latest.resx">
+      <DependentUpon>202106051036584_latest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106240557538_team.resx">
+      <DependentUpon>202106240557538_team.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" />
+</Project>

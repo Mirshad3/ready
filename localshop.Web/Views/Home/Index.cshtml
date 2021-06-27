@@ -1,0 +1,439 @@
+﻿@using localshop.Core.Common
+@model HomePageViewModel
+
+<!-- Main Slide -->
+@if (Model != null)
+{
+    <div class="slider-area slider-height-6 bg-img" style="background-image:url('@Model.SpecialFeatured.BackgroundImage')">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="slider-content-6">
+                        <h1 class="wow fadeInUp">@Model.SpecialFeatured.Title</h1>
+                        <p class="wow fadeInUp">@Model.SpecialFeatured.Description</p>
+                        <div class="slider-btn-6 default-btn btn-hover">
+                            <a class="wow fadeInUp white-color" href="@Model.SpecialFeatured.Link">BUY NOW</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 tilter" style="transform-style: preserve-3d;">
+                    <div class="slider-sin-img-hm6">
+                        <img src="@Model.SpecialFeatured.ProductImage" alt="@Model.SpecialFeatured.Title">
+                        <div class="slider-price" style="transform: translateZ(20px);">
+                            <h4>$@Math.Round(Model.SpecialFeatured.Price, 0)</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Banner slide -->
+@if (Model.Banners.Count() > 0)
+{
+    <div class="banner-area pt-50 pb-70">
+        <div class="banner-slider-active-2 owl-carousel">
+            @foreach (var banner in Model.Banners)
+            {
+                <div class="banner-wrap mb-30" style="max-width:620px; max-height:330px;">
+                    <a href="@banner.Link">
+                        <img src="@banner.Image" alt="@banner.Link">
+                    </a>
+                </div>
+            }
+            @*<div class="banner-wrap mb-30">
+                    <a href="product-details.html">
+                        <img src="/Assets/client/images/banner/banner-18.png" alt="banner">
+                    </a>
+                </div>*@
+        </div>
+    </div>
+}
+
+
+<!-- Product area -->
+<div class="product-area pb-70">
+    <div class="container">
+        <div class="product-tab-list-3 nav">
+            <a class="active" href="#product-featured" data-toggle="tab">
+                <h5>Featured </h5>
+            </a>
+            <a href="#product-onsale" data-toggle="tab">
+                <h5>On Sale</h5>
+            </a>
+            @*<a href="#product-toprated" data-toggle="tab">
+                    <h5>Top Rated</h5>
+                </a>*@
+        </div>
+        <div class="tab-content jump">
+            <div id="product-featured" class="tab-pane active">
+                <div class="row">
+                    @foreach (var p in Model.Featureds)
+                    {
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 w-50">
+                            <div class="product-wrap product-border-3 product-img-zoom mb-20">
+                                <div class="product-img">
+                                    <a href="@Url.Action("detail", "product", new { metaTitle = p.Product.MetaTitle })">
+                                        <img src="@(p.Product.Images.FirstOrDefault() ?? ImageLinks.BrokenProductImage)" alt="@p.Product.Name">
+                                    </a>
+                                    <div class="product-action-4">
+                                        <div class="product-action-4-style">
+                                            <a data-tooltip="Compare" href="javascript:void(0)" class="add-to-compare" data-productid="@p.Product.Id"><i class="la la-random"></i></a>
+                                            <a data-tooltip="Wishlist" href="javascript:void(0)" class="add-to-wishlist" data-productid="@p.Product.Id"><i class="la la-heart-o"></i></a>
+                                            <a data-tooltip="Add To Cart" href="javascript:void(0)" class="add-to-cart" data-productid="@p.Product.Id"><i class="la la-cart-plus"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-content product-content-padding">
+                                    <h4>
+                                        <a href="@Url.Action("detail", "product", new { metaTitle = p.Product.MetaTitle })">
+                                            @p.Product.Name
+                                        </a>
+                                    </h4>
+                                    <div class="price-addtocart">
+                                        <div class="product-price">
+                                            @if (p.Product.DiscountPrice != null)
+                                            {
+                                                if (p.Product.EndDiscountDate != null)
+                                                {
+                                                    if (DateTime.Now <= p.Product.EndDiscountDate.Value)
+                                                    {
+                                                        <span>$@p.Product.DiscountPrice</span>
+                                                        <span class="old">$@p.Product.Price</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>$@p.Product.Price</span>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <span>$@p.Product.DiscountPrice</span>
+                                                    <span class="old">$@p.Product.Price</span>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <span>$@p.Product.Price</span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @*<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="product-wrap product-border-3 product-img-zoom mb-30">
+                                <div class="product-img">
+                                    <a href="product-details.html"><img src="/Assets/client/images/product/pro-hm5-2.jpg" alt="product"></a>
+                                    <div class="product-action-4">
+                                        <div class="product-action-4-style">
+                                            <a data-tooltip="Add To Cart" href="#"><i class="la la-cart-plus"></i></a>
+                                            <a data-tooltip="Wishlist" href="#"><i class="la la-heart-o"></i></a>
+                                            <a data-tooltip="Compare" href="#"><i class="la la-random"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-content product-content-padding">
+                                    <h4><a href="product-details.html">Golden Easy Spot Chair.</a></h4>
+                                    <div class="price-addtocart">
+                                        <div class="product-price">
+                                            <span>$220.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                </div>
+            </div>
+            <div id="product-onsale" class="tab-pane">
+                <div class="row">
+                    @foreach (var p in Model.OnSales)
+                    {
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 w-50">
+                            <div class="product-wrap product-border-3 product-img-zoom mb-20">
+                                <div class="product-img">
+                                    <a href="@Url.Action("detail", "product", new { metaTitle = p.Product.MetaTitle })">
+                                        <img src="@(p.Product.Images.FirstOrDefault() ?? ImageLinks.BrokenProductImage)" alt="@p.Product.Name">
+                                    </a>
+                                    <div class="product-action-4">
+                                        <div class="product-action-4-style">
+                                            <a data-tooltip="Compare" href="javascript:void(0)" class="add-to-compare" data-productid="@p.Product.Id"><i class="la la-random"></i></a>
+                                            <a data-tooltip="Wishlist" href="javascript:void(0)" class="add-to-wishlist" data-productid="@p.Product.Id"><i class="la la-heart-o"></i></a>
+                                            <a data-tooltip="Add To Cart" href="javascript:void(0)" class="add-to-cart" data-productid="@p.Product.Id"><i class="la la-cart-plus"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-content product-content-padding">
+                                    <h4>
+                                        <a href="@Url.Action("detail", "product", new { metaTitle = p.Product.MetaTitle })">
+                                            @p.Product.Name
+                                        </a>
+                                    </h4>
+                                    <div class="price-addtocart">
+                                        <div class="product-price">
+                                            @if (p.Product.DiscountPrice != null)
+                                            {
+                                                if (p.Product.EndDiscountDate != null)
+                                                {
+                                                    if (DateTime.Now <= p.Product.EndDiscountDate.Value)
+                                                    {
+                                                        <span>$@p.Product.DiscountPrice</span>
+                                                        <span class="old">$@p.Product.Price</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>$@p.Product.Price</span>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <span>$@p.Product.DiscountPrice</span>
+                                                    <span class="old">$@p.Product.Price</span>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <span>$@p.Product.Price</span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @*<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="product-wrap product-border-3 product-img-zoom mb-30">
+                                <div class="product-img">
+                                    <a href="product-details.html"><img src="/Assets/client/images/product/pro-hm5-8.jpg" alt="product"></a>
+                                    <div class="product-action-4">
+                                        <div class="product-action-4-style">
+                                            <a data-tooltip="Add To Cart" href="#"><i class="la la-cart-plus"></i></a>
+                                            <a data-tooltip="Wishlist" href="#"><i class="la la-heart-o"></i></a>
+                                            <a data-tooltip="Compare" href="#"><i class="la la-random"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-content product-content-padding">
+                                    <h4><a href="product-details.html">Golden Easy Spot Chair.</a></h4>
+                                    <div class="price-addtocart">
+                                        <div class="product-price">
+                                            <span>$280.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                </div>
+            </div>
+            @*<div id="product-toprated" class="tab-pane">
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="product-wrap product-border-3 product-img-zoom mb-30">
+                                <div class="product-img">
+                                    <a href="product-details.html"><img src="/Assets/client/images/product/pro-hm5-6.jpg" alt="product"></a>
+                                    <div class="product-action-4">
+                                        <div class="product-action-4-style">
+                                            <a data-tooltip="Add To Cart" href="#"><i class="la la-cart-plus"></i></a>
+                                            <a data-tooltip="Wishlist" href="#"><i class="la la-heart-o"></i></a>
+                                            <a data-tooltip="Compare" href="#"><i class="la la-random"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-content product-content-padding">
+                                    <h4><a href="product-details.html">Golden Easy Spot Chair.</a></h4>
+                                    <div class="price-addtocart">
+                                        <div class="product-price">
+                                            <span>$240.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+        </div>
+    </div>
+</div>
+
+
+@if (Model.OnSales.Count > 0)
+{
+    <!-- Hot deal area -->
+    var firstOnSale = Model.OnSales.First();
+    <div class="deal-area pb-90 pt-50 bg-img section-margin-2 res-white-overly-xs res-white-gradient-overly-xs deal-hm6" style="background-image:url('@(firstOnSale.Product.Images.FirstOrDefault()??ImageLinks.BrokenProductImage)');">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="deal-content-2">
+                        <h2 class="mb-2">@firstOnSale.Product.Name</h2>
+                        <div class="ck-content">@Html.Raw(firstOnSale.Product.ShortDesciption)</div>
+                        <div class="timer timer-style-3">
+                            <div data-countdown="@firstOnSale.Product.EndDiscountDate.GetValueOrDefault(DateTime.Now).ToString("yyyy/MM/dd")"></div>
+                        </div>
+                        <div class="deal-5-btn btn-hover hover-border-none">
+                            <a class="black-color" href="@Url.Action("detail", "product", new { metaTitle = firstOnSale.Product.MetaTitle})" style="background-color: #ff5151;">Buy Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product deal area -->
+    <div class="product-area pt-100 pb-70">
+        <div class="container">
+            <div class="row">
+                @{var count = 1;}
+                @for (int i = 1; i < Model.OnSales.Count; i++)
+                {
+                    if (count == 9)
+                    {
+                        break;
+                    }
+                    var p = Model.OnSales[i];
+                    if (p.Product.EndDiscountDate != null && DateTime.Now <= p.Product.EndDiscountDate.Value)
+                    {
+                        count++;
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 w-50">
+                            <div class="product-wrap product-border-3 product-img-zoom mb-20">
+                                <div class="product-img">
+                                    <a href="@Url.Action("detail", "product", new { metaTitle = p.Product.MetaTitle })">
+                                        <img src="@(p.Product.Images.FirstOrDefault() ?? ImageLinks.BrokenProductImage)" alt="@p.Product.Name">
+                                    </a>
+                                    <div class="product-action-4">
+                                        <div class="product-action-4-style">
+                                            <a data-tooltip="Compare" href="javascript:void(0)" data-productid="@p.Product.Id" class="add-to-compare"><i class="la la-random"></i></a>
+                                            <a data-tooltip="Wishlist" href="javascript:void(0)" data-productid="@p.Product.Id" class="add-to-wishlist"><i class="la la-heart-o"></i></a>
+                                            <a data-tooltip="Add To Cart" href="javascript:void(0)" data-productid="@p.Product.Id" class="add-to-cart"><i class="la la-cart-plus"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-content product-content-padding">
+                                    <h4>
+                                        <a href="@Url.Action("detail", "product", new { metaTitle = p.Product.MetaTitle })">
+                                            @p.Product.Name
+                                        </a>
+                                    </h4>
+                                    <div class="price-addtocart">
+                                        <div class="product-price">
+                                            @if (p.Product.DiscountPrice != null)
+                                            {
+                                                if (p.Product.EndDiscountDate != null)
+                                                {
+                                                    if (DateTime.Now <= p.Product.EndDiscountDate.Value)
+                                                    {
+                                                        <span>$@p.Product.DiscountPrice</span>
+                                                        <span class="old">$@p.Product.Price</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>$@p.Product.Price</span>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <span>$@p.Product.DiscountPrice</span>
+                                                    <span class="old">$@p.Product.Price</span>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <span>$@p.Product.Price</span>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="timer timer-style-2">
+                                        <div data-countdown="@p.Product.EndDiscountDate.Value.ToString("yyyy/MM/dd")"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                @*<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                        <div class="product-wrap product-border-3 product-img-zoom mb-30">
+                            <div class="product-img">
+                                <a href="product-details.html"><img src="/Assets/client/images/product/pro-hm5-9.jpg" alt="product"></a>
+                                <div class="product-action-4">
+                                    <div class="product-action-4-style">
+                                        <a data-tooltip="Add To Cart" href="#"><i class="la la-cart-plus"></i></a>
+                                        <a data-tooltip="Wishlist" href="#"><i class="la la-heart-o"></i></a>
+                                        <a data-tooltip="Compare" href="#"><i class="la la-random"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-content product-content-padding">
+                                <h4><a href="product-details.html">Golden Easy Spot Chair.</a></h4>
+                                <div class="price-addtocart">
+                                    <div class="product-price">
+                                        <span>$210.00</span>
+                                        <span class="old2">$290.00</span>
+                                    </div>
+                                </div>
+                                <div class="timer timer-style-2">
+                                    <div data-countdown="2020/01/01"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+}
+
+
+<!-- Brand logo -->
+@*<div class="brand-logo-area pb-100">
+        <div class="container">
+            <div class="brand-logo-active-2 owl-carousel">
+                <div class="single-brand-logo">
+                    <img src="/Assets/client/images/brand-logo/brand-logo-5.png" alt="">
+                </div>
+                <div class="single-brand-logo">
+                    <img src="/Assets/client/images/brand-logo/brand-logo-6.png" alt="">
+                </div>
+                <div class="single-brand-logo">
+                    <img src="/Assets/client/images/brand-logo/brand-logo-7.png" alt="">
+                </div>
+                <div class="single-brand-logo">
+                    <img src="/Assets/client/images/brand-logo/brand-logo-8.png" alt="">
+                </div>
+                <div class="single-brand-logo">
+                    <img src="/Assets/client/images/brand-logo/brand-logo-9.png" alt="">
+                </div>
+                <div class="single-brand-logo">
+                    <img src="/Assets/client/images/brand-logo/brand-logo-6.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+<!-- Subscribe -->
+@*<div class="subscribe-area pb-100">
+        <div class="container">
+            <div class="subscribe-bg bg-img pt-45 pb-50 pl-20 pr-20" style="background-image:url('/Assets/client/images/bg/bg-3.jpg');">
+                <div class="row">
+                    <div class="col-lg-6 ml-auto mr-auto">
+                        <div class="subscribe-content-3 text-center">
+                            <h2>Sign up & Get all updates.</h2>
+                            <div id="mc_embed_signup" class="subscribe-form-3 mt-20">
+                                <form id="mc-embedded-subscribe-form" class="validate subscribe-form-style" novalidate="" target="_blank" name="mc-embedded-subscribe-form" method="post" action="#">
+                                    <div id="mc_embed_signup_scroll" class="mc-form">
+                                        <input class="email" type="email" required="" placeholder="Enter Your E-mail" name="EMAIL" value="">
+                                        <div class="mc-news" aria-hidden="true">
+                                            <input type="text" value="" tabindex="-1" name="b_6bbb9b6f5827bd842d9640c82_05d85f18ef">
+                                        </div>
+                                        <div class="clear">
+                                            <input id="mc-embedded-subscribe" class="button" type="submit" name="subscribe" value="">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@

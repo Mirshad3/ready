@@ -1,0 +1,81 @@
+﻿@using localshop.Core.Common
+
+@model ListUserWithRolesViewModel
+
+
+@{
+    ViewBag.Title = "user";
+}
+
+@section topbar {
+    @Html.Action("topbar", "nav", new { header = NavigationHeader.UserIndex })
+}
+
+@section thirdPartyCss {
+    @Styles.Render("~/content/admin/css/datatables_sweetalert", "~/content/admin/css/toastr")
+}
+
+@section thirdPartyJs {
+    @Scripts.Render("~/content/admin/js/datatables_sweetalert", "~/content/admin/js/toastr")
+
+    <!-- Controller -->
+    @Scripts.Render("~/content/admin/js/user/index")
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card-box overflow-auto">
+            <table id="datatable" class="table table-striped table-bordered nowrap">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Created date</th>
+                        <th>Role</th>
+                        <th>Blocked</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var user in Model.ListUser)
+                    {
+                        <tr data-user-id="@user.User.Id">
+                            <td>@user.User.Email</td>
+                            <td>@user.User.FullName</td>
+                            <td>@user.User.PhoneNumber</td>
+                            <td>@user.User.CreatedDate.ToShortDateString()</td>
+                            <td>
+                                <select class="badge @(user.Roles.Count > 0?"badge-light":"badge-warning") user-role">
+                                    @foreach (var role in Model.Roles)
+                                    {
+                                        var r = user.Roles.FirstOrDefault();
+                                        if (r != null && role.Name == r)
+                                        {
+                                            <option value="@role.Name" selected>@role.Name</option>
+                                        }
+                                        else if (r == null && role.Name == RoleNames.Customer)
+                                        {
+                                            <option value="@role.Name" selected>@role.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@role.Name">@role.Name</option>
+                                        }
+                                    }
+                                </select>
+                            </td>
+                            <td>@(Html.Raw(user.User.LockoutEnabled ? "<span class='text-danger'>Blocked</span>" : "None"))</td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)" class="btn btn-outline-danger btn-sm ls-user-delete" title="Delete user">
+                                    <i class="far fa-trash-alt"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div> <!-- end row -->

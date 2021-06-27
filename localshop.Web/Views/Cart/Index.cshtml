@@ -1,0 +1,165 @@
+﻿@using localshop.Core.Common
+@using localshop.Core.DTO
+@model localshop.Models.Cart
+
+@{
+    ViewBag.Title = "Cart";
+}
+
+@section thirdPartyJs
+{
+    <!-- Controller -->
+    @Scripts.Render("~/content/client/js/cart/index")
+}
+
+@Html.Hidden("outOfStock", TempData["OutOfStock"])
+@Html.Hidden("emptyMessage", TempData["EmptyMessage"])
+@Html.Hidden("orderSuccess", TempData["OrderSuccess"])
+
+@functions {
+    public decimal GetRealPrice(ProductDTO product)
+    {
+        if (product.DiscountPrice != null)
+        {
+            if (product.EndDiscountDate != null)
+            {
+                if (DateTime.Now <= product.EndDiscountDate.Value)
+                {
+                    return product.DiscountPrice.Value;
+                }
+                else
+                {
+                    return product.Price;
+                }
+            }
+            else
+            {
+                return product.DiscountPrice.Value;
+            }
+        }
+        else
+        {
+            return product.Price;
+        }
+    }
+}
+
+<div class="breadcrumb-area bg-img" style="background-image:url('@ImageLinks.BackgrounBreadcrumb');">
+    <div class="container">
+        <div class="breadcrumb-content text-center">
+            <h2>@ViewBag.Title</h2>
+            <ul>
+                <li>
+                    <a href="@Url.Action("index", "home")">Home</a>
+                </li>
+                <li class="active">@ViewBag.Title</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="cart-main-area pt-85 pb-90">
+    <div class="container">
+        <h3 class="cart-page-title">Your cart items</h3>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="table-content table-responsive cart-table-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Product Name</th>
+                                <th>Until Price</th>
+                                <th>Qty</th>
+                                <th>Subtotal</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.LineCollection.Count == 0)
+                            {
+                                <tr>
+                                    <td colspan="6">Your cart is empty.</td>
+                                </tr>
+                            }
+                            @foreach (var line in Model.LineCollection)
+                            {
+                                <tr>
+                                    <td class="product-thumbnail">
+                                        <a href="@Url.Action("detail","product", new { metaTitle=line.Product.MetaTitle })"><img src="@line.Product.Images.FirstOrDefault()" width="82" alt="image"></a>
+                                    </td>
+                                    <td class="product-name"><a href="@Url.Action("detail","product", new { metaTitle=line.Product.MetaTitle })" title="@line.Product.Name">@line.Product.Name.Truncate(200)</a></td>
+                                    <td class="product-price-cart">
+                                        <span class="amount">$@(GetRealPrice(line.Product))</span>
+                                    </td>
+                                    <td class="product-quantity">
+                                        <div class="cart-plus-minus">
+                                            <input class="cart-plus-minus-box" type="text" name="qtybutton" value="@line.Quantity" data-productId="@line.Product.Id">
+                                        </div>
+                                    </td>
+                                    <td class="product-subtotal">$@(line.Quantity * GetRealPrice(line.Product))</td>
+
+                                    <td class="product-remove">
+                                        @using (Html.BeginForm("removeProduct", "cart", FormMethod.Post))
+                                        {
+                                            <input type="hidden" name="productId" value="@line.Product.Id" />
+                                            <a href="javascript:void(0)" onclick="$(this).parent().submit()"><i class="la la-close"></i></a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="cart-shiping-update-wrapper">
+                            <div class="cart-shiping-update">
+                                <a href="@Url.Action("index", "shop")">Continue Shopping</a>
+                            </div>
+                            <div class="cart-clear">
+                                <button id="cart-btn-update">Update Shopping Cart</button>
+                                <a href="javascript:void(0)" onclick="$(this).next().submit()">Clear Shopping Cart</a>
+                                @using (Html.BeginForm("clearAll", "cart", FormMethod.Post)) { }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="discount-code-wrapper">
+                            <div class="title-wrap">
+                                <h4 class="cart-bottom-title section-bg-gray">Use Coupon Code</h4>
+                            </div>
+                            <div class="discount-code">
+                                <p>Enter your coupon code if you have one.</p>
+                                <form>
+                                    <input type="text" required="" name="name">
+                                    <button class="cart-btn-2" type="submit">Apply Coupon</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-12">
+                        <div class="grand-totall">
+                            <div class="title-wrap">
+                                <h4 class="cart-bottom-title section-bg-gary-cart">Cart Total</h4>
+                            </div>
+                            <h5>Total products <span>$@Model.Summary</span></h5>
+                            @*<div class="total-shipping">
+                                    <h5>Total shipping</h5>
+                                    <ul>
+                                        <li><input type="checkbox"> Standard <span>$20.00</span></li>
+                                        <li><input type="checkbox"> Express <span>$30.00</span></li>
+                                    </ul>
+                                </div>*@
+                            <hr />
+                            <h4 class="grand-totall-title">Grand Total <span>$@Model.Summary</span></h4>
+                            <a href="@Url.Action("index", "checkout")">Proceed to Checkout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
