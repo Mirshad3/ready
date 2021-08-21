@@ -10,7 +10,7 @@
                     <div class="col-lg-4">
                         <div class="welcome">
                             <p>
-                                Welcome to Expts
+                                Welcome to Ready
                             </p>
                         </div>
                     </div>
@@ -23,11 +23,11 @@
                                     @Html.ActionLink("Wishlist", "index", "wishlist")
                                     @Html.ActionLink("My Account", "index", "account")
                                                 if (User.IsInRole(RoleNames.Root) ||
-                                                    User.IsInRole(RoleNames.Administrator) || User.IsInRole(RoleNames.Modifier))
+                                                    User.IsInRole(RoleNames.Administrator) || User.IsInRole(RoleNames.Courier) || User.IsInRole(RoleNames.Modifier))
                                                 {
                                                     <a href="@Url.Action("index", "dashboard", new { Area="Admin" })">Dashboard</a>
                                                 }
-                                                 
+
                                                 using (Html.BeginForm("logout", "account", FormMethod.Post, new { @class = "ml-4 d-inline-block" }))
                                                 {
                                                     @Html.AntiForgeryToken()
@@ -80,7 +80,7 @@
                         <div class="cart-wrap cart-wrap-3">
                             <button class="cart-active">
                                 <i class="la la-shopping-cart"></i> <br>
-                                <span class="mini-cart-price-3">$0</span>
+                                <span class="mini-cart-price-3">Rs 0</span>
                                 <span class="count-style-3">0</span>
                             </button>
                             <div class="shopping-cart-content">
@@ -98,7 +98,7 @@
                                             </div>
                                             <div class="shopping-cart-title">
                                                 <h4><a href="#">Golden Easy Spot Chair.</a></h4>
-                                                <span>$99.00</span>
+                                                <span>Rs 99.00</span>
                                             </div>
                                             <div class="shopping-cart-delete">
                                                 <a href="#"><i class="la la-trash"></i></a>
@@ -107,7 +107,7 @@
                                 </ul>
                                 <div class="shopping-cart-bottom">
                                     <div class="shopping-cart-total">
-                                        <h4>Subtotal <span class="shop-total">$0</span></h4>
+                                        <h4>Subtotal <span class="shop-total">Rs 0</span></h4>
                                     </div>
                                     <div class="shopping-cart-btn btn-hover default-btn text-center">
                                         <a class="black-color" href="@Url.Action("index", "cart")">View cart</a>
@@ -144,6 +144,9 @@
                                         <a href="@Url.Action("index", "shop", new { category="Fashion" })">Fashion</a>
                                     </li>
                                     <li class="angle-shape">
+                                        <a href="@Url.Action("index", "shop", new { category="Medicine" })">Medicine</a>
+                                    </li>
+                                    <li class="angle-shape">
                                         <a href="@Url.Action("index", "shop", new { category="Other" })">Other</a>
                                     </li>
                                 </ul>
@@ -156,7 +159,7 @@
                         <div class="header-right-wrap">
                             <div class="cart-wrap common-style ml-35">
                                 <button class="cart-active cart-3">
-                                    <span class="mini-cart-price">$0</span>
+                                    <span class="mini-cart-price">Rs 0</span>
                                     <i class="la la-shopping-cart"></i>
                                 </button>
                                 <div class="shopping-cart-content">
@@ -174,7 +177,7 @@
                                                 </div>
                                                 <div class="shopping-cart-title">
                                                     <h4><a href="#">Golden Easy Spot Chair.</a></h4>
-                                                    <span>$99.00</span>
+                                                    <span>Rs 99.00</span>
                                                 </div>
                                                 <div class="shopping-cart-delete">
                                                     <a href="#"><i class="la la-trash"></i></a>
@@ -183,7 +186,7 @@
                                     </ul>
                                     <div class="shopping-cart-bottom">
                                         <div class="shopping-cart-total">
-                                            <h4>Subtotal <span class="shop-total">$0</span></h4>
+                                            <h4>Subtotal <span class="shop-total">Rs 0</span></h4>
                                         </div>
                                         <div class="shopping-cart-btn btn-hover default-btn text-center">
                                             <a class="black-color" href="@Url.Action("index", "cart")">View cart</a>
@@ -233,7 +236,7 @@
                                             </div>
                                             <div class="shopping-cart-title">
                                                 <h4><a href="#">Golden Easy Spot Chair.</a></h4>
-                                                <span>$99.00</span>
+                                                <span>Rs 99.00</span>
                                             </div>
                                             <div class="shopping-cart-delete">
                                                 <a href="#"><i class="la la-trash"></i></a>
@@ -242,7 +245,7 @@
                                 </ul>
                                 <div class="shopping-cart-bottom">
                                     <div class="shopping-cart-total">
-                                        <h4>Subtotal <span class="shop-total">$0</span></h4>
+                                        <h4>Subtotal <span class="shop-total">Rs 0</span></h4>
                                     </div>
                                     <div class="shopping-cart-btn btn-hover default-btn text-center">
                                         <a class="black-color" href="@Url.Action("index", "cart")">View cart</a>
@@ -278,9 +281,10 @@
                 <nav>
                     <ul class="mobile-menu">
                         <li>@Html.ActionLink("Shop", "index", "shop")</li>
-                        <li>@Html.ActionLink("Smartphone", "index", "shop", new { category = "Smartphone" }, null)</li>
-                        <li>@Html.ActionLink("Tablet", "index", "shop", new { category = "Tablet" }, null)</li>
-                        <li>@Html.ActionLink("Laptop", "index", "shop", new { category = "Laptop" }, null)</li>
+                        <li>@Html.ActionLink("Electronics", "index", "shop", new { category = "Electronics" }, null)</li>
+                        <li>@Html.ActionLink("Fashion", "index", "shop", new { category = "Fashion" }, null)</li>
+                        <li>@Html.ActionLink("Medicine", "index", "shop", new { category = "Medicine" }, null)</li>
+                        <li>@Html.ActionLink("Other", "index", "shop", new { category = "Other" }, null)</li>
                     </ul>
                 </nav>
                 <!-- mobile menu navigation end -->

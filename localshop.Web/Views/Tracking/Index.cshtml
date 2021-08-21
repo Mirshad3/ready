@@ -194,7 +194,7 @@
                                                     <li class="d-flex">
                                                         <div class="d-inline-block col-7 pl-0">@od.Name</div>
                                                         <strong class="text-danger col-2 pr-0">x @od.Quantity</strong>
-                                                        <span class="col-3 text-right p-0">$@od.SubTotal</span>
+                                                        <span class="col-3 text-right p-0">Rs @od.SubTotal</span>
                                                     </li>
                                                 }
                                             </ul>
@@ -202,17 +202,17 @@
                                         <hr />
                                         <div class="d-flex justify-content-between">
                                             <span class="font-weight-bold">SUBTOTAL</span>
-                                            <span class="font-weight-bold text-danger">$@subTotal</span>
+                                            <span class="font-weight-bold text-danger">Rs @subTotal</span>
                                         </div>
                                         <hr />
                                         <div class="d-flex justify-content-between">
                                             <span class="font-weight-bold">SHIPPING</span>
-                                            <span>$0</span>
+                                            <span>Rs 0</span>
                                         </div>
                                         <hr />
                                         <div class="d-flex justify-content-between">
                                             <span class="font-weight-bold">TOTAL</span>
-                                            <span class="font-weight-bold text-danger">$@Model.Order.SubTotal</span>
+                                            <span class="font-weight-bold text-danger">Rs @Model.Order.SubTotal</span>
                                         </div>
                                     </div>
                                 </div>

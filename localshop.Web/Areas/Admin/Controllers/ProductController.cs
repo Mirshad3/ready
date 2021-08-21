@@ -51,6 +51,22 @@ namespace localshop.Areas.Admin.Controllers
             return View(model);
         }
 
+        public ViewResult IndexVendor()
+        {
+            var products = _productRepo.AllProducts.Where(m=>m.UserId == User.Identity.GetUserId()).OrderByDescending(p => p.DateAdded).ToList();
+            foreach (var p in products)
+            {
+                p.Images = _productRepo.GetImages(p.Id).ToList();
+            }
+
+            var model = new ListProductViewModel
+            {
+                Products = products,
+                Categories = _categoryRepo.Categories,
+                Statuses = _statusRepo.Statuses
+            };
+            return View(model);
+        }
         [HttpGet]
         public ViewResult Add()
         {
@@ -149,7 +165,7 @@ namespace localshop.Areas.Admin.Controllers
                 var model = new ProductViewModel
                 {
                     Product = product,
-                    ProductSpecification = _productRepo.GetProductSpecification(product.Id),
+                    //ProductSpecification = _productRepo.GetProductSpecification(product.Id),
                     IsFeatured = product.IsFeatured,
                     IsActive = product.IsActive,
                     CategoryId = product.CategoryId,
@@ -174,7 +190,7 @@ namespace localshop.Areas.Admin.Controllers
             var errorModel = new ProductViewModel
             {
                 Product = product ?? _mapper.Map<EditProductDTO, ProductDTO>(editProductDTO),
-                ProductSpecification = editProductDTO.ProductSpecification,
+                //ProductSpecification = editProductDTO.ProductSpecification,
                 CategoryId = editProductDTO.CategoryId,
                 Categories = _categoryRepo.Categories.AsEnumerable(),
                 StatusId = editProductDTO.StatusId,

@@ -1,5 +1,6 @@
 ﻿using localshop.Areas.Admin.ViewModels;
 using localshop.Domain.Abstractions;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,44 @@ namespace localshop.Areas.Admin.Controllers
             var model = new List<OrderViewModel>();
 
             var orders = _orderRepo.Orders.OrderByDescending(o => o.OrderDate);
+            foreach (var o in orders)
+            {
+                var order = new OrderViewModel
+                {
+                    Order = o,
+                    PaymentMethod = _orderRepo.GetPaymentMethod(o.PaymentMethodId),
+                    OrderStatus = _orderRepo.GetOrderStatus(o.OrderStatusId)
+                };
+
+                model.Add(order);
+            }
+
+            return View(model);
+        }
+        public ActionResult IndexVendor()
+        {
+            var model = new List<OrderViewModel>();
+            var userid = User.Identity.GetUserId();
+            var orders = _orderRepo.GetOrdersByOwner(userid).OrderByDescending(o => o.OrderDate);
+            foreach (var o in orders)
+            {
+                var order = new OrderViewModel
+                {
+                    Order = o,
+                    PaymentMethod = _orderRepo.GetPaymentMethod(o.PaymentMethodId),
+                    OrderStatus = _orderRepo.GetOrderStatus(o.OrderStatusId)
+                };
+
+                model.Add(order);
+            }
+
+            return View(model);
+        }
+        public ActionResult IndexCourier()
+        {
+            var model = new List<OrderViewModel>();
+            var userid = User.Identity.GetUserId();
+            var orders = _orderRepo.GetOrdersByOwner(userid).OrderByDescending(o => o.OrderDate);
             foreach (var o in orders)
             {
                 var order = new OrderViewModel

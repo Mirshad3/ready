@@ -1856,6 +1856,10 @@
     <Content Include="Areas\Admin\Views\Configuration\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\AccessDenied.cshtml" />
     <Content Include="Areas\Admin\Views\Nav\_SidebarVendor.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\IndexVendor.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\IndexVendor.cshtml" />
+    <Content Include="Areas\Admin\Views\Nav\_SidebarCourier.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\IndexCourier.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />

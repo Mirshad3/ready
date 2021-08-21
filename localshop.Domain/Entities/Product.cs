@@ -68,7 +68,7 @@ namespace localshop.Domain.Entities
 
         // Product tags
         public virtual ICollection<Tag> Tags { get; set; }
-
+        public string UserId { get; set; }
         // Product orders
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 

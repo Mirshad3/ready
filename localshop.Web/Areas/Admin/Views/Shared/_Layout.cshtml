@@ -41,7 +41,10 @@
         {
             @Html.Action("sidebarVendor", "nav")
         }
-
+        @if (User.IsInRole(RoleNames.Courier))
+        {
+            @Html.Action("sidebarCourier", "nav")
+        }
         <!-- Left Sidebar End -->
         <!-- ============================================================== -->
         <!-- Start Page Content here -->

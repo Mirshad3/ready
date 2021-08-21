@@ -1,4 +1,5 @@
 ﻿using localshop.Core.DTO;
+using localshop.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace localshop.Domain.Abstractions
         OrderDTO FindById(string id);
 
         IList<OrderDTO> GetOrders(string userId);
+
+        IList<OrderDTO> GetOrdersByOwner(string userId);
 
         IList<OrderDetailDTO> GetOrderDetails(string id);
 

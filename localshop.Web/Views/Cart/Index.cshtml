@@ -90,14 +90,14 @@
                                     </td>
                                     <td class="product-name"><a href="@Url.Action("detail","product", new { metaTitle=line.Product.MetaTitle })" title="@line.Product.Name">@line.Product.Name.Truncate(200)</a></td>
                                     <td class="product-price-cart">
-                                        <span class="amount">$@(GetRealPrice(line.Product))</span>
+                                        <span class="amount">Rs @(GetRealPrice(line.Product))</span>
                                     </td>
                                     <td class="product-quantity">
                                         <div class="cart-plus-minus">
                                             <input class="cart-plus-minus-box" type="text" name="qtybutton" value="@line.Quantity" data-productId="@line.Product.Id">
                                         </div>
                                     </td>
-                                    <td class="product-subtotal">$@(line.Quantity * GetRealPrice(line.Product))</td>
+                                    <td class="product-subtotal">Rs @(line.Quantity * GetRealPrice(line.Product))</td>
 
                                     <td class="product-remove">
                                         @using (Html.BeginForm("removeProduct", "cart", FormMethod.Post))
@@ -145,16 +145,16 @@
                             <div class="title-wrap">
                                 <h4 class="cart-bottom-title section-bg-gary-cart">Cart Total</h4>
                             </div>
-                            <h5>Total products <span>$@Model.Summary</span></h5>
+                            <h5>Total products <span>Rs @Model.Summary</span></h5>
                             @*<div class="total-shipping">
                                     <h5>Total shipping</h5>
                                     <ul>
-                                        <li><input type="checkbox"> Standard <span>$20.00</span></li>
-                                        <li><input type="checkbox"> Express <span>$30.00</span></li>
+                                        <li><input type="checkbox"> Standard <span>Rs 20.00</span></li>
+                                        <li><input type="checkbox"> Express <span>Rs 30.00</span></li>
                                     </ul>
                                 </div>*@
                             <hr />
-                            <h4 class="grand-totall-title">Grand Total <span>$@Model.Summary</span></h4>
+                            <h4 class="grand-totall-title">Grand Total <span>Rs @Model.Summary</span></h4>
                             <a href="@Url.Action("index", "checkout")">Proceed to Checkout</a>
                         </div>
                     </div>

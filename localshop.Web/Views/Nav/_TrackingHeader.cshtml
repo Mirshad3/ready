@@ -10,7 +10,7 @@
                     <div class="col-lg-4">
                         <div class="welcome">
                             <p>
-                                Welcome to localshop
+                                Welcome to Ready
                             </p>
                         </div>
                     </div>
@@ -24,7 +24,7 @@
                                     @Html.ActionLink("My Account", "index", "account")
                                     if (User.IsInRole(RoleNames.Root) ||
                                         User.IsInRole(RoleNames.Administrator) ||
-                                        User.IsInRole(RoleNames.Modifier))
+                                        User.IsInRole(RoleNames.Modifier) || User.IsInRole(RoleNames.Courier))
                                     {
                                         <a href="@Url.Action("index", "dashboard", new { Area="Admin" })">Dashboard</a>
                                     }

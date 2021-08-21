@@ -69,7 +69,6 @@
                                         @Html.DropDownListFor(m => m.CategoryId, new SelectList(Model.Categories, "Id", "Name"), "- Select category -", new { @class = "form-control", required = "" })
                                     </div>
                                 </div>
-
                                 <div class="form-group row">
                                     @Html.LabelFor(m => m.StatusId, new { @class = "col-sm-2 col-form-label" })
                                     <div class="col-sm-10">
@@ -81,11 +80,11 @@
                                     <div class="d-flex justify-content-end flex-sm-row flex-column align-items-center">
                                         <div class="custom-control custom-switch d-sm-inline-block align-self-center mr-sm-4 mr-0 mb-sm-0 mb-2">
                                             @Html.CheckBoxFor(m => m.IsFeatured, new { @class = "custom-control-input" })
-                                            <label class="custom-control-label" for="@Html.IdFor(m=>m.IsFeatured)">Featured product ?</label>
+                                            <label class="custom-control-label" for="@Html.IdFor(m => m.IsFeatured)">Featured product ?</label>
                                         </div>
                                         <div class="custom-control custom-switch d-sm-inline-block align-self-center mr-sm-4 mr-0 mb-sm-0 mb-2">
                                             @Html.CheckBoxFor(m => m.IsActive, new { @class = "custom-control-input" })
-                                            <label class="custom-control-label" for="@Html.IdFor(m=>m.IsActive)">Show product ?</label>
+                                            <label class="custom-control-label" for="@Html.IdFor(m => m.IsActive)">Show product ?</label>
                                         </div>
                                         <div class="d-sm-inline-block">
                                             <a href="@Url.Action("index", "product")" class="btn btn-light waves-effect waves-dark">
@@ -129,7 +128,7 @@
                     </div>
                 </div> <!-- end row -->
             </div> <!-- end card-box -->
-
+       if (1==2) { 
             <div class="card-box">
                 <div class="row">
                     <div class="col-12">
@@ -184,7 +183,8 @@
                         </div>
                     </div>
                 </div> <!-- end row -->
-            </div> <!-- end card-box -->
+            </div>
+                                    }<!-- end card-box -->
         }
     </div><!-- end col -->
 </div>

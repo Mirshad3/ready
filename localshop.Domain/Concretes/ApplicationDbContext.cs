@@ -46,6 +46,7 @@ namespace localshop.Domain.Concretes
             modelBuilder.Entity<Product>().HasIndex(p => p.Sku).IsUnique();
             modelBuilder.Entity<Product>().Property(p => p.Name).IsRequired();
             modelBuilder.Entity<Product>().Property(p => p.MetaTitle).IsRequired();
+            modelBuilder.Entity<Product>().Property(p => p.UserId).IsRequired();
             modelBuilder.Entity<Product>().HasOptional(p => p.ProductSpecification).WithRequired(ps => ps.Product).WillCascadeOnDelete();
 
             // ProductSepcifications

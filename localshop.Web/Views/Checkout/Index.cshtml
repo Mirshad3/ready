@@ -72,26 +72,26 @@
                                                 <li class="row">
                                                     <div class="d-inline-block col-7 pl-0">@product.Name</div>
                                                     <strong class="text-danger col-2 pr-0">x @product.Quantity</strong>
-                                                    <span class="col-3 text-right p-0">$@product.SubTotal</span>
+                                                    <span class="col-3 text-right p-0">Rs @product.SubTotal</span>
                                                 </li>
                                             }
                                         </ul>
                                     </div>
                                     <div class="your-order-info order-subtotal">
                                         <ul>
-                                            <li>Subtotal <span>$@Model.Order.SubTotal</span></li>
+                                            <li>Subtotal <span>Rs @Model.Order.SubTotal</span></li>
                                         </ul>
                                     </div>
                                     <div class="your-order-info order-shipping">
                                         <ul>
                                             <li>
-                                                Shipping <p>$0</p>
+                                                Shipping <p>Rs 0</p>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="your-order-info order-total">
                                         <ul>
-                                            <li>Total <span>$@Model.Order.SubTotal</span></li>
+                                            <li>Total <span>Rs @Model.Order.SubTotal</span></li>
                                         </ul>
                                     </div>
                                 </div>

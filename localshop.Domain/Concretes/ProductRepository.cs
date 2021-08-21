@@ -141,12 +141,12 @@ namespace localshop.Domain.Concretes
 
                 var product = _mapper.Map<ProductDTO, Product>(productDTO);
 
-                productSpecificationDTO.ProductId = productDTO.Id;
-                var productSepcification = _mapper.Map<ProductSpecificationDTO, ProductSpecification>(productSpecificationDTO);
+                //productSpecificationDTO.ProductId = productDTO.Id;
+                //var productSepcification = _mapper.Map<ProductSpecificationDTO, ProductSpecification>(productSpecificationDTO);
 
                 _context.Products.Add(product);
                 _context.Images.AddRange(productImages);
-                _context.ProductSpecifications.Add(productSepcification);
+                //_context.ProductSpecifications.Add(productSepcification);
             }
             else
             {

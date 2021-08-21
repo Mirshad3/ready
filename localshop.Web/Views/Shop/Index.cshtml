@@ -30,12 +30,12 @@
                     max: @Model.Filter.PriceFilter.MaxPrice,
                     values: [@(Model.Filter.MinPrice ?? Model.Filter.PriceFilter.MinPrice), @(Model.Filter.MaxPrice ?? Model.Filter.PriceFilter.MaxPrice)],
                     slide: function (event, ui) {
-                        amountprice.val("$" + ui.values[0] + " - $" + ui.values[1]);
+                        amountprice.val("Rs" + ui.values[0] + " - Rs" + ui.values[1]);
                         minPrice.val(ui.values[0]);
                         maxPrice.val(ui.values[1]);
                     }
                 });
-                amountprice.val("$" + sliderrange.slider("values", 0) + " - $" + sliderrange.slider("values", 1));
+                amountprice.val("Rs" + sliderrange.slider("values", 0) + " - Rs" + sliderrange.slider("values", 1));
                 minPrice.val(sliderrange.slider("values", 0));
                 maxPrice.val(sliderrange.slider("values", 1));
             });
@@ -135,7 +135,7 @@
                             <div class="row">
                                 @foreach (var product in Model.Products)
                                 {
-                                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+                                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 w-50">
                                         <div class="product-wrap product-border-2 pro-hover-shadow mb-40">
                                             <div class="product-img mb-15">
                                                 @if (product.Status == StatusNames.OutOfStock)
@@ -204,13 +204,13 @@
                                                             }
                                                             else
                                                             {
-                                                                <span>$@product.Product.DiscountPrice</span>
-                                                                <span class="old">$@product.Product.Price</span>
+                                                                <span>Rs.@product.Product.DiscountPrice</span>
+                                                                <span class="old">Rs.@product.Product.Price</span>
                                                             }
                                                         }
                                                         else
                                                         {
-                                                            <span>$@product.Product.Price</span>
+                                                            <span>Rs.@product.Product.Price</span>
                                                         }
                                                     </div>
                                                 </div>
@@ -227,7 +227,7 @@
                             {
                                 <div class="shop-list-wrap mb-30">
                                     <div class="row">
-                                        <div class="col-xl-4 col-lg-5 col-md-6 col-sm-6">
+                                        <div class="col-xl-4 col-lg-5 col-md-6 col-sm-6 w-50">
                                             <div class="product-list-img">
                                                 <a href="@Url.Action("detail", "product", new { metaTitle=product.Product.MetaTitle })">
                                                     <img src="@(product.Product.Images.FirstOrDefault()??ImageLinks.BrokenProductImage)" alt="Product Style">
@@ -248,23 +248,23 @@
                                                         {
                                                             if (DateTime.Now <= product.Product.EndDiscountDate.Value)
                                                             {
-                                                                <span>$@product.Product.DiscountPrice</span>
-                                                                <span class="old-price">$@product.Product.Price</span>
+                                                    <span>Rs.@product.Product.DiscountPrice</span>
+                                                    <span class="old-price">Rs.@product.Product.Price</span>
                                                             }
                                                             else
                                                             {
-                                                                <span>$@product.Product.Price</span>
+                                                    <span>Rs.@product.Product.Price</span>
                                                             }
                                                         }
                                                         else
                                                         {
-                                                            <span>$@product.Product.DiscountPrice</span>
-                                                            <span class="old">$@product.Product.Price</span>
+                                                    <span>Rs.@product.Product.DiscountPrice</span>
+                                                            <span class="old">Rs.@product.Product.Price</span>
                                                         }
                                                     }
                                                     else
                                                     {
-                                                        <span>$@product.Product.Price</span>
+                                                            <span>Rs.@product.Product.Price</span>
                                                     }
                                                 </div>
                                                 <div class="ck-content my-2 overflow-hidden">@Html.Raw(product.Product.ShortDesciption)</div>
@@ -429,7 +429,7 @@
                     <div class="shop-price-filter mt-35 shop-sidebar-border pt-40 sidebar-widget">
                         <h4 class="sidebar-title">Price Filter</h4>
                         <div class="price-filter mt-20">
-                            <span>Range:  $@Model.Filter.PriceFilter.MinPrice - @Model.Filter.PriceFilter.MaxPrice </span>
+                            <span>Range:  Rs.@Model.Filter.PriceFilter.MinPrice - @Model.Filter.PriceFilter.MaxPrice </span>
                             <div id="slider-range"></div>
                             <div class="price-slider-amount">
                                 <div class="label-input">

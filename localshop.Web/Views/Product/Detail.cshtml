@@ -96,23 +96,23 @@
                                 {
                                     if (DateTime.Now <= Model.Product.EndDiscountDate.Value)
                                     {
-                                        <span>$@Model.Product.DiscountPrice</span>
-                                        <span class="old">$@Model.Product.Price</span>
+                                        <span>Rs @Model.Product.DiscountPrice</span>
+                                        <span class="old">Rs @Model.Product.Price</span>
                                     }
                                     else
                                     {
-                                        <span>$@Model.Product.Price</span>
+                                        <span>Rs @Model.Product.Price</span>
                                     }
                                 }
                                 else
                                 {
-                                    <span>$@Model.Product.DiscountPrice</span>
-                                    <span class="old">$@Model.Product.Price</span>
+                                    <span>Rs @Model.Product.DiscountPrice</span>
+                                    <span class="old">Rs @Model.Product.Price</span>
                                 }
                             }
                             else
                             {
-                                <span>$@Model.Product.Price</span>
+                                <span>Rs @Model.Product.Price</span>
                             }
                         </div>
                         @if (Model.Product.DiscountPrice != null)
@@ -385,23 +385,23 @@
                                     {
                                         if (DateTime.Now <= p.Product.EndDiscountDate.Value)
                                         {
-                                            <span>$@p.Product.DiscountPrice</span>
-                                            <span class="old">$@p.Product.Price</span>
+                                            <span>Rs @p.Product.DiscountPrice</span>
+                                            <span class="old">Rs @p.Product.Price</span>
                                         }
                                         else
                                         {
-                                            <span>$@p.Product.Price</span>
+                                            <span>Rs @p.Product.Price</span>
                                         }
                                     }
                                     else
                                     {
-                                        <span>$@p.Product.DiscountPrice</span>
-                                        <span class="old">$@p.Product.Price</span>
+                                        <span>Rs @p.Product.DiscountPrice</span>
+                                        <span class="old">Rs @p.Product.Price</span>
                                     }
                                 }
                                 else
                                 {
-                                    <span>$@p.Product.Price</span>
+                                    <span>Rs @p.Product.Price</span>
                                 }
                             </div>
                             @if (p.Status != StatusNames.OutOfStock)

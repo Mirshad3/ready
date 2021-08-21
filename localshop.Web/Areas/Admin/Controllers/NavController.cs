@@ -68,6 +68,17 @@ namespace localshop.Areas.Admin.Controllers
             return PartialView("_SidebarVendor", model);
         }
         [ChildActionOnly]
+        public PartialViewResult SidebarCourier()
+        {
+            var model = new SidebarViewModel
+            {
+                User = UserManager.FindById(User.Identity.GetUserId()),
+                Role = UserManager.GetRoles(User.Identity.GetUserId()).FirstOrDefault()
+            };
+
+            return PartialView("_SidebarCourier", model);
+        }
+        [ChildActionOnly]
         public PartialViewResult Footer()
         {
             return PartialView("_Footer");

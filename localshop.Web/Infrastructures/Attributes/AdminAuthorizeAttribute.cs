@@ -15,7 +15,7 @@ namespace localshop.Infrastructures.Attributes
             {
                 var user = filterContext.HttpContext.User;
                 if (!(user.IsInRole(RoleNames.Root) ||
-                      user.IsInRole(RoleNames.Administrator) ||
+                      user.IsInRole(RoleNames.Administrator) || user.IsInRole(RoleNames.Courier) ||
                       user.IsInRole(RoleNames.Modifier)))
                 {
                     filterContext.Result = new RedirectResult("/");

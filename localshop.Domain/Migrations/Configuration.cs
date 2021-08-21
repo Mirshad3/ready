@@ -61,7 +61,7 @@
             string password = "Admin123@localshop.hau";
             string email = "admin@localshop.com";
 
-            string[] seedRoles = { "administrator", "modifier", "customer" };
+            string[] seedRoles = { "administrator", "modifier", "customer","Courier" };
             foreach (var role in seedRoles)
             {
                 if (!roleManager.RoleExists(role))
@@ -80,8 +80,8 @@
             {
                 userManager.Create(new ApplicationUser
                 {
-                    FirstName = "Hau",
-                    LastName = "Nguyen Dinh",
+                    FirstName = "Hairul",
+                    LastName = "Mirshad",
                     UserName = email,
                     Email = email,
                     EmailConfirmed = true

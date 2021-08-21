@@ -37,7 +37,19 @@ namespace localshop.Domain.Concretes
                 .Select(o => _mapper.Map<Order, OrderDTO>(o)).ToList();
             return orders;
         }
-
+        public IList<OrderDTO> GetOrdersByOwner(string ownerId)
+        {
+            var orderDetails = _context.OrderDetails.Where(od => od.Product.UserId == ownerId);
+            var orders = new List<OrderDTO>();
+            foreach (var orderDetail in orderDetails)
+            {
+                orders = _context.Orders.Where(o => o.Id == orderDetail.OrderId).AsEnumerable()
+                  .Select(o => _mapper.Map<Order, OrderDTO>(o)).ToList();
+            }
+            
+            return orders;
+        }
+        
         public OrderDTO FindById(string id)
         {
             var order = _context.Orders.FirstOrDefault(o => o.Id == id);
