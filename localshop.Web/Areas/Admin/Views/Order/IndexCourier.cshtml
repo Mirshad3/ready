@@ -1,6 +1,23 @@
-﻿
+﻿@using localshop.Core.Common
+@model IEnumerable<OrderViewModel>
+
 @{
     ViewBag.Title = "IndexCourier";
+}
+
+@section topbar {
+    @Html.Action("topbar", "nav", new { header = NavigationHeader.Order })
+}
+
+@section thirdPartyCss {
+    @Styles.Render("~/content/admin/css/datatables_sweetalert", "~/content/admin/css/toastr")
+}
+
+@section thirdPartyJs {
+    @Scripts.Render("~/content/admin/js/datatables_sweetalert", "~/content/admin/js/toastr")
+
+    <!-- Controller -->
+    @Scripts.Render("~/content/admin/js/order/index");
 }
 
 <h2>IndexCourier</h2>

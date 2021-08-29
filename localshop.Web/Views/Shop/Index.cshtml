@@ -131,7 +131,7 @@
                     <div class="tab-content jump">
 
                         <!-- List style 1 -->
-                        <div id="shop-1" class="tab-pane active">
+                        <div id="shop-1" class="tab-pane active same-size">
                             <div class="row">
                                 @foreach (var product in Model.Products)
                                 {
@@ -195,11 +195,11 @@
                                                                 if (DateTime.Now <= product.Product.EndDiscountDate.Value)
                                                                 {
                                                                     <span>$@product.Product.DiscountPrice</span>
-                                                                    <span class="old">$@product.Product.Price</span>
+                                                                    <span class="old">Rs @product.Product.Price</span>
                                                                 }
                                                                 else
                                                                 {
-                                                                    <span>$@product.Product.Price</span>
+                                                                    <span>Rs @product.Product.Price</span>
                                                                 }
                                                             }
                                                             else
@@ -222,7 +222,7 @@
                         </div>
 
                         <!-- List style 2 -->
-                        <div id="shop-2" class="tab-pane">
+                        <div id="shop-2" class="tab-pane same-size">
                             @foreach (var product in Model.Products)
                             {
                                 <div class="shop-list-wrap mb-30">

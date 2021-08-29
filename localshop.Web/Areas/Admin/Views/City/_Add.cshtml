@@ -1,0 +1,24 @@
+﻿@model localshop.Core.DTO.CityDTO
+
+@using (Html.BeginForm("add", "city", FormMethod.Post, new { @class = "form-horizontal", role = "form", data_parsley_validate = "", novalidate = "" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="row">
+    @Html.LabelFor(m => m.Name, new { @class = "col-lg-2 col-md-3 col-form-label" })
+    <div class="col-lg-9 col-md-7 mb-md-0 mb-2">
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Enter City name", required = "" })
+    </div>
+    @Html.LabelFor(m => m.Zone, new { @class = "col-lg-2 col-md-3 col-form-label" })
+    <div class="col-lg-9 col-md-7 mb-md-0 mb-2">
+        @Html.TextBoxFor(m => m.Zone, new { @class = "form-control", placeholder = "Enter Zone name", required = "" })
+    </div>
+    @Html.LabelFor(m => m.Amount, new { @class = "col-lg-2 col-md-3 col-form-label" })
+    <div class="col-lg-9 col-md-7 mb-md-0 mb-2">
+        @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", placeholder = "Enter Amount", required = "" })
+    </div>
+    <div class="col-lg-1 col-md-2 text-md-center text-right">
+        <button type="submit" class="btn btn-primary btn-block">Add</button>
+    </div>
+</div>
+}

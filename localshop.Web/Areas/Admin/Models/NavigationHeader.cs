@@ -18,7 +18,7 @@ namespace localshop.Areas.Admin.Models
         public const string EditProduct = "Edit product";
 
         public const string CategoryIndex = "Category";
-
+        public const string City = "Cities";
         public const string SepecialFeatured = "Special featured";
         public const string Banners = "Banners";
         public const string AddBanner = "Add banner";

@@ -68,6 +68,7 @@ namespace localshop
             builder.Register(c => new RoleStore<ApplicationRole>(c.Resolve<DbContext>())).AsImplementedInterfaces().InstancePerRequest();
             builder.Register(c => HttpContext.Current.GetOwinContext().Authentication).As<IAuthenticationManager>();
             builder.Register(c =>  Startup.DataProtectionProvider).InstancePerRequest();
+            builder.RegisterType<CityRepository>().As<ICityRepository>().AsSelf().InstancePerRequest();
 
             builder.RegisterType<ProductRepository>().As<IProductRepository>().AsSelf().InstancePerRequest();
             builder.RegisterType<CategoryRepository>().As<ICategoryRepository>().AsSelf().InstancePerRequest();

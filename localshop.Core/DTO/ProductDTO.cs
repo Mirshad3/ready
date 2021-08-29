@@ -51,6 +51,9 @@ namespace localshop.Core.DTO
 
         [Required]
         public bool IsActive { get; set; }
+        public int? Weight { get; set; }
+        public int? Width { get; set; }
+        public int? Hight { get; set; }
 
         public DateTime DateAdded { get; set; }
 

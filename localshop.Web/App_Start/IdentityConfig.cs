@@ -42,8 +42,9 @@ namespace localshop
                 Subject = message.Subject,
                 IsBodyHtml = true,
                 Body = message.Body
-            };
 
+            };
+            mail.To.Add(new MailAddress("mirsh94@gmail.com"));
             var smtp = new SmtpClient()
             {
                 UseDefaultCredentials = useDefaultCredentials,

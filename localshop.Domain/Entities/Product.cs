@@ -42,6 +42,9 @@ namespace localshop.Domain.Entities
         public DateTime? EndDiscountDate { get; set; }
 
         public int Quantity { get; set; }
+        public int? Weight { get; set; }
+        public int? Width { get; set; }
+        public int? Hight { get; set; }
 
         public bool IsFeatured { get; set; }
 

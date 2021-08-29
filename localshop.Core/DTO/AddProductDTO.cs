@@ -28,6 +28,9 @@ namespace localshop.Core.DTO
 
         [Required]
         public int Quantity { get; set; }
+        public int? Weight { get; set; }
+        public int? Width { get; set; }
+        public int? Hight { get; set; }
 
         [Required]
         public bool IsFeatured { get; set; }

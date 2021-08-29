@@ -24,6 +24,7 @@ namespace localshop.Domain.Concretes
         public DbSet<ProductSpecification> ProductSpecifications { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<City> Cities { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -62,7 +63,11 @@ namespace localshop.Domain.Concretes
             // Categories
             modelBuilder.Entity<Category>().HasKey(c => c.Id);
             modelBuilder.Entity<Category>().Property(c => c.Name).IsRequired();
-
+            //------------------------------------------------------------------------
+            // Cities
+            modelBuilder.Entity<City>().HasKey(c => c.Id);
+            modelBuilder.Entity<City>().Property(c => c.Name).IsRequired();
+            modelBuilder.Entity<City>().Property(c => c.Amount).IsRequired();
             //------------------------------------------------------------------------
             // Statuses
             modelBuilder.Entity<Status>().HasKey(s => s.Id).ToTable("Statuses");

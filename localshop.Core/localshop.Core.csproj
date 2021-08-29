@@ -76,6 +76,7 @@
     <Compile Include="DTO\AddProductDTO.cs" />
     <Compile Include="DTO\BannerDTO.cs" />
     <Compile Include="DTO\CategoryDTO.cs" />
+    <Compile Include="DTO\CityDTO.cs" />
     <Compile Include="DTO\ContactDTO.cs" />
     <Compile Include="DTO\EditProductDTO.cs" />
     <Compile Include="DTO\ImageDTO.cs" />

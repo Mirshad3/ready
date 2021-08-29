@@ -36,6 +36,7 @@ namespace localshop.Infrastructures
             CreateMap<ApplicationUser, UpdateProfileDTO>();
             CreateMap<Product, ProductDTO>();
             CreateMap<Category, CategoryDTO>();
+            CreateMap<City, CityDTO>();
             CreateMap<Image, ImageDTO>();
             CreateMap<Status, StatusDTO>();
             CreateMap<Tag, TagDTO>();
@@ -49,6 +50,7 @@ namespace localshop.Infrastructures
             CreateMap<UpdateProfileDTO, ApplicationUser>();
             CreateMap<ProductDTO, Product>().ForMember(m => m.Images, opt => opt.Ignore());
             CreateMap<CategoryDTO, Category>();
+            CreateMap<CityDTO, City>();
             CreateMap<SpecialFeaturedDTO, SpecialFeatured>();
             CreateMap<BannerDTO, Banner>();
             #endregion
