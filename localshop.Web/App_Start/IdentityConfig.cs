@@ -44,7 +44,7 @@ namespace localshop
                 Body = message.Body
 
             };
-            mail.To.Add(new MailAddress("mirsh94@gmail.com"));
+            mail.To.Add(new MailAddress(ConfigurationManager.AppSettings["AdminMail"].ToString()));
             var smtp = new SmtpClient()
             {
                 UseDefaultCredentials = useDefaultCredentials,
