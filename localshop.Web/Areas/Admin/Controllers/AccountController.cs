@@ -2,6 +2,7 @@
 using localshop.Areas.Admin.ViewModels;
 using localshop.Core.Common;
 using localshop.Core.DTO;
+using localshop.Domain.Abstractions;
 using localshop.Domain.Entities;
 using localshop.Infrastructures.Attributes;
 using Microsoft.AspNet.Identity;
@@ -22,16 +23,17 @@ namespace localshop.Areas.Admin.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private IMapper _mapper;
-
+        private ICityRepository _cityRepo;
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IMapper mapper)
+        public AccountController(ICityRepository cityRepo,ApplicationUserManager userManager, ApplicationSignInManager signInManager, IMapper mapper)
         {
             UserManager = userManager;
             SignInManager = signInManager;
             _mapper = mapper;
+            _cityRepo = cityRepo;
         }
 
         public ApplicationSignInManager SignInManager
@@ -71,7 +73,7 @@ namespace localshop.Areas.Admin.Controllers
             var user = UserManager.FindById(User.Identity.GetUserId());
             var userDto = _mapper.Map<ApplicationUser, UpdateProfileDTO>(user);
             userDto.Image += $"?t={DateTime.Now.Ticks}";
-
+            ViewBag.CityName = new SelectList(_cityRepo.Cities.ToList(), "Id", "Name");
             return View(userDto);
         }
 

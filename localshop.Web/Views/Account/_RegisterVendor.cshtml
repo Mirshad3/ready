@@ -1,0 +1,17 @@
+﻿@model RegisterViewModel
+
+@using (Html.BeginForm("RegisterVendor", "account", FormMethod.Post, new { data_parsley_validate = "", no_validate = "" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("returnUrl", new { returnUrl = ViewBag.ReturnUrl })
+
+    @Html.TextBoxFor(m => m.RegisterEmail, new { placeholder = "Emails", required = "", type = "email" })
+    @Html.PasswordFor(m => m.RegisterPassword, new { placeholder = "Password", required = "", data_parsley_pattern = @"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$", data_parsley_error_message = "Password must contain at least six characters, one uppercase letter, one lowercase letter and one number." })
+    @Html.PasswordFor(m => m.RegisterConfirmPassword, new { placeholder = "Confirm password", required = "", data_parsley_equalto = $"#{Html.IdFor(m => m.RegisterPassword)}" })
+
+    <div class="button-box">
+        <div class="text-right">
+            <button type="submit">Register</button>
+        </div>
+    </div>
+}

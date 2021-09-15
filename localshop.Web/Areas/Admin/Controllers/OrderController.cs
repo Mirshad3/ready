@@ -1,6 +1,7 @@
 ﻿using localshop.Areas.Admin.ViewModels;
 using localshop.Domain.Abstractions;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,23 @@ namespace localshop.Areas.Admin.Controllers
     public class OrderController : BaseController
     {
         private IOrderRepository _orderRepo;
-
-        public OrderController(IOrderRepository orderRepo)
+        private ApplicationUserManager _userManager;
+        public OrderController(ApplicationUserManager userManager, IOrderRepository orderRepo)
         {
             _orderRepo = orderRepo;
+            UserManager = userManager;
         }
-
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
         public ActionResult Index()
         {
             var model = new List<OrderViewModel>();
@@ -59,8 +71,8 @@ namespace localshop.Areas.Admin.Controllers
         public ActionResult IndexCourier()
         {
             var model = new List<OrderViewModel>();
-            var userid = User.Identity.GetUserId();
-            var orders = _orderRepo.GetOrdersByOwner(userid).OrderByDescending(o => o.OrderDate);
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            var orders = _orderRepo.GetOrdersByZone(user.City).OrderByDescending(o => o.OrderDate);
             foreach (var o in orders)
             {
                 var order = new OrderViewModel

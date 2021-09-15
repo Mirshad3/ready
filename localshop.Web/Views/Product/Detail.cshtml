@@ -177,39 +177,7 @@
                             @Html.Raw(Model.Product.LongDescription)
                         </div>
                     </div>
-                    <div id="des-details2" class="tab-pane ">
-                        <div class="specification-wrap table-responsive">
-                            <table>
-                                <tbody>
-                                    @{
-                                        var propSpecification = ViewData.ModelMetadata.Properties.First(p => p.PropertyName == "ProductSpecification");
-                                    }
-
-                                    @foreach (var prop in propSpecification.Properties)
-                                    {
-                                        if (prop.PropertyName == "ProductId")
-                                        {
-                                            continue;
-                                        }
-                                        if (prop.Model != null)
-                                        {
-                                            <tr>
-                                                <td class="width1">@prop.GetDisplayName()</td>
-                                                @if (prop.ModelType == typeof(bool?))
-                                                {
-                                                    <td>@((bool)prop.Model == true ? "Yes" : "No")</td>
-                                                }
-                                                else
-                                                {
-                                                    <td>@prop.Model</td>
-                                                }
-                                            </tr>
-                                        }
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                   
                     <div id="des-details3" class="tab-pane">
                         @* Get user review *@
                         @{

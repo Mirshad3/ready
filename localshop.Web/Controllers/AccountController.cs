@@ -23,13 +23,14 @@ namespace localshop.Controllers
         private ApplicationUserManager _userManager;
         private IMapper _mapper;
         private IOrderRepository _orderRepo;
-
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IMapper mapper, IOrderRepository orderRepo)
+        private ICityRepository _cityRepo;
+        public AccountController(ICityRepository cityRepo,ApplicationUserManager userManager, ApplicationSignInManager signInManager, IMapper mapper, IOrderRepository orderRepo)
         {
             UserManager = userManager;
             SignInManager = signInManager;
             _mapper = mapper;
             _orderRepo = orderRepo;
+            _cityRepo = cityRepo;
         }
 
         public ApplicationSignInManager SignInManager
@@ -97,6 +98,7 @@ namespace localshop.Controllers
         {
             var user = UserManager.FindById(User.Identity.GetUserId());
             var model = _mapper.Map<ApplicationUser, UpdateProfileDTO>(user);
+            ViewBag.CityName = new SelectList(_cityRepo.Cities.ToList(), "Id", "Name");
             return View(model);
         }
 
@@ -262,8 +264,72 @@ namespace localshop.Controllers
             AddErrors(result);
             TempData["ErrorMessage"] = result.Errors.First().ToString();
             return View("LoginRegister", model);
+        } 
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult LoginVendor(string returnUrl = "")
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToLocal(returnUrl);
+            }
+
+            var model = new LoginRegisterViewModel
+            {
+                Login = new LoginViewModel(),
+                Register = new RegisterViewModel()
+            };
+
+            ViewBag.ReturnUrl = returnUrl;
+            return View("LoginVendor", model);
+        }
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult RegisterVendor()
+        {
+            TempData["ActivePanel"] = "register";
+            return RedirectToAction("loginVendor");
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterVendor(RegisterViewModel registerViewModel, string returnUrl)
+        {
+            var model = new LoginRegisterViewModel
+            {
+                Login = new LoginViewModel(),
+                Register = registerViewModel
+            };
+            ViewBag.ReturnUrl = returnUrl;
+            TempData["ActivePanel"] = "registerVendor";
+
+            if (!ModelState.IsValid)
+            {
+                return View("LoginVendor", model);
+            }
+
+            var user = new ApplicationUser { UserName = registerViewModel.RegisterEmail, Email = registerViewModel.RegisterEmail };
+            var result = await UserManager.CreateAsync(user, registerViewModel.RegisterPassword);
+            if (result.Succeeded)
+            {
+                await UserManager.AddToRoleAsync(user.Id, RoleNames.Customer);
+
+                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                // Send an email with this link
+                string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                var callbackUrl = Url.Action("confirmEmail", "account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                var body = MailHelper.CreateConfirmVendorEmailBody(ControllerContext, user.Id);
+                await UserManager.SendEmailAsync(user.Id, "Confirm your account", body);
+
+                return View("SendMail", model: user.Id);
+            }
+
+            AddErrors(result);
+            TempData["ErrorMessage"] = result.Errors.First().ToString();
+            return View("LoginRegister", model);
+        }
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {

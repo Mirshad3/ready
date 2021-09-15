@@ -2,7 +2,7 @@
 @model ListAddCityViewModel
 
 @{
-    ViewBag.Title = "category";
+    ViewBag.Title = "city";
 }
 
 @section topbar {
@@ -17,7 +17,7 @@
     @Scripts.Render("~/content/admin/js/datatables_sweetalert", "~/content/admin/js/toastr", "~/content/admin/js/validation")
 
     <!-- Controller -->
-    @Scripts.Render("~/content/admin/js/category/index")
+    @Scripts.Render("~/content/admin/js/city/index")
 }
 
 @Html.Hidden("addSuccess", TempData["AddSuccess"])
@@ -35,17 +35,21 @@
                         <th>City name</th>
                         <th>Zone</th>
                         <th>Amount</th> 
+                        <th></th>
                     </tr>
                 </thead>
 
                 <tbody>
                     @foreach (var category in Model.Cities)
                     {
-                    <tr data-category-id="@category.City.Id">
+                    <tr data-city-id="@category.City.Id">
                         <td>@category.City.Name</td>
                         <td>@category.City.Zone</td>
                         <td>@category.City.Amount</td>
-                         
+                        <td class="text-center">
+                            <a href="javascript:void(0)" class="btn btn-outline-primary btn-sm ls-city-edit" data-toggle="modal" data-target=".bs-edit-modal" title="Edit"><i class="far fa-edit"></i></a>
+                            <a href="javascript:void(0)" class="btn btn-outline-danger btn-sm ls-city-delete" title="Delete"><i class="far fa-trash-alt"></i></a>
+                        </td>
                     </tr>
                     }
                 </tbody>
@@ -58,12 +62,12 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="myCenterModalLabel">Edit category</h4>
+                <h4 class="modal-title" id="myCenterModalLabel">Edit city</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
-                <form id="editCategory" role="form" data-parsley-validate novalidate>
-                    <input type="hidden" id="categoryId" />
+                <form id="editCity" role="form" data-parsley-validate novalidate>
+                    <input type="hidden" id="cityId" />
                     <div class="form-group">
                         <label for="cityName">City name</label>
                         <input class="form-control" type="text" id="cityName" required placeholder="Enter City name" />

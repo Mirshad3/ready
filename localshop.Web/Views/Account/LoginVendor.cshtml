@@ -1,0 +1,68 @@
+﻿@using localshop.Core.Common
+@model LoginRegisterViewModel
+
+@{
+    ViewBag.Title = "Vendor - Register";
+}
+
+@section thirdPartyCss {
+    <style>
+        .parsley-errors-list {
+            margin-top: -20px;
+            margin-bottom: 20px;
+        }
+    </style>
+}
+
+@section thirdPartyJs {
+    @Scripts.Render("~/content/client/js/validation")
+
+    <!-- Controller -->
+    @Scripts.Render("~/content/client/js/account/loginRegister")
+}
+
+@Html.Hidden("errorMessage", TempData["ErrorMessage"])
+@Html.Hidden("activePanel", TempData["ActivePanel"])
+
+<div class="breadcrumb-area bg-img" style="background-image:url(@ImageLinks.BackgrounBreadcrumb);">
+    <div class="container">
+        <div class="breadcrumb-content text-center">
+            <h2>@ViewBag.Title</h2>
+            <ul>
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                <li class="active">@ViewBag.Title</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+@ViewBag.Test
+
+<div class="login-register-area pt-85 pb-90">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 col-md-12 ml-auto mr-auto">
+                <div class="login-register-wrapper">
+                    <div class="login-register-tab-list nav"> 
+                        <a id="registerTab" class="active" data-toggle="tab" href="#lg2">
+                            <h4> register </h4>
+                        </a>
+                    </div>
+                    <div class="tab-content">
+                        <div id="lg1" class="tab-pane active">
+                            <div class="login-form-container">
+                                <div class="login-register-form">
+                                    @{Html.RenderPartial("_RegisterVendor", Model.Register);}
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    

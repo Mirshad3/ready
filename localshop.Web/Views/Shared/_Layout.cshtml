@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="~/Assets/client/css/vendor/line-awesome.css">
     <link rel="stylesheet" href="~/Assets/client/css/vendor/themify.css">
     <link href="~/Assets/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Assets/plugins/whatsapp-chat-support.css">
+    <link href="~/Assets/plugins/Font Awesome/css/font-awesome.min.css" rel="stylesheet" />
     <!-- Plugins CSS -->
     @Styles.Render("~/content/client/css/vendor/plugins")
 
@@ -42,8 +44,35 @@
         <!-- ============================================================== -->
         <!-- Footer -->
         @Html.Action("footer", "nav")
+        <div class="whatsapp_chat_support wcs_fixed_right" id="example_2">
+            <div class="wcs_button wcs_button_circle">
+                <span class="fa fa-whatsapp"></span>
+            </div>
+            <div class="wcs_button_label">
+                Questions? Let's Chat
+            </div>
+
+            <div class="wcs_popup">
+                <div class="wcs_popup_close">
+                    <span class="fa fa-close"></span>
+                </div>
+                <div class="wcs_popup_header">
+                    <span class="fa fa-whatsapp"></span>
+                    <strong>Customer Support</strong>
+
+                    <div class="wcs_popup_header_description">Need Help? Chat with us on Whatsapp</div>
+                </div>
+                <div class="wcs_popup_input" data-number="+94776030666">
+                    <input type="text" placeholder="Ask anything!" />
+                    <i class="fa fa-play"></i>
+                </div>
+                <div class="wcs_popup_avatar">
+                    <img src="~/Assets/admin/images/profile.jpg" alt="" />
+                </div>
+            </div>
+        </div>
     </div>
-    <script src="~/Assets/bootstrap.min.js"></script>
+
     <!-- JS
     ============================================ -->
     <!-- Core JS -->
@@ -57,6 +86,18 @@
 
     <!-- Main JS -->
     @Scripts.Render("~/content/client/js/app")
+    <script src="~/Assets/plugins/moment.min.js"></script>
+    <script src="~/Assets/plugins/moment-timezone-with-data.min.js"></script>
+    <script src="~/Assets/plugins/whatsapp-chat-support.js"></script>
+    <script src="~/Assets/bootstrap.min.js"></script>
+    <script>
+
+
+        $('#example_2').whatsappChatSupport({
+            defaultMsg: '',
+        });
+
+    </script>
 </body>
 
 </html>

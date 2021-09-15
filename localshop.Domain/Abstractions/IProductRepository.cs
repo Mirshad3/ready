@@ -23,8 +23,7 @@ namespace localshop.Domain.Abstractions
         ProductDTO FindBySku(string sku);
 
         ProductDTO FindByMetaTitle(string metaTitle);
-
-        ProductSpecificationDTO GetProductSpecification(string productId);
+         
 
         void Save(ProductDTO product, ProductSpecificationDTO productSpecificationDTO);
 

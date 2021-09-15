@@ -18,7 +18,7 @@
 
     <!-- Controller -->
     @Scripts.Render("~/content/client/js/checkout/index")
-}
+} 
 
 @Html.Hidden("outOfStock", TempData["OutOfStock"])
 
@@ -79,19 +79,19 @@
                                     </div>
                                     <div class="your-order-info order-subtotal">
                                         <ul>
-                                            <li>Subtotal <span>Rs @Model.Order.SubTotal</span></li>
+                                            <li>Subtotal <span id="subtotal-cost">Rs @Model.Order.SubTotal</span></li>
                                         </ul>
                                     </div>
                                     <div class="your-order-info order-shipping">
                                         <ul>
                                             <li>
-                                                Shipping <p>Rs 0</p>
+                                                Shipping <p id="partialDiv">Rs @Model.Order.ShippingPrice</p>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="your-order-info order-total">
                                         <ul>
-                                            <li>Total <span>Rs @Model.Order.SubTotal</span></li>
+                                            <li>Total <span id="total-cost">Rs @Model.Order.SubTotal  </span></li>
                                         </ul>
                                     </div>
                                 </div>

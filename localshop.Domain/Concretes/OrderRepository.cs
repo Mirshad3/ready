@@ -4,6 +4,7 @@ using localshop.Core.DTO;
 using localshop.Domain.Abstractions;
 using localshop.Domain.Entities;
 using MassTransit;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +50,22 @@ namespace localshop.Domain.Concretes
             
             return orders;
         }
+        public IList<OrderDTO> GetOrdersByZone(string cityId)
+        {
+            var orderByCity = _context.Orders.Where(o => o.City == cityId && o.OrderStatusId == OrderStatusNames.Delivered);
+            var orders = new List<OrderDTO>();
+            foreach (var order in orderByCity)
+            {
+                var orderDetails = _context.OrderDetails.Where(od => od.OrderId == order.Id);
+               
+                foreach (var orderDetail in orderDetails)
+                {
+                    orders = _context.Orders.Where(o => o.Id == orderDetail.OrderId).AsEnumerable()
+                      .Select(o => _mapper.Map<Order, OrderDTO>(o)).ToList();
+                }
+            }
+            return orders;
+        }
         
         public OrderDTO FindById(string id)
         {
@@ -66,7 +83,12 @@ namespace localshop.Domain.Concretes
                                                     .Select(od => _mapper.Map<OrderDetail, OrderDetailDTO>(od)).ToList();
             return orderDetails;
         }
-
+        public IList<OrderDetailDTO> GetAllOrderDetails()
+        {
+            var orderDetails = _context.OrderDetails.OrderBy(k=>k.OrderId).AsEnumerable()
+                                                    .Select(od => _mapper.Map<OrderDetail, OrderDetailDTO>(od)).ToList();
+            return orderDetails;
+        }
         public string GetOrderStatus(string orderStatusId)
         {
             var orderStatus = _context.OrderStatuses.FirstOrDefault(os => os.Id == orderStatusId);

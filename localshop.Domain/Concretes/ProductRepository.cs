@@ -45,11 +45,7 @@ namespace localshop.Domain.Concretes
             return _context.Images.Where(i => i.ProductId == id).Select(i => i.Path).ToList();
         }
 
-        public ProductSpecificationDTO GetProductSpecification(string productId)
-        {
-            var productSpecification = _context.ProductSpecifications.First(ps => ps.ProductId == productId);
-            return _mapper.Map<ProductSpecification, ProductSpecificationDTO>(productSpecification);
-        }
+        
 
         public decimal GetRealPrice(ProductDTO product)
         {

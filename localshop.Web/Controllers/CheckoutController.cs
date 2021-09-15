@@ -22,13 +22,14 @@ namespace localshop.Controllers
         private ApplicationUserManager _userManager;
         private IProductRepository _productRepo;
         private IOrderRepository _orderRepo;
-
-        public CheckoutController(IMapper mapper, ApplicationUserManager userManager, IProductRepository productRepo, IOrderRepository orderRepo)
+        private ICityRepository _cityRepo;
+        public CheckoutController(ICityRepository cityRepo, IMapper mapper, ApplicationUserManager userManager, IProductRepository productRepo, IOrderRepository orderRepo)
         {
             _mapper = mapper;
             _userManager = userManager;
             _productRepo = productRepo;
             _orderRepo = orderRepo;
+            _cityRepo = cityRepo;
         }
 
         public ApplicationUserManager UserManager
@@ -67,11 +68,30 @@ namespace localshop.Controllers
 
             // Get order details from cart
             model.OrderDetails = GetOrderDetails(cart);
-
+            ViewBag.CityName = new SelectList(_cityRepo.Cities.ToList(), "Id", "Name");
             // Calculate summary
             model.Order.SubTotal = cart.Summary;
 
             return View(model);
+        }
+
+        [HttpGet]
+        public decimal GetShippingCost(string CityId)
+        {
+
+            var model = new CheckoutViewModel();
+            if (Request.IsAuthenticated)
+            {
+                var user = UserManager.FindById(User.Identity.GetUserId());
+                model.Order = _mapper.Map<ApplicationUser, OrderDTO>(user);
+            }
+            else
+            {
+                model.Order = new OrderDTO();
+            }
+            model.Order.ShippingPrice = 150;
+            model.Order.Total = model.Order.SubTotal + model.Order.ShippingPrice;
+            return 250;
         }
 
         [HttpPost]

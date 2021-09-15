@@ -64,6 +64,7 @@ namespace localshop
 
             // Controller
             bundles.Add(new ScriptBundle("~/content/admin/js/category/index").Include("~/Assets/admin/js/controllers/category/index.js"));
+            bundles.Add(new ScriptBundle("~/content/admin/js/city/index").Include("~/Assets/admin/js/controllers/city/index.js"));
             bundles.Add(new ScriptBundle("~/content/admin/js/configuration/index").Include("~/Assets/admin/js/controllers/configuration/index.js"));
             bundles.Add(new ScriptBundle("~/content/admin/js/contact/index").Include("~/Assets/admin/js/controllers/contact/index.js"));
             bundles.Add(new ScriptBundle("~/content/admin/js/homePage/addBanner").Include("~/Assets/admin/js/controllers/homePage/addBanner.js"));

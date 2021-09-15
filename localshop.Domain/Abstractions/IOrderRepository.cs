@@ -17,9 +17,9 @@ namespace localshop.Domain.Abstractions
         IList<OrderDTO> GetOrders(string userId);
 
         IList<OrderDTO> GetOrdersByOwner(string userId);
-
+        IList<OrderDTO> GetOrdersByZone(string cityId);
         IList<OrderDetailDTO> GetOrderDetails(string id);
-
+        IList<OrderDetailDTO> GetAllOrderDetails();
         string GetOrderStatus(string orderStatusId);
 
         string GetPaymentMethod(string paymentMethodId);

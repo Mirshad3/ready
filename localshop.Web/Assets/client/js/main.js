@@ -1055,9 +1055,9 @@ function handleCart() {
                 });
 
                 // Update cart summary
-                $('.shop-total').text(`$${response.summary}`);
-                $('.mini-cart-price-3').text(`$${response.summary}`);
-                $('.mini-cart-price').text(`$${response.summary}`);
+                $('.shop-total').text(`Rs.${response.summary}`);
+                $('.mini-cart-price-3').text(`Rs.${response.summary}`);
+                $('.mini-cart-price').text(`Rs.${response.summary}`);
 
                 // Update cart count
                 $('.count-style-3').text(response.summaryQuantity > 99 ? ":D" : response.summaryQuantity);
@@ -1121,9 +1121,9 @@ function handleCart() {
                     }
 
                     // Update cart summary
-                    $('.shop-total').text(`$${response.summary}`);
-                    $('.mini-cart-price-3').text(`$${response.summary}`);
-                    $('.mini-cart-price').text(`$${response.summary}`);
+                    $('.shop-total').text(`Rs.${response.summary}`);
+                    $('.mini-cart-price-3').text(`Rs.${response.summary}`);
+                    $('.mini-cart-price').text(`Rs.${response.summary}`);
 
                     // Update cart count
                     $('.count-style-3').text(response.summaryQuantity > 99 ? ":D" : response.summaryQuantity);
@@ -1158,9 +1158,9 @@ function handleCart() {
             success: function (response) {
                 if (response.success) {
                     // Update cart summary
-                    $('.shop-total').text(`$${response.summary}`);
-                    $('.mini-cart-price-3').text(`$${response.summary}`);
-                    $('.mini-cart-price').text(`$${response.summary}`);
+                    $('.shop-total').text(`Rs.${response.summary}`);
+                    $('.mini-cart-price-3').text(`Rs.${response.summary}`);
+                    $('.mini-cart-price').text(`Rs.${response.summary}`);
 
                     // Update cart count
                     $('.count-style-3').text(response.summaryQuantity > 99 ? ":D" : response.summaryQuantity);

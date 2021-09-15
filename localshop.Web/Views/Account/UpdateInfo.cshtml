@@ -101,9 +101,9 @@
                                                     @Html.TextBoxFor(m => m.Zip, new { parsley_trigger = "change", required = "" })
                                                 </div>
 
-                                                <div class="single-input-item">
+                                                <div class="form-group">
                                                     @Html.LabelFor(m => m.City)
-                                                    @Html.TextBoxFor(m => m.City, new { parsley_trigger = "change", required = "" })
+                                                    @Html.DropDownListFor(m => m.City, (SelectList)ViewBag.CityName, "-Select City-", new { parsley_trigger = "change", required = "" })
                                                 </div>
 
                                                 <div class="single-input-item">

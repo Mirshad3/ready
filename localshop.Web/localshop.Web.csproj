@@ -257,6 +257,7 @@
     <Compile Include="Areas\Admin\Controllers\NavController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReviewController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Models\Configuration.cs" />
@@ -268,6 +269,7 @@
     <Compile Include="Areas\Admin\ViewModels\Order\OrderViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\Product\ListProductViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\Product\ProductViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Report\InvoiceReportViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\Review\ReviewViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\User\ListUserCityViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\User\ListUserWithRolesViewModel.cs" />
@@ -399,7 +401,8 @@
     <Content Include="Assets\admin\images\email\1.png" />
     <Content Include="Assets\admin\images\email\2.png" />
     <Content Include="Assets\admin\images\email\3.png" />
-    <Content Include="Assets\admin\images\favicon.ico" />
+    <Content Include="Assets\admin\images\favicon-old.ico" />
+    <Content Include="Assets\admin\images\favicon.png" />
     <Content Include="Assets\admin\images\gallery\1.jpg" />
     <Content Include="Assets\admin\images\gallery\10.jpg" />
     <Content Include="Assets\admin\images\gallery\11.jpg" />
@@ -439,6 +442,7 @@
     <Content Include="Assets\admin\js\app.js" />
     <Content Include="Assets\admin\js\app.min.js" />
     <Content Include="Assets\admin\js\app.min.js.map" />
+    <Content Include="Assets\admin\js\controllers\city\index.js" />
     <Content Include="Assets\admin\js\controllers\category\index.js" />
     <Content Include="Assets\admin\js\controllers\configuration\index.js" />
     <Content Include="Assets\admin\js\controllers\contact\index.js" />
@@ -1790,8 +1794,15 @@
     <Content Include="Assets\plugins\CKFinderScripts\skins\neko\images\svg\white\arrow-left-white.svg" />
     <Content Include="Assets\plugins\CKFinderScripts\skins\neko\images\svg\white\arrow-right-white.svg" />
     <Content Include="Assets\plugins\CKFinderScripts\skins\neko\skin.js" />
+    <Content Include="Assets\plugins\Font Awesome\css\font-awesome.min.css" />
+    <Content Include="Assets\plugins\Font Awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="Assets\plugins\modernizr-2.8.3.js" />
+    <Content Include="Assets\plugins\moment-timezone-with-data.min.js" />
+    <Content Include="Assets\plugins\moment.min.js" />
     <Content Include="Assets\plugins\someeAdsRemover.js" />
+    <Content Include="Assets\plugins\whatsapp-chat-support.css" />
+    <Content Include="Assets\plugins\whatsapp-chat-support.js" />
+    <Content Include="Content\ConfirmVendorEmailTemplate.html" />
     <Content Include="Content\ConfirmEmailTemplate.html" />
     <Content Include="Content\ResetPasswordConfirmEmailTemplate.html" />
     <Content Include="Content\SuccessPlacingOrderEmailTemplate.html" />
@@ -1830,6 +1841,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\ViewModels\HomePage\" />
+    <Folder Include="Areas\Admin\Views\InvoiceReportViewModel\" />
     <Folder Include="Assets\files\.ckfinder\cache\data\Images\Banners\" />
     <Folder Include="Assets\files\.ckfinder\cache\data\Images\Products\" />
     <Folder Include="Assets\files\files\" />
@@ -1866,6 +1878,12 @@
     <Content Include="Areas\Admin\Views\Order\IndexCourier.cshtml" />
     <Content Include="Areas\Admin\Views\City\Index.cshtml" />
     <Content Include="Areas\Admin\Views\City\_Add.cshtml" />
+    <Content Include="Assets\plugins\Font Awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Assets\plugins\Font Awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Assets\plugins\Font Awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Assets\plugins\Font Awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Assets\plugins\Font Awesome\fonts\FontAwesome.otf" />
+    <Content Include="Areas\Admin\Views\Report\Index.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -1900,6 +1918,8 @@
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Error\InternalServer.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="Views\Account\LoginVendor.cshtml" />
+    <Content Include="Views\Account\_RegisterVendor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\localshop.Core\localshop.Core.csproj">

@@ -11,12 +11,13 @@ namespace localshop.Core.DTO
     {
         public string Id { get; set; }
 
-        public string UserId { get; set; }
+        public string UserId { get; set; } 
 
+        public decimal ShippingPrice { get; set; }
 
         [Required]
         public decimal SubTotal { get; set; }
-
+        public decimal Total { get; set; }
         public DateTime OrderDate { get; set; }
 
         public DateTime? UpdateDate { get; set; }

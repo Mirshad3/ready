@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,19 @@ namespace localshop.Core.Common
 
             body = body.Replace("{logo-link}", $"{controllerContext.HttpContext.Request.Url.Scheme}://{controllerContext.HttpContext.Request.Url.Authority}");
             body = body.Replace("{confirm-link}", callbackUrl);
+
+            return body;
+        }
+        public static string CreateConfirmVendorEmailBody(ControllerContext controllerContext, string callbackUrl)
+        {
+            string body;
+            using (System.IO.StreamReader reader = new System.IO.StreamReader(controllerContext.HttpContext.Server.MapPath("~/Content/ConfirmVendorEmailTemplate.html")))
+            {
+                body = reader.ReadToEnd();
+            }
+
+            body = body.Replace("{logo-link}", $"{controllerContext.HttpContext.Request.Url.Scheme}://{controllerContext.HttpContext.Request.Url.Authority}");
+            body = body.Replace("{confirm-link}", "mailto:"+ ConfigurationManager.AppSettings["VendorAdminMail"].ToString() + "?subject=Vendor!&body=" + callbackUrl);
 
             return body;
         }
