@@ -1,8 +1,11 @@
-﻿@using localshop.Core.Common
+﻿
+
+
+@using localshop.Core.Common
 @model IEnumerable<OrderViewModel>
 
 @{
-    ViewBag.Title = "orders";
+    ViewBag.Title = "orders Approved";
 }
 
 @section topbar {
@@ -56,14 +59,6 @@
                                 {
                                     <span class="text-success">@o.OrderStatus</span>
                                 }
-                                @if (o.OrderStatus == OrderStatusNames.ReadyToShip)
-                                {
-                                    <span class="text-success">@o.OrderStatus</span>
-                                }
-                                @if (o.OrderStatus == OrderStatusNames.Picked)
-                                {
-                                    <span class="text-success">@o.OrderStatus</span>
-                                }
                                 @if (o.OrderStatus == OrderStatusNames.Cancelled)
                                 {
                                     <span class="text-danger">@o.OrderStatus</span>
@@ -98,13 +93,9 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
-                <select id="select-order-status" class="form-control">
-                    <option value="@OrderStatusNames.Pending">@OrderStatusNames.Pending</option>
+                <select id="select-order-status" class="form-control"> 
                     <option value="@OrderStatusNames.Approved">@OrderStatusNames.Approved</option>
-                    <option value="@OrderStatusNames.ReadyToShip">@OrderStatusNames.ReadyToShip</option>
-                    <option value="@OrderStatusNames.Picked">@OrderStatusNames.Picked</option>
-                    <option value="@OrderStatusNames.Delivered">@OrderStatusNames.Delivered</option>
-                    <option value="@OrderStatusNames.Cancelled">@OrderStatusNames.Cancelled</option>
+                    <option value="@OrderStatusNames.ReadyToShip">@OrderStatusNames.ReadyToShip</option> 
                 </select>
             </div>
             <div class="modal-footer">

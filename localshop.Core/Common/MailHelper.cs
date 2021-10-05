@@ -29,10 +29,9 @@ namespace localshop.Core.Common
             using (System.IO.StreamReader reader = new System.IO.StreamReader(controllerContext.HttpContext.Server.MapPath("~/Content/ConfirmVendorEmailTemplate.html")))
             {
                 body = reader.ReadToEnd();
-            }
-
+            } 
             body = body.Replace("{logo-link}", $"{controllerContext.HttpContext.Request.Url.Scheme}://{controllerContext.HttpContext.Request.Url.Authority}");
-            body = body.Replace("{confirm-link}", "mailto:"+ ConfigurationManager.AppSettings["VendorAdminMail"].ToString() + "?subject=Vendor!&body=" + callbackUrl);
+            body = body.Replace("{confirm-link}", callbackUrl);
 
             return body;
         }

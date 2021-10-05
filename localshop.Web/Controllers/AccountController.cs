@@ -319,8 +319,9 @@ namespace localshop.Controllers
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
                 string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                var callbackUrl = Url.Action("confirmEmail", "account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                var body = MailHelper.CreateConfirmVendorEmailBody(ControllerContext, user.Id);
+                 
+                var callbackUrl = Url.Action("confirmEmail", "account", new { userId = user.Id, code = code, type = "Vendor" }, protocol: Request.Url.Scheme);
+                var body = MailHelper.CreateConfirmVendorEmailBody(ControllerContext, callbackUrl);
                 await UserManager.SendEmailAsync(user.Id, "Confirm your account", body);
 
                 return View("SendMail", model: user.Id);
@@ -331,7 +332,7 @@ namespace localshop.Controllers
             return View("LoginRegister", model);
         }
         [AllowAnonymous]
-        public async Task<ActionResult> ConfirmEmail(string userId, string code)
+        public async Task<ActionResult> ConfirmEmail(string userId, string code, string type = null)
         {
             if (userId == null || code == null)
             {
@@ -345,7 +346,11 @@ namespace localshop.Controllers
             }
 
             var result = await UserManager.ConfirmEmailAsync(userId, code);
-
+            if (type != null)
+            {
+                var body = "We Send You Approvement to our Admin. Your UserName Is " + user.UserName + " User Id is" + user.Id;
+                await UserManager.SendEmailAsync(user.Id, "Confirm your account", body);
+            }
             if (result.Succeeded)
             {
                 if (!User.Identity.IsAuthenticated)

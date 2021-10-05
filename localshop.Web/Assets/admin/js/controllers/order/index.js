@@ -17,7 +17,7 @@
         "hideMethod": "fadeOut"
     }
 
-    var orderStatusNames = ["Pending", "Approved", "Delivered", "Cancelled"];
+    var orderStatusNames = ["Pending", "Approved", "Delivered", "Cancelled", "ReadyToShip", "Picked"];
 
     var table = $('#datatable').DataTable({
         "order": []

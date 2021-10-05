@@ -243,6 +243,18 @@
     <Compile Include="Migrations\202108291350400_AddProductSize.designer.cs">
       <DependentUpon>202108291350400_AddProductSize.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202109201005562_shippingcost.cs" />
+    <Compile Include="Migrations\202109201005562_shippingcost.designer.cs">
+      <DependentUpon>202109201005562_shippingcost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109240623510_WaybillId.cs" />
+    <Compile Include="Migrations\202109240623510_WaybillId.designer.cs">
+      <DependentUpon>202109240623510_WaybillId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202110040600556_Detuction.cs" />
+    <Compile Include="Migrations\202110040600556_Detuction.designer.cs">
+      <DependentUpon>202110040600556_Detuction.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -350,6 +362,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202108291350400_AddProductSize.resx">
       <DependentUpon>202108291350400_AddProductSize.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109201005562_shippingcost.resx">
+      <DependentUpon>202109201005562_shippingcost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109240623510_WaybillId.resx">
+      <DependentUpon>202109240623510_WaybillId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202110040600556_Detuction.resx">
+      <DependentUpon>202110040600556_Detuction.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

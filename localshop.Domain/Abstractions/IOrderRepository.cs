@@ -37,5 +37,6 @@ namespace localshop.Domain.Abstractions
         string UpdateStatus(string orderId, string statusName);
 
         OrderDTO Save(OrderDTO order, IList<OrderDetailDTO> orderDetails);
+        string OrderHistory(int waybillid);
     }
 }

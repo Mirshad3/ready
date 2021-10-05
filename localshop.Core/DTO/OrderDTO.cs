@@ -10,7 +10,7 @@ namespace localshop.Core.DTO
     public class OrderDTO
     {
         public string Id { get; set; }
-
+        public int OrderWaybillid { get; set; }
         public string UserId { get; set; } 
 
         public decimal ShippingPrice { get; set; }

@@ -27,5 +27,11 @@ namespace localshop.Core.DTO
         public int Quantity { get; set; }
 
         public decimal SubTotal { get; set; }
+
+        public int DetuctionPersontage { get; set; }
+
+        public decimal Detuction { get; set; }
+        public int Tex {  get; set; }
+        public decimal ReturnTotal { get; set; }
     }
 }

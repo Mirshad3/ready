@@ -181,6 +181,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -266,6 +267,7 @@
     <Compile Include="Areas\Admin\ViewModels\Category\ListCategoryViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\City\ListAddCityViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\City\ListCityViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Order\CourierOrderViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\Order\OrderViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\Product\ListProductViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\Product\ProductViewModel.cs" />
@@ -1884,6 +1886,9 @@
     <Content Include="Assets\plugins\Font Awesome\fonts\fontawesome-webfont.woff2" />
     <Content Include="Assets\plugins\Font Awesome\fonts\FontAwesome.otf" />
     <Content Include="Areas\Admin\Views\Report\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\IndexVendorApproved.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\IndexVendorReady.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\ReturnCash.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />

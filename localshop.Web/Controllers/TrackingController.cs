@@ -12,10 +12,11 @@ namespace localshop.Controllers
     public class TrackingController : Controller
     {
         private IOrderRepository _orderRepo;
-
-        public TrackingController(IOrderRepository orderRepo)
+        private ICityRepository _CityRepo;
+        public TrackingController(IOrderRepository orderRepo, ICityRepository CityRepo)
         {
             _orderRepo = orderRepo;
+            _CityRepo = CityRepo;
         }
 
         [HttpGet]
@@ -27,6 +28,7 @@ namespace localshop.Controllers
             if (order != null)
             {
                 orderDetails = _orderRepo.GetOrderDetails(id).ToList();
+                order.City = _CityRepo.FindById(order.City).Name;
             }
 
             var model = new TrackingViewModel

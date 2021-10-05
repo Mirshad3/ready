@@ -37,7 +37,9 @@ namespace localshop.Areas.Admin.Controllers
         {
             var model = new List<InvoiceReportViewModel>();
 
-            var products = _orderRepo.GetAllOrderDetails();
+            var products = _orderRepo.GetAllOrderDetails().GroupBy(m => m.ProductId)
+     .Select(group => new { ProductId = group.FirstOrDefault().ProductId, Items = group.ToList() })
+     .ToList();
             foreach (var pr in products)
             {
                 var orders = _orderRepo.Orders.OrderByDescending(o => o.OrderDate);
@@ -48,12 +50,33 @@ namespace localshop.Areas.Admin.Controllers
                     {
                         Order = o,
                         Product = _productRepo.FindById(pr.ProductId),
-                        OrderDetail = pr,
+                        OrderDetail = pr.Items.FirstOrDefault(),
                         OrderStatus = _orderRepo.GetOrderStatus(o.OrderStatusId)
                     };
                     model.Add(order);
                 };
                
+            }
+
+            return View(model);
+        }
+        public ActionResult ReturnCash()
+        {
+            var model = new List<InvoiceReportViewModel>();
+
+            var products = _orderRepo.GetAllOrderDetails();
+            foreach (var pr in products)
+            {
+                
+                    var order = new InvoiceReportViewModel
+                    {
+                        Order = _orderRepo.FindById(pr.OrderId),
+                        Product = _productRepo.FindById(pr.ProductId),
+                        OrderDetail = pr 
+                    };
+                    model.Add(order);
+                
+
             }
 
             return View(model);

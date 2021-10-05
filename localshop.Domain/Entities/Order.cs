@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,8 +15,11 @@ namespace localshop.Domain.Entities
         }
 
         public string Id { get; set; }
-
+        public int OrderWaybillid { get; set; }
+        
+        public decimal ShippingPrice { get; set; }
         public decimal SubTotal { get; set; }
+        public decimal Total { get; set; }
 
         public DateTime OrderDate { get; set; }
 

@@ -7,7 +7,9 @@ using MassTransit;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -230,6 +232,8 @@ namespace localshop.Domain.Concretes
         {
             orderDTO.Id = "#" + string.Join("", NewId.Next().ToString("D").ToUpperInvariant().Split('-'));
             orderDTO.OrderDate = DateTime.Now;
+            orderDTO.OrderWaybillid = _context.Orders.OrderByDescending(m => m.OrderWaybillid).FirstOrDefault().OrderWaybillid;
+            orderDTO.OrderWaybillid = orderDTO.OrderWaybillid + 1;
             var order = _mapper.Map<OrderDTO, Order>(orderDTO);
 
             var orderDetails = new List<OrderDetail>();
@@ -259,6 +263,44 @@ namespace localshop.Domain.Concretes
             }
 
             return orderDTO;
+        }
+        public string OrderHistory(int waybillid)
+        {
+            var values = "";
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://application.koombiyodelivery.lk/api/Orderhistory/users");
+            httpWebRequest.ReadWriteTimeout = 100000; //this can cause issues which is why we are manually setting this
+            httpWebRequest.ContentType = "application/x-www-form-urlencoded";
+            httpWebRequest.Accept = "*/*";
+            httpWebRequest.Method = "POST";
+            httpWebRequest.Headers.Add("Authorization", "Basic ThisShouldbeBase64String"); // "Basic 4dfsdfsfs4sf5ssfsdfs=="
+            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            {
+                // we want to remove new line characters otherwise it will return an error 
+                values = "apikey=KwyHFZKKZeqrWyDyEhqr&waybillid=" + waybillid;
+                streamWriter.Write(values);
+                streamWriter.Flush();
+                streamWriter.Close();
+            }
+
+            try
+            {
+                HttpWebResponse resp = (HttpWebResponse)httpWebRequest.GetResponse();
+                string respStr = new StreamReader(resp.GetResponseStream()).ReadToEnd();
+                Console.WriteLine("Response : " + respStr); // if you want see the output
+                //JavaScriptSerializer serializer = new JavaScriptSerializer();
+                //dynamic jsonObject = serializer.Deserialize<dynamic>(respStr);
+                //dynamic x = jsonObject["order_history"];
+                //var valu = jsonObject["order_history"][0]["status_id"];
+
+                return respStr;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                //process exception here   
+            }
+
         }
     }
 }

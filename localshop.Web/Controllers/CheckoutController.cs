@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -89,9 +90,10 @@ namespace localshop.Controllers
             {
                 model.Order = new OrderDTO();
             }
-            model.Order.ShippingPrice = 150;
+            var costs = _cityRepo.FindById(CityId);
+            model.Order.ShippingPrice = costs.Amount;
             model.Order.Total = model.Order.SubTotal + model.Order.ShippingPrice;
-            return 250;
+            return costs.Amount;
         }
 
         [HttpPost]
@@ -130,8 +132,8 @@ namespace localshop.Controllers
             // Get order details and calulate summary
             var orderDetails = GetOrderDetails(cart, false);
             order.SubTotal = cart.Summary;
-
-
+            order.ShippingPrice = GetShippingCost(order.City);
+            order.Total = order.SubTotal + order.ShippingPrice;
 
             // Save order to repository
             var result = _orderRepo.Save(order, orderDetails);
@@ -181,7 +183,11 @@ namespace localshop.Controllers
 
                 orderDetail.Quantity = line.Quantity;
                 orderDetail.SubTotal = orderDetail.Price * orderDetail.Quantity;
-
+                var deduction = Convert.ToInt32(ConfigurationManager.AppSettings["Detuction"].ToString());
+                orderDetail.DetuctionPersontage = deduction;
+                orderDetail.Detuction = (orderDetail.SubTotal * orderDetail.DetuctionPersontage) / 100;
+                orderDetail.ReturnTotal = orderDetail.SubTotal - orderDetail.Detuction;
+                orderDetail.Tex = Convert.ToInt32(ConfigurationManager.AppSettings["Tex"].ToString());
                 orderDetails.Add(orderDetail);
             }
 

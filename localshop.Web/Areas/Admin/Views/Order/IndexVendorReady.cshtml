@@ -1,8 +1,10 @@
-﻿@using localshop.Core.Common
+﻿
+
+@using localshop.Core.Common
 @model IEnumerable<OrderViewModel>
 
 @{
-    ViewBag.Title = "orders";
+    ViewBag.Title = "orders Ready";
 }
 
 @section topbar {
@@ -52,15 +54,11 @@
                                 {
                                     <span class="text-primary">@o.OrderStatus</span>
                                 }
-                                @if (o.OrderStatus == OrderStatusNames.Delivered)
-                                {
-                                    <span class="text-success">@o.OrderStatus</span>
-                                }
                                 @if (o.OrderStatus == OrderStatusNames.ReadyToShip)
                                 {
-                                    <span class="text-success">@o.OrderStatus</span>
+                                    <span class="text-primary">@o.OrderStatus</span>
                                 }
-                                @if (o.OrderStatus == OrderStatusNames.Picked)
+                                @if (o.OrderStatus == OrderStatusNames.Delivered)
                                 {
                                     <span class="text-success">@o.OrderStatus</span>
                                 }
@@ -78,9 +76,7 @@
                                 <a href="@Url.Action("index", "tracking", new { area="" ,id=o.Order.Id })" class="btn btn-outline-success btn-sm" title="Tracking order" target="_blank">
                                     <i class="fas fa-search"></i>
                                 </a>
-                                <a href="javascript:void(0)" class="btn btn-outline-primary btn-sm ls-btn-update-status" title="Update status" data-toggle="modal" data-target="#editModal">
-                                    <i class="far fa-edit"></i>
-                                </a>
+                                
                             </td>
                         </tr>
                     }
@@ -89,28 +85,4 @@
         </div>
     </div>
 </div> <!-- end row -->
-
-<div id="editModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editModal" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="editModalTitle">Update status</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-            <div class="modal-body">
-                <select id="select-order-status" class="form-control">
-                    <option value="@OrderStatusNames.Pending">@OrderStatusNames.Pending</option>
-                    <option value="@OrderStatusNames.Approved">@OrderStatusNames.Approved</option>
-                    <option value="@OrderStatusNames.ReadyToShip">@OrderStatusNames.ReadyToShip</option>
-                    <option value="@OrderStatusNames.Picked">@OrderStatusNames.Picked</option>
-                    <option value="@OrderStatusNames.Delivered">@OrderStatusNames.Delivered</option>
-                    <option value="@OrderStatusNames.Cancelled">@OrderStatusNames.Cancelled</option>
-                </select>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="ls-btn-save">Save changes</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+ 

@@ -89,10 +89,15 @@
                     </a>
                 </li>
                 <li>
-                    <a href="@Url.Action("index", "report")">
-                        <i class="mdi mdi-email"></i>
-                        <span> Reports </span>
+                    <a href="javascript: void(0);">
+                        <i class="mdi mdi-square-inc-cash"></i>
+                        <span> Finance </span>
+                        <span class="menu-arrow"></span>
                     </a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li><a href="@Url.Action("index", "report")">Order Count list</a></li>
+                        <li><a href="@Url.Action("ReturnCash", "report")">Return Cash Invoice</a></li>
+                    </ul>
                 </li>
                 <li>
                     <a href="@Url.Action("index", "contact")">

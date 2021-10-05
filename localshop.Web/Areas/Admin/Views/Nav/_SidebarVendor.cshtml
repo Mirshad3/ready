@@ -54,11 +54,17 @@
                 </li>
 
                 <li>
-                    <a href="@Url.Action("indexVendor", "order")">
+                    <a href="javascript: void(0);">
                         <i class="mdi mdi-square-inc-cash"></i>
-                        <span> Order </span>
+                        <span> Orders </span>
+                        <span class="menu-arrow"></span>
                     </a>
-                </li>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li><a href="@Url.Action("indexVendor", "order")">New Orders</a></li>
+                        <li><a href="@Url.Action("indexVendorApproved", "order")">Approved Orders</a></li>
+                        <li><a href="@Url.Action("indexVendorReady", "order")">Ready To Ship Orders</a></li>
+                    </ul>
+                </li> 
                 <li>
                     <a href="javascript: void(0);">
                         <i class="mdi mdi-home"></i>
