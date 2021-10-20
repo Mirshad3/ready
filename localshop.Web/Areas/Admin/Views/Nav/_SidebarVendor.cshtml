@@ -76,11 +76,15 @@
                         <li><a href="@Url.Action("addbanner", "homepage")">Add banner</a></li>
                     </ul>
                 </li>
-                <li>
-                    <a href="@Url.Action("index", "contact")">
+                <li> 
+                    <a href="javascript: void(0);">
                         <i class="mdi mdi-format-line-weight"></i>
                         <span> Finance </span>
+                        <span class="menu-arrow"></span>
                     </a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li><a href="@Url.Action("returnCashVender", "report")">Return Cash</a></li> 
+                    </ul>
                 </li>
                 <li>
                     <a href="@Url.Action("index", "contact")">

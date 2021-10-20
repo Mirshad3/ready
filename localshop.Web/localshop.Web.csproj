@@ -1889,6 +1889,8 @@
     <Content Include="Areas\Admin\Views\Order\IndexVendorApproved.cshtml" />
     <Content Include="Areas\Admin\Views\Order\IndexVendorReady.cshtml" />
     <Content Include="Areas\Admin\Views\Report\ReturnCash.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\ReturnCashVender.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\ReturnCashVenderByUserId.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
