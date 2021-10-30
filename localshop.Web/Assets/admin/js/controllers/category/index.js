@@ -25,7 +25,10 @@
     }
 
     var table = $('#datatable').DataTable();
-
+    $('#isActive').change(function () {
+        cb = $(this);
+        cb.val(cb.prop('checked'));
+    });
     // Delete category
     table.on('click', '.ls-category-delete', function (e) {
         var $tr = $(this).closest('tr');
@@ -76,6 +79,8 @@
                 if (response.success) {
                     $('#categoryId').val(response.category.Id);
                     $('#categoryName').val(response.category.Name);
+                    $('#isActive').val(response.category.IsActive);
+                    
                 } else {
                     toastr["error"]("Something went wrong!");
                 }
@@ -94,7 +99,8 @@
             url: "/admin/category/edit",
             data: {
                 Id: $('#categoryId').val(),
-                Name: $('#categoryName').val()
+                Name: $('#categoryName').val(),
+                IsActive: $('#isActive').val()
             },
             success: function (response) {
                 if (response.success) {

@@ -15,7 +15,7 @@ namespace localshop.Domain.Entities
         // FK_ParentCategory
         public string ParentId { get; set; }
         public Category Parent { get; set; }
-
+        public bool IsActive { get; set; }
         // List product
         public ICollection<Product> Products { get; set; }
     }

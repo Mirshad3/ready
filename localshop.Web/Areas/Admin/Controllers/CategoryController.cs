@@ -97,8 +97,9 @@ namespace localshop.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult Edit(CategoryDTO categoryDTO)
         {
-            var result = _categoryRepo.Save(categoryDTO);
-
+            var result = _categoryRepo.Save(categoryDTO); 
+            _categoryRepo.InactiveProduct(categoryDTO.Id, categoryDTO.IsActive);
+            
             if (!result)
             {
                 return Json(new

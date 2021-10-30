@@ -12,7 +12,7 @@ namespace localshop.Domain.Abstractions
         IEnumerable<CategoryDTO> Categories { get; }
 
         int CountProduct(string id);
-
+        int InactiveProduct(string id, bool isActive);
         CategoryDTO FindById(string id);
 
         CategoryDTO Delete(string id);

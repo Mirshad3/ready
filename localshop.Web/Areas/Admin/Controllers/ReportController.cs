@@ -163,7 +163,7 @@ namespace localshop.Areas.Admin.Controllers
             var orders = _orderRepo.GetOrdersByOwner(userId);
             if (orders.Count() > 0) {
             DateTime day0 = orders[0].OrderDate.AddDays(-1);
-            var q = orders.Where(m => m.OrderStatusId == "f9d10000-d769-34e6-786e-08d7b48f1d56").GroupBy(x => ((int)((x.OrderDate.Subtract(day0).TotalDays - 1) / 15)))
+            var q = orders.Where(m => m.OrderStatusId == "f9d10000-d769-34e6-a60e-08d7b48f1d56").GroupBy(x => ((int)((x.OrderDate.Subtract(day0).TotalDays - 1) / 15)))
                 .Select(x => new {
                     x.Key,
                     Date = day0.AddDays(x.Key * 15 + 1),

@@ -255,6 +255,10 @@
     <Compile Include="Migrations\202110040600556_Detuction.designer.cs">
       <DependentUpon>202110040600556_Detuction.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202110261452034_category-status.cs" />
+    <Compile Include="Migrations\202110261452034_category-status.designer.cs">
+      <DependentUpon>202110261452034_category-status.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -371,6 +375,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202110040600556_Detuction.resx">
       <DependentUpon>202110040600556_Detuction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202110261452034_category-status.resx">
+      <DependentUpon>202110261452034_category-status.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

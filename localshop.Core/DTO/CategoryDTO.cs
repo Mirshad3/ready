@@ -11,5 +11,7 @@ namespace localshop.Core.DTO
         public string Name { get; set; }
 
         public string ParentId { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

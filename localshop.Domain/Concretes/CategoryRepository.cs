@@ -56,7 +56,18 @@ namespace localshop.Domain.Concretes
         {
             return _context.Products.Count(p => p.CategoryId == id);
         }
-
+        public int InactiveProduct(string id,bool isActive)
+        {
+            var product = _context.Products.Where(p => p.CategoryId == id);
+            if (product != null) {
+                foreach (var item in product)
+                {
+                    item.IsActive = isActive;
+                }
+                _context.SaveChanges();
+            }
+            return product.Count();
+        }
         public CategoryDTO FindById(string id)
         {
             var category = _context.Categories.FirstOrDefault(c => c.Id == id);
