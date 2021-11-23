@@ -19,7 +19,13 @@ namespace localshop.Areas.Admin.Controllers
             _mapper = mapper;
             _homePageRepo = homePageRepo;
         }
+        [HttpGet]
+        public ViewResult SpecialFeaturedList()
+        {
+            var model = _homePageRepo.SpecialFeaturedList;
 
+            return View(model);
+        }
         [HttpGet]
         public ViewResult SpecialFeatured()
         {

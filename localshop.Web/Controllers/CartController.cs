@@ -1,6 +1,8 @@
 ﻿using localshop.Core.Common;
 using localshop.Domain.Abstractions;
 using localshop.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,12 +16,23 @@ namespace localshop.Controllers
     public class CartController : Controller
     {
         private IProductRepository _productRepo;
-
-        public CartController(IProductRepository productRepo)
+        private ApplicationUserManager _userManager;
+        public CartController(IProductRepository productRepo, ApplicationUserManager userManager)
         {
             _productRepo = productRepo;
+            UserManager = userManager;
         }
-
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
         [HttpGet]
         public ViewResult Index(Cart cart)
         {
@@ -43,7 +56,7 @@ namespace localshop.Controllers
         {
             bool addNew = false;
             var warningMessage = "";
-
+            var alertMessage = "";
             if (quantity < 0)
             {
                 quantity = 1;
@@ -60,6 +73,10 @@ namespace localshop.Controllers
                     {
                         if (line == null)
                         {
+                            var user = UserManager.FindById(product.UserId); 
+                            var userIds = cart.LineCollection.Count == 0 ? user.Id : cart.LineCollection.FirstOrDefault().Product.UserId;
+                            if (user.Id == userIds) 
+                            { 
                             line = new CartLine
                             {
                                 Product = product,
@@ -73,17 +90,25 @@ namespace localshop.Controllers
 
                             cart.LineCollection.Add(line);
                             addNew = true;
+                            }
+                            else
+                            {
+                                alertMessage = "Please select a same seller product or remove basket and reselect the product";
+
+                            }
                         }
                         else
                         {
                             line.Quantity += quantity;
                         }
                     }
-
-                    if (line.Quantity > product.Quantity)
+                    if (line != null)
                     {
-                        line.Quantity = product.Quantity;
-                        warningMessage = "Some product is out of stock, so you can only set max quantity we have in stock!";
+                        if (line.Quantity > product.Quantity)
+                        {
+                            line.Quantity = product.Quantity;
+                            warningMessage = "Some product is out of stock, so you can only set max quantity we have in stock!";
+                        }
                     }
                 }
                 else
@@ -97,6 +122,7 @@ namespace localshop.Controllers
                 success = true,
                 addNew = addNew,
                 warningMessage = warningMessage,
+                alertMessage = alertMessage,
                 cart = cart,
                 summary = cart.Summary,
                 summaryQuantity = cart.SummaryQuantity

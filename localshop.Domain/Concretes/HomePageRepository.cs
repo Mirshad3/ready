@@ -29,7 +29,14 @@ namespace localshop.Domain.Concretes
                 return _context.SpecialFeatureds.AsEnumerable().Select(sf => _mapper.Map<SpecialFeatured, SpecialFeaturedDTO>(sf)).FirstOrDefault();
             }
         }
-
+        public IList<SpecialFeaturedDTO> SpecialFeaturedList
+        {
+            get
+            {
+                return _context.SpecialFeatureds.AsEnumerable().Select(sf => _mapper.Map<SpecialFeatured, SpecialFeaturedDTO>(sf)).ToList();
+            }
+        }
+        
         public IList<BannerDTO> Banners
         {
             get

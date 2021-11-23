@@ -1,0 +1,105 @@
+﻿
+
+@using localshop.Core.Common
+@model OrderViewModel
+@{
+    ViewBag.Title = "ReadyShippingLabel";
+}
+
+
+@section topbar {
+    @Html.Action("topbar", "nav", new { header = NavigationHeader.Order })
+}
+
+@section thirdPartyCss {
+    @Styles.Render("~/content/admin/css/dropify", "~/content/admin/css/toastr")
+
+    <style>
+        .ck-editor__editable_inline {
+            min-height: 150px;
+        }
+
+        #productImages img {
+            width: 150px;
+            height: 150px;
+            object-fit: scale-down;
+        }
+    </style>
+}
+
+@section thirdPartyJs {
+    @Scripts.Render("~/content/admin/js/validation", "~/content/admin/js/toastr")
+
+    <!-- CKFinder -->
+    <script src="~/Assets/plugins/CKFinderScripts/ckfinder.js"></script>
+
+    <!-- CKEditor -->
+    <script src="~/Assets/plugins/ckeditor5-build-classic-16.0.0/ckeditor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+    <!-- Controller -->
+    @Scripts.Render("~/content/admin/js/order/index")
+}
+
+
+<main role="main" class="container" id="section-to-print">
+    <div class="col-12 border border-dark">
+        <div class="row">
+            <div class="col-7">
+                <img style="height:250px; width:500px; padding-left:100px;" src="https://staff.koombiyodelivery.lk/thems/assets/img/logo-wbg.png" />
+                <p class="text-left">
+                    <b>Address:</b>@Model.Order.Address1<b>Tel:</b>-----------------<b>E-mail:</b>----------------
+                </p>
+                <hr />
+                <p class="text-left">From: </p>
+                <p class="text-left">Contact Number: </p>
+                <p class="text-left">Date: </p>
+                <hr />
+                <p class="text-left">To:@Model.Order.LastName </p>
+                <p class="text-left">Address:@Model.Order.Address1 </p><br><br><br>
+                <p class="text-left">Phone No: @Model.Order.PhoneNumber</p><br>
+
+                <div class="card bg-faded">
+                    <div class="card-header">
+                        <p class="text-left">Description:@Model.Order.OrderNotes </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-5 border border-dark">
+                <br>
+                <div style="padding-left:100px;" class="table table-bordered">
+                    <h4>PROOF OF DELIVERY</h4>
+                </div>
+                <svg class="barcode"
+                     jsbarcode-format="code39"
+                     jsbarcode-value=@Model.Order.OrderWaybillid
+                     jsbarcode-textmargin="0"
+                     jsbarcode-fontoptions="bold">
+                </svg>
+                <div style="padding-left:10px;" class="table table-bordered">
+                    <h5>COD AMOUNT:</h5>
+                </div>
+                <div style="padding-left:10px;" class="table table-bordered">
+                    <p class="lead" id="OrderWaybillid">Order No:@Model.Order.OrderWaybillid </p>
+                </div>
+                <div style="padding-left:10px;" class="table table-bordered">
+                    <p>Weight: < 1Kg </p>
+                </div>
+                <div style="padding-left:10px;" class="table table-bordered">
+                    <p>District: @Model.Order.State</p>
+                </div>
+                <div style="padding-left:10px;" class="table table-bordered">
+                    <p>Nearest City:@Model.Order.Country</p>
+                </div>
+                <div style="padding-left:10px;" class="table table-bordered">
+                    <p>Name:</p>
+                    <p>NIC Numbe:</p>
+                    <p>Date:</p>
+                    <p>Signature:</p>
+                </div>
+            </div>
+        </div>
+        <hr />
+
+    </div>
+</main>
+<input type="button" class="not-print btn btn-success" value="Print" onclick="window.print();"/> 

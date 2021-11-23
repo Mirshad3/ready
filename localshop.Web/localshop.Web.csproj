@@ -1891,6 +1891,9 @@
     <Content Include="Areas\Admin\Views\Report\ReturnCash.cshtml" />
     <Content Include="Areas\Admin\Views\Report\ReturnCashVender.cshtml" />
     <Content Include="Areas\Admin\Views\Report\ReturnCashVenderByUserId.cshtml" />
+    <Content Include="Areas\Admin\Views\HomePage\SpecialFeaturedList.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\ReadyShippingLabel.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\ReadyShipping.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />

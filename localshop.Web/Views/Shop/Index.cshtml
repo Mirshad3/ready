@@ -186,6 +186,23 @@
                                             <div class="product-content px-4 pb-4">
                                                 <span class="d-inline-block">@product.Category</span>
                                                 <h4 class="overflow-hidden"><a href="@Url.Action("detail", "product", new { metaTitle=product.Product.MetaTitle })">@product.Product.Name</a></h4>
+                                                @{
+                                                    var countReviews = @product.Reviews.Where(r => r.IsApproved).Count();
+                                                    var totalReviews = @product.Reviews.Where(r => r.IsApproved).Sum(r => r.Rating);
+                                                    var calculateRating = countReviews > 0 ? (int)Math.Round(totalReviews / (double)countReviews, 0) : 0;
+                                                }
+                                                <div class="product-ratting-review">
+                                                    <div class="product-ratting">
+                                                        @for (int i = 0; i < calculateRating; i++)
+                                                        {
+                                                            <i class="la la-star"></i>
+                                                        }
+                                                        @for (int i = calculateRating; i < 5; i++)
+                                                        {
+                                                            <i class="la la-star-o"></i>
+                                                        }
+                                                    </div>
+                                                </div>
                                                 <div class="price-addtocart mt-2">
                                                     <div class="product-price">
                                                         @if (product.Product.DiscountPrice != null)
@@ -248,23 +265,23 @@
                                                         {
                                                             if (DateTime.Now <= product.Product.EndDiscountDate.Value)
                                                             {
-                                                    <span>Rs.@product.Product.DiscountPrice</span>
-                                                    <span class="old-price">Rs.@product.Product.Price</span>
+                                                                <span>Rs.@product.Product.DiscountPrice</span>
+                                                                <span class="old-price">Rs.@product.Product.Price</span>
                                                             }
                                                             else
                                                             {
-                                                    <span>Rs.@product.Product.Price</span>
+                                                                <span>Rs.@product.Product.Price</span>
                                                             }
                                                         }
                                                         else
                                                         {
-                                                    <span>Rs.@product.Product.DiscountPrice</span>
+                                                            <span>Rs.@product.Product.DiscountPrice</span>
                                                             <span class="old">Rs.@product.Product.Price</span>
                                                         }
                                                     }
                                                     else
                                                     {
-                                                            <span>Rs.@product.Product.Price</span>
+                                                        <span>Rs.@product.Product.Price</span>
                                                     }
                                                 </div>
                                                 <div class="ck-content my-2 overflow-hidden">@Html.Raw(product.Product.ShortDesciption)</div>

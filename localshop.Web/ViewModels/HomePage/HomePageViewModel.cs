@@ -8,7 +8,7 @@ namespace localshop.ViewModels
 {
     public class HomePageViewModel
     {
-        public SpecialFeaturedDTO SpecialFeatured { get; set; }
+        public IList<SpecialFeaturedDTO> SpecialFeatured { get; set; }
         public IEnumerable<BannerDTO> Banners { get; set; }
         public IList<ProductViewModel> Featureds { get; set; }
         public IList<ProductViewModel> OnSales { get; set; }

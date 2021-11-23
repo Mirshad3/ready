@@ -15,13 +15,14 @@ namespace localshop.Controllers
         private IProductRepository _productRepo;
         private IStatusRepository _statusRepo;
         private ICategoryRepository _categoryRepo;
-
-        public HomeController(IHomePageRepository homePageRepo, IProductRepository productRepo, IStatusRepository statusRepo, ICategoryRepository categoryRepo)
+        private IReviewRepository _reviewRepo;
+        public HomeController(IHomePageRepository homePageRepo, IProductRepository productRepo, IStatusRepository statusRepo, ICategoryRepository categoryRepo, IReviewRepository reviewRepo)
         {
             _homePageRepo = homePageRepo;
             _productRepo = productRepo;
             _statusRepo = statusRepo;
             _categoryRepo = categoryRepo;
+            _reviewRepo = reviewRepo;
         }
 
         //[OutputCache(Duration = 24 * 3600, Location = System.Web.UI.OutputCacheLocation.Client)]
@@ -30,7 +31,7 @@ namespace localshop.Controllers
             // Prepare model
             var model = new HomePageViewModel
             {
-                SpecialFeatured = _homePageRepo.SpecialFeatureds,
+                SpecialFeatured = _homePageRepo.SpecialFeaturedList,
                 Banners = _homePageRepo.Banners,
                 Featureds = new List<ProductViewModel>(),
                 OnSales = new List<ProductViewModel>()
@@ -50,7 +51,8 @@ namespace localshop.Controllers
                 {
                     Product = p,
                     Status = _statusRepo.GetStatus(p.StatusId),
-                    Category = _categoryRepo.GetCategory(p.CategoryId)
+                    Category = _categoryRepo.GetCategory(p.CategoryId),
+                    Reviews = _reviewRepo.GetReviews(p.Id).ToList()
                 };
 
                 model.Featureds.Add(product);
@@ -73,7 +75,8 @@ namespace localshop.Controllers
                 {
                     Product = p,
                     Status = _statusRepo.GetStatus(p.StatusId),
-                    Category = _categoryRepo.GetCategory(p.CategoryId)
+                    Category = _categoryRepo.GetCategory(p.CategoryId),
+                    Reviews = _reviewRepo.GetReviews(p.Id).ToList()
                 };
 
                 model.OnSales.Add(product);
@@ -86,7 +89,7 @@ namespace localshop.Controllers
             // Prepare model
             var model = new HomePageViewModel
             {
-                SpecialFeatured = _homePageRepo.SpecialFeatureds,
+                SpecialFeatured = _homePageRepo.SpecialFeaturedList,
                 Banners = _homePageRepo.Banners,
                 Featureds = new List<ProductViewModel>(),
                 OnSales = new List<ProductViewModel>()

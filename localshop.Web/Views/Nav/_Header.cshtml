@@ -138,10 +138,10 @@
                                         <a href="@Url.Action("index", "shop")">Shop</a>
                                     </li>
                                     <li class="angle-shape">
-                                        <a href="@Url.Action("index", "shop", new { category="Electronics" })">Electronics</a>
+                                        <a href="@Url.Action("index", "shop", new { category="Fashion" })">Ayurvedha</a>
                                     </li>
                                     <li class="angle-shape">
-                                        <a href="@Url.Action("index", "shop", new { category="Fashion" })">Fashion</a>
+                                        <a href="@Url.Action("index", "shop", new { category="Cosmetics" })">Cosmetics</a>
                                     </li>
                                     <li class="angle-shape">
                                         <a href="@Url.Action("index", "shop", new { category="Medicine" })">Medicine</a>
@@ -257,6 +257,20 @@
                             <a class="mobile-aside-button" href="#"><i class="la la-navicon la-2x"></i></a>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="search-style-4">
+                    @using (Html.BeginForm("index", "shop", FormMethod.Get))
+                    {
+                        <div class="form-search-3">
+
+                            <input id="search" class="input-text" name="search" placeholder="Search product" type="search">
+                            <button>
+                                <i class="la la-search"></i>
+                            </button>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

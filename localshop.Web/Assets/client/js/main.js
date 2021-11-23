@@ -1090,6 +1090,8 @@ function handleCart() {
                 if (response.success) {
                     if (response.warningMessage) {
                         toastr["warning"]("Some product is out of stock, so you can only set max quantity we have in stock!");
+                    } else if (response.alertMessage) {
+                        toastr["warning"]("Please select a same seller product or remove basket and reselect the product");
                     } else {
                         toastr["success"]("Added product to cart!");
                     }
@@ -1353,3 +1355,26 @@ function custom() {
         handleWishlist();
     });
 }
+function createSlick() {
+
+    $(".slider").not('.slick-initialized').slick({
+        autoplay: true,
+        dots: true,
+
+        slidesToShow: 1,
+        responsive: [{
+            breakpoint: 768,
+            settings: {
+                dots: false,
+                arrows: true,
+                infinite: false 
+            }
+        }]
+    });
+
+}
+
+createSlick();
+
+//Will not throw error, even if called multiple times.
+$(window).on('resize', createSlick);

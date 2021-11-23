@@ -2129,7 +2129,7 @@ button, input, optgroup, select, textarea {
 
 .header-small-mobile {
     display: none;
-    padding: 25px 0;
+    padding: 5px 0;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -13829,7 +13829,7 @@ button, input, optgroup, select, textarea {
 
 /*-------- 16. Breadcrumb style ---------*/
 .breadcrumb-area {
-    height: 300px;
+    height: 85px;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -13842,14 +13842,14 @@ button, input, optgroup, select, textarea {
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
     .breadcrumb-area {
-        height: 300px;
+        height: 80px;
         background-position: 100%;
     }
 }
 
 @media only screen and (max-width: 767px) {
     .breadcrumb-area {
-        height: 280px;
+        height: 75px;
         background-position: 100%;
     }
 }
@@ -17430,4 +17430,150 @@ h3.cart-page-title {
     width: 100px;
     height: 150px;
     object-fit: contain;
+}
+.slider { 
+    margin: 15px auto;
+    background: #ececec;
+    border-radius: 5px;
+    padding: 20px 0;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    /*h v b s*/
+}
+
+.slick-slider button {
+    display: none !important;
+}
+
+.slick-slide {
+    color: #333; 
+    font-size: 1.25em;
+    font-family: "Verdana";
+    text-align: center;
+    pointer-events: none;
+}
+
+    .slick-slide .desc {
+        opacity: 0;
+    }
+
+        .slick-slide .desc > * {
+            transition: all 900ms ease;
+        }
+
+        .slick-slide .desc h2 {
+            position: relative;
+            left: 50px;
+            line-height: 1;
+        }
+
+        .slick-slide .desc p {
+            position: relative;
+            top: 50px;
+            opacity: 0;
+        }
+
+    .slick-slide img {
+        width: 100%;
+    }
+
+.slick-prev:before,
+.slick-next:before {
+    color: black;
+}
+
+.slick-dots {
+    text-align: center;
+}
+
+    .slick-dots li {
+        display: inline-block;
+        padding: 1px;
+        background: #ccc;
+        margin: 10px 5px;
+        width: 40px;
+        height: 5px;
+    }
+
+        .slick-dots li.slick-active {
+            background: #18c495;
+        }
+
+    .slick-dots button {
+        display: none;
+    }
+
+.slick-slide:nth-child(odd) {
+    /* background: blue;*/
+}
+
+.slick-slide {
+    opacity: 0.2;
+    transition: all 300ms ease;
+}
+
+.slick-current {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+    .slick-current .desc {
+        opacity: 1;
+    }
+
+        .slick-current .desc h2 {
+            left: 0;
+        }
+
+        .slick-current .desc p {
+            top: 0;
+            opacity: 1;
+        }
+.header-bottom {
+    background-color: beige;
+}
+
+.search-style-4 .form-search-3 {
+    position: relative;
+}
+
+    .search-style-4 .form-search-3 input {
+        background-color: #f8f8f8;
+        border: 1px solid #282828;
+        height: 50px;
+        border-radius: 50px;
+        font-weight: 300;
+        color: #c7c7c7;
+        font-size: 13px;
+        width: 313px;
+        padding: 2px 60px 2px 29px;
+    }
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+    .search-style-4 .form-search-3 input {
+        width: 285px;
+    }
+}
+
+.search-style-4 .form-search-3 button {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    right: 22px;
+    font-size: 22px;
+    color: #c7c7c7;
+    -webkit-transition: all .3s ease 0s;
+    -o-transition: all .3s ease 0s;
+    transition: all .3s ease 0s;
+}
+
+   .search-style-4 .form-search-3 button:hover {
+        color: #ff5151;
+    }
+.product-ratting {
+    color: #ff5151;
 }

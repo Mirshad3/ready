@@ -10,7 +10,7 @@ namespace localshop.Domain.Abstractions
     public interface IHomePageRepository
     {
         SpecialFeaturedDTO SpecialFeatureds { get; }
-
+        IList<SpecialFeaturedDTO> SpecialFeaturedList { get; }
         IList<BannerDTO> Banners { get; }
 
         bool SaveSpecialFeatureds(SpecialFeaturedDTO specialFeaturedDTO);

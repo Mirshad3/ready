@@ -1,8 +1,11 @@
 ﻿using localshop.Core.Common;
 using localshop.Core.DTO;
 using localshop.Domain.Abstractions;
+using localshop.Domain.Entities;
 using localshop.Models;
 using localshop.ViewModels;
+using localshop.ViewModels.Review;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +18,13 @@ namespace localshop.Controllers
         private IProductRepository _productRepo;
         private ICategoryRepository _categoryRepo;
         private IStatusRepository _statusRepo;
-
-        public ShopController(IProductRepository productRepo, ICategoryRepository categoryRepo, IStatusRepository statusRepo)
+        private IReviewRepository _reviewRepo;
+        public ShopController(IProductRepository productRepo, ICategoryRepository categoryRepo, IStatusRepository statusRepo, IReviewRepository reviewRepo)
         {
             _productRepo = productRepo;
             _categoryRepo = categoryRepo;
             _statusRepo = statusRepo;
+            _reviewRepo = reviewRepo;
         }
 
         //[OutputCache(Duration = 24 * 3600, Location = System.Web.UI.OutputCacheLocation.Client)]
@@ -100,25 +104,27 @@ namespace localshop.Controllers
                 Products = new List<ProductViewModel>(),
                 Categories = _categoryRepo.Categories.AsEnumerable(),
                 Statuses = _statusRepo.Statuses.AsEnumerable(),
-                Filter = filter
+                Filter = filter 
             };
 
             products = products.Skip((model.PagingInfo.CurrentPage - 1) * model.PagingInfo.ItemsPerPage).Take(model.PagingInfo.ItemsPerPage).ToList();
 
             foreach (var p in products)
             {
-                p.Images = _productRepo.GetImages(p.Id).ToList();
-
+                p.Images = _productRepo.GetImages(p.Id).ToList(); 
                 var product = new ProductViewModel
                 {
                     Product = p,
                     Status = _statusRepo.GetStatus(p.StatusId),
-                    Category = _categoryRepo.GetCategory(p.CategoryId)
+                    Category = _categoryRepo.GetCategory(p.CategoryId),
+                    Reviews = _reviewRepo.GetReviews(p.Id).ToList()
                 };
 
                 model.Products.Add(product);
-            }
-
+                }
+            // Get reviews
+            
+            
             return View(model);
         }
     }

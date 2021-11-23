@@ -1,4 +1,5 @@
-﻿using Glimpse.AspNet.Tab;
+﻿using CKSource.CKFinder.Connector.Core.Authentication;
+using Glimpse.AspNet.Tab;
 using localshop.Areas.Admin.ViewModels;
 using localshop.Core.Common;
 using localshop.Domain.Abstractions;
@@ -29,10 +30,12 @@ namespace localshop.Areas.Admin.Controllers
     {
         private IOrderRepository _orderRepo;
         private ApplicationUserManager _userManager;
-        public OrderController(ApplicationUserManager userManager, IOrderRepository orderRepo)
+        private IProductRepository _productRepo;
+        public OrderController(ApplicationUserManager userManager, IOrderRepository orderRepo, IProductRepository productRepo)
         {
             _orderRepo = orderRepo;
             UserManager = userManager;
+            _productRepo = productRepo;
         }
         public ApplicationUserManager UserManager
         {
@@ -87,7 +90,40 @@ namespace localshop.Areas.Admin.Controllers
 
             return View(model);
         }
-        public ActionResult IndexVendor()
+        public ActionResult ReadyShipping()
+        {
+            var model = new List<OrderViewModel>();
+            var userid = User.Identity.GetUserId();
+            var orders = _orderRepo.GetOrdersByOwner(userid).Where(m => m.OrderStatusId == "f9d10000-d769-34e6-786e-08d7b48f1d56").OrderByDescending(o => o.OrderDate);
+            foreach (var o in orders)
+            {
+                var order = new OrderViewModel
+                {
+                    Order = o,
+                    PaymentMethod = _orderRepo.GetPaymentMethod(o.PaymentMethodId),
+                    OrderStatus = _orderRepo.GetOrderStatus(o.OrderStatusId)
+                };
+
+                model.Add(order);
+            }
+
+            return View(model);
+        }
+        public ActionResult ReadyShippingLabel(string id)
+        {
+          
+            var orders = _orderRepo.FindById(id);
+
+            var order = new OrderViewModel
+            {
+                Order = orders,
+                PaymentMethod = _orderRepo.GetPaymentMethod(orders.PaymentMethodId),
+                OrderStatus = _orderRepo.GetOrderStatus(orders.OrderStatusId)
+            };
+             
+            return View(order);
+        }
+   public ActionResult IndexVendor()
         {
             var model = new List<OrderViewModel>();
             var userid = User.Identity.GetUserId();
@@ -144,6 +180,7 @@ namespace localshop.Areas.Admin.Controllers
 
             return View(model);
         }
+        
         public ActionResult IndexCourier()
         {
             var model = new List<OrderViewModel>();
@@ -219,7 +256,15 @@ namespace localshop.Areas.Admin.Controllers
                 getCod = oredrdetails.Total.ToString()
 
                 };
-                var response = PostNewOrderDataToApi(datas);
+                var details = _orderRepo.GetOrderDetails(orderId);
+                
+                var product = _productRepo.FindById(details.FirstOrDefault().ProductId);
+                var user = UserManager.FindById(product.UserId);
+                if (user.Address1.Count() > 0 || user.Address2.Count() > 0) {
+
+                    var response = PostNewOrderDataToApi(datas);
+                    var track = PostPickupDataToApi(user.FullName,user.Address1, user.Address2,user.City, user.State, details.Sum(m=>m.Quantity), oredrdetails.OrderWaybillid, user.PhoneNumber);
+            }
             }
             return Json(new
             {
@@ -242,12 +287,12 @@ namespace localshop.Areas.Admin.Controllers
                 return answer;
             }
         }
-     
+
         public string PostNewOrderDataToApi(CourierOrderViewModel courierOrderViewModel)
         {
             var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://application.koombiyodelivery.lk/api/Addorders/users");
             httpWebRequest.ContentType = "application/x-www-form-urlencoded";
-            httpWebRequest.Method = "POST"; 
+            httpWebRequest.Method = "POST";
             httpWebRequest.Headers.Add("Authorization", "Basic ThisShouldbeBase64String");
             using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
@@ -276,40 +321,34 @@ namespace localshop.Areas.Admin.Controllers
                 requestResult = streamReader.ReadToEnd();
             }
             return requestResult;
-           
         }
-
-        public string PostPickupDataToApi(string jsonData)
+        public string PostPickupDataToApi(string FullName, string Address1, string Address2, string City, string State, int Quantity, int OrderWaybillid, string Number)
         {
 
             var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://application.koombiyodelivery.lk/api/Pickups/users");
-            httpWebRequest.ReadWriteTimeout = 100000; //this can cause issues which is why we are manually setting this
             httpWebRequest.ContentType = "application/x-www-form-urlencoded";
-            httpWebRequest.Accept = "*/*";
             httpWebRequest.Method = "POST";
-            httpWebRequest.Headers.Add("Authorization", "Basic ThisShouldbeBase64String"); // "Basic 4dfsdfsfs4sf5ssfsdfs=="
+            httpWebRequest.Headers.Add("Authorization", "Basic ThisShouldbeBase64String");
             using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
-                // we want to remove new line characters otherwise it will return an error 
-                jsonData = "apikey=KwyHFZKKZeqrWyDyEhqr&vehicleType=Bike&pickup_remark=test&pickup_address=sri lanka&latitude=6.901608599999999&longitude=80.0087746&phone=0760961206&qty=10";
-                streamWriter.Write(jsonData);
+                StringBuilder postData = new StringBuilder();
+                postData.Append("apikey=KwyHFZKKZeqrWyDyEhqr&vehicleType=Bike&");
+                postData.Append("pickup_remark=" + HttpUtility.UrlEncode(OrderWaybillid.ToString() + " " + FullName) + "&");
+                postData.Append("pickup_address=" + HttpUtility.UrlEncode(Address1 + ", " + Address2 + ", " + City + ", " + State) + "&latitude=7.901608599999999&longitude=88.0087746&");
+                postData.Append("phone=" + HttpUtility.UrlEncode(Number) + "&");
+                postData.Append("qty=" + HttpUtility.UrlEncode(Quantity.ToString()));
+                //jsonData =  "apikey=KwyHFZKKZeqrWyDyEhqr&vehicleType=Bike&pickup_remark=test&pickup_address=sri lanka&latitude=6.901608599999999&longitude=80.0087746&phone=0760961206&qty=10";
+                streamWriter.Write(postData);
                 streamWriter.Flush();
                 streamWriter.Close();
             }
-
-            try
+            string requestResult = null;
+            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
             {
-                HttpWebResponse resp = (HttpWebResponse)httpWebRequest.GetResponse();
-                string respStr = new StreamReader(resp.GetResponseStream()).ReadToEnd();
-                Console.WriteLine("Response : " + respStr); // if you want see the output
-                return respStr;
+                requestResult = streamReader.ReadToEnd();
             }
-            catch (Exception ex)
-            {
-                throw ex;
-                //process exception here   
-            }
-
+            return requestResult;
         }
 
         public string OrderHistory(string waybillid)

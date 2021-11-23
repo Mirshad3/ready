@@ -1876,6 +1876,10 @@ body.boxed-layout.enlarged .footer {
     padding: 0;
     margin: 0;
   }
+    .not-print {
+        visibility: hidden;
+    }
+
 }
 
 #preloader {
@@ -5195,3 +5199,5 @@ div.hopscotch-bubble .hopscotch-content {
 #datatable td {
   vertical-align: middle;
 }
+
+ 

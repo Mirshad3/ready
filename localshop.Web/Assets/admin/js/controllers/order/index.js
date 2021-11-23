@@ -91,3 +91,15 @@
     });
    
 });
+JsBarcode(".barcode").init();
+
+$('.PrintDiv').on('click', function () {
+    var divContents = document.getElementById("printdivcontent").innerHTML;
+    var printWindow = window.open('', '', '');
+    printWindow.document.write('<html><head><title>Print DIV Content</title>');
+    printWindow.document.write('</head><body >');
+    printWindow.document.write(divContents);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.print();
+});
