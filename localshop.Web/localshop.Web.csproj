@@ -268,6 +268,7 @@
     <Compile Include="Areas\Admin\ViewModels\City\ListAddCityViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\City\ListCityViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\Order\CourierOrderViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Order\OrderUserViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\Order\OrderViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\Product\ListProductViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\Product\ProductViewModel.cs" />
@@ -1931,6 +1932,7 @@
     <Content Include="Views\Account\LoginVendor.cshtml" />
     <Content Include="Views\Account\_RegisterVendor.cshtml" />
     <Content Include="Views\Home\Home.cshtml" />
+    <Content Include="Views\Contact\Privacy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\localshop.Core\localshop.Core.csproj">

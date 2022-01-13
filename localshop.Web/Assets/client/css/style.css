@@ -17434,8 +17434,7 @@ h3.cart-page-title {
 .slider { 
     margin: 15px auto;
     background: #ececec;
-    border-radius: 5px;
-    padding: 20px 0;
+    border-radius: 5px; 
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
     /*h v b s*/
 }

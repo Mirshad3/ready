@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CKSource.CKFinder.Connector.Core.Authentication;
 using localshop.Areas.Admin.ViewModels;
 using localshop.Core.Common;
 using localshop.Core.DTO;
@@ -64,6 +65,7 @@ namespace localshop.Areas.Admin.Controllers
         public new ViewResult Profile()
         {
             var model = UserManager.FindById(User.Identity.GetUserId());
+            model.City = _cityRepo.Cities.Where(m => m.Id == model.City).FirstOrDefault().Name;
             return View(model);
         }
 

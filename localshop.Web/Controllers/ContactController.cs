@@ -21,7 +21,10 @@ namespace localshop.Controllers
         {
             return View();
         }
-
+        public ActionResult Privacy()
+        {
+            return View();
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SendMessage(ContactDTO contact)

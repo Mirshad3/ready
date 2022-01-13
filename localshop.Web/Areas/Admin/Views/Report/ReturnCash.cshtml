@@ -54,7 +54,7 @@
                     @foreach (var o in Model)
                     {
                         <tr data-orderid="@o.StartDate">
-                            <td>@o.StartDate</td>
+                            <td>@o.StartDate.ToString("MM/dd/yyyy") - @o.EndDate.ToString("MM/dd/yyyy")</td>
                             <td>@o.Total</td>
                             <td>@o.SubTotal</td>
                             <td>@o.DetuctionPersontage</td>
@@ -86,33 +86,36 @@
 
     function SelectVendor(value) {
         //post data to server
-        $.ajax({
-            url: '/Report/ReturnCashVenderByUserId?userId=' + value,
-            type: "get",
-            dataType: "JSON",
-            contentType: "application/json",
-            success: function (d) {
-                //check is successfully save to database
-                if (d.status == true) {
-                    //will send status from server side
-                    alert('Successfully done.');
-                    location.reload(true);
-                    //clear form
-                    purchaseItems = [];
-                    $('#PurchaseID').val('');
-                    $('#InvocingDate').val('');
-                    $('#SelectSupplier').val('0');
+         //var url = '@Url.Action("ReturnCashVenderByUserId", "Report")?userId=' + $(this).data(value);
+        var url = '/Report/ReturnCashVenderByUserId?userId=' + value;
+        window.open(url, "_blank");
+        //$.ajax({
+        //    url: '/Report/ReturnCashVenderByUserId?userId=' + value,
+        //    type: "get",
+        //    dataType: "JSON",
+        //    contentType: "application/json",
+        //    success: function (d) {
+        //        //check is successfully save to database
+        //        if (d.status == true) {
+        //            //will send status from server side
+        //            alert('Successfully done.');
+        //            location.reload(true);
+        //            //clear form
+        //            purchaseItems = [];
+        //            $('#PurchaseID').val('');
+        //            $('#InvocingDate').val('');
+        //            $('#SelectSupplier').val('0');
 
-                }
-                else {
-                    alert('Failed');
-                }
-                $('#submit').val('Save');
-            },
-            error: function () {
-                alert('Error. Please try again.');
-                $('#btnSubmit').val('Save');
-            }
-        });
+        //        }
+        //        else {
+        //            alert('Failed');
+        //        }
+        //        $('#submit').val('Save');
+        //    },
+        //    error: function () {
+        //        alert('Error. Please try again.');
+        //        $('#btnSubmit').val('Save');
+        //    }
+        //});
     }
 </script>

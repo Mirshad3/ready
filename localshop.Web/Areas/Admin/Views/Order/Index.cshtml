@@ -1,5 +1,5 @@
 ﻿@using localshop.Core.Common
-@model IEnumerable<OrderViewModel>
+@model IEnumerable<OrderUserViewModel>
 
 @{
     ViewBag.Title = "orders";
@@ -27,6 +27,7 @@
                 <thead>
                     <tr>
                         <th>Order ID</th>
+                        <th>Order Seller</th>
                         <th>Placed date</th>
                         <th>Order amount</th>
                         <th>Payment method</th>
@@ -40,6 +41,7 @@
                     {
                         <tr data-orderid="@o.Order.Id">
                             <td>@o.Order.Id</td>
+                            <td>@o.Owner</td>
                             <td>@o.Order.OrderDate</td>
                             <td>@o.Order.SubTotal</td>
                             <td>@o.PaymentMethod</td>

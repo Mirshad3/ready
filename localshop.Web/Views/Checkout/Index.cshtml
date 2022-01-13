@@ -18,7 +18,7 @@
 
     <!-- Controller -->
     @Scripts.Render("~/content/client/js/checkout/index")
-} 
+}
 
 @Html.Hidden("outOfStock", TempData["OutOfStock"])
 
@@ -45,7 +45,7 @@
             </div>
         }
 
-        @using (Html.BeginForm("placeorder", "checkout", FormMethod.Post, new { data_parsley_validate = "", no_validate = "" }))
+        @using (Html.BeginForm("placeorder", "checkout", FormMethod.Post, new { data_parsley_validate = "", no_validate = "", id = "myFormID" }))
         {
             @Html.AntiForgeryToken();
             <div class="checkout-wrap pt-30">
@@ -53,7 +53,7 @@
 
                     <!-- Billing information -->
                     @{Html.RenderPartial("_Add_Order", Model.Order);}
-
+                    <input type="hidden" value="@DateTime.Now.ToString()" id="Order_Id" /> 
                     <!-- Order area -->
                     <div class="col-lg-5">
                         <div class="your-order-area">
@@ -91,6 +91,8 @@
                                     </div>
                                     <div class="your-order-info order-total">
                                         <ul>
+                                            <input type="hidden" value="@Model.Order.SubTotal" id="totalSubTotal" />
+                                            <input type="hidden" value="@DateTime.Now" id="dateunique" />
                                             <li>Total <span id="total-cost">Rs @Model.Order.SubTotal  </span></li>
                                         </ul>
                                     </div>
@@ -98,13 +100,10 @@
                                 <div class="payment-method">
                                     <div class="pay-top sin-payment">
                                         <input id="payment-method-1" class="input-radio" type="radio" value="@PaymentMethod.DirectBankTransfer" checked="checked" name="@Html.NameFor(m => m.PaymentMethod)">
-                                        <label for="payment-method-1">Direct Bank Transfer</label>
+                                        <label for="payment-method-1">Online Payment</label>
                                         <div class="payment-box payment_method_bacs">
-                                            <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference.</p>
-                                            <p class="font-weight-bold">Amana Bank:</p>
-                                            <p>Account number: 0099000999999</p>
-                                            <p>Name: Mirshad</p>
-                                            <p>Agency: DotCircle</p>
+                                            <p>You will pay via online receiving the goods.</p>
+
                                         </div>
                                     </div>
                                     <div class="pay-top sin-payment">
@@ -117,7 +116,7 @@
                                 </div>
                             </div>
                             <div class="Place-order mt-40">
-                                <a href="javascript:void(0)" onclick="$(this).closest('form').submit()">Place Order</a>
+                                <a href="javascript:void(0)" id="paymentType">Place Order</a>
                             </div>
                         </div>
                         <div class="p-2">
@@ -130,3 +129,4 @@
         }
     </div>
 </div>
+<div id="card_container"></div>

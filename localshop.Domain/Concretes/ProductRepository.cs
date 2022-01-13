@@ -185,9 +185,9 @@ namespace localshop.Domain.Concretes
                 }
 
                 // Update specification
-                var productSpecification = _context.ProductSpecifications.First(ps => ps.ProductId == product.Id);
+                //var productSpecification = _context.ProductSpecifications.First(ps => ps.ProductId == product.Id);
 
-                productSpecification = _mapper.Map(productSpecificationDTO, productSpecification);
+                //productSpecification = _mapper.Map(productSpecificationDTO, productSpecification);
                 product = _mapper.Map(productDTO, product);
                 product.DateModified = DateTime.Now;
             }

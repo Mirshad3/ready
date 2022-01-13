@@ -90,6 +90,7 @@ namespace localshop.Controllers
         public ViewResult Info()
         {
             var user = UserManager.FindById(User.Identity.GetUserId());
+            user.City = _cityRepo.Cities.Where(m => m.Id == user.City).FirstOrDefault().Name;
             return View(user);
         }
 

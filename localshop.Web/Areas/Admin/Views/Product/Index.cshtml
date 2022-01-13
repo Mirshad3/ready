@@ -26,7 +26,7 @@
 <div class="row">
     <div class="col-12">
         <div class="card-box overflow-auto">
-            <table id="datatable" class="table table-bordered table-striped nowrap">
+            <table id="productdatatable" class="table table-bordered table-striped nowrap">
                 <thead>
                     <tr>
                         <th>Product name</th>
@@ -35,6 +35,7 @@
                         <th>Quantity</th>
                         <th>Status</th>
                         <th>Date Added/Modified</th>
+                        <th>Owner</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -44,6 +45,7 @@
                     {
                         var productCategory = Model.Categories.FirstOrDefault(c => c.Id == product.CategoryId);
                         var productStatus = Model.Statuses.FirstOrDefault(s => s.Id == product.StatusId);
+                        var owners = Model.userDetails.FirstOrDefault(s => s.Id == product.UserId);
 
                         <tr data-product-id=@product.Id>
                             <td>
@@ -119,6 +121,7 @@
                                     <strong>Modified: @product.DateModified.Value.ToShortDateString()</strong>
                                 }
                             </td>
+                            <td>@(owners != null ? owners.FullName : "")</td>
                             <td class="text-center">
                                 <a href="@Url.Action("edit", "product", new { id=product.Id })" class="btn btn-outline-primary btn-sm ls-product-edit"><i class="far fa-edit"></i></a>
                                 <a href="javascript:void(0)" class="btn btn-outline-danger btn-sm ls-product-delete"><i class="far fa-trash-alt"></i></a>

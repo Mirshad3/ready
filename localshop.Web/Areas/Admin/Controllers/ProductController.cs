@@ -4,6 +4,7 @@ using localshop.Core.DTO;
 using localshop.Domain.Abstractions;
 using localshop.Domain.Entities;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -20,20 +21,31 @@ namespace localshop.Areas.Admin.Controllers
         private ICategoryRepository _categoryRepo;
         private IStatusRepository _statusRepo;
         private IOrderRepository _orderRepo;
-
+        private ApplicationUserManager _userManager;
         public ProductController(IMapper mapper,
                                 IProductRepository productRepo,
                                 ICategoryRepository categoryRepo,
                                 IStatusRepository statusRepo,
-                                IOrderRepository orderRepo)
+                                IOrderRepository orderRepo, ApplicationUserManager userManager)
         {
+            UserManager = userManager;
             _mapper = mapper;
             _productRepo = productRepo;
             _categoryRepo = categoryRepo;
             _statusRepo = statusRepo;
             _orderRepo = orderRepo;
         }
-
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
         public ViewResult Index()
         {
             var products = _productRepo.AllProducts.OrderByDescending(p => p.DateAdded).ToList();
@@ -46,7 +58,8 @@ namespace localshop.Areas.Admin.Controllers
             {
                 Products = products,
                 Categories = _categoryRepo.Categories,
-                Statuses = _statusRepo.Statuses
+                Statuses = _statusRepo.Statuses,
+                userDetails = UserManager.Users
             };
             return View(model);
         }

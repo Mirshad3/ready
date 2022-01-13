@@ -1,0 +1,253 @@
+﻿@using localshop.Core.Common
+@using System.Configuration
+
+@model localshop.Core.DTO.ContactDTO
+
+@{
+    ViewBag.Title = "Privacy";
+}
+
+@section thirdPartyCss {
+    <style>
+        .parsley-errors-list {
+            margin-top: -20px;
+            margin-bottom: 20px;
+        }
+    </style>
+}
+
+@section thirdPartyJs {
+    @Scripts.Render("~/content/client/js/validation")
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGM-62ap9R-huo50hJDn05j3x-mU9151Y"></script>
+
+    <!-- Controller -->
+    @Scripts.Render("~/content/client/js/contact/index")
+}
+
+@Html.Hidden("sendMessageSuccess", TempData["SendMessageSuccess"])
+
+<div class="breadcrumb-area bg-img" style="background-image:url('@ImageLinks.BackgrounBreadcrumb');">
+    <div class="container">
+        <div class="breadcrumb-content text-center">
+            <h2>@ViewBag.Title</h2>
+            <ul>
+                <li>
+                    <a href="@Url.Action("index", "home")">Home</a>
+                </li>
+                <li class="active">@ViewBag.Title</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="contact-area pt-85 pb-90">
+    <div class="container">
+        <main id="maincontent" class="page-main"> 
+            <div class="page-title-wrapper"><h1 class="page-title"><span class="base" data-ui-id="page-title-wrapper">Terms and Conditions</span></h1></div><div class="page messages"> <div data-placeholder="messages"></div> <div data-bind="scope: 'messages'"><!-- ko if: cookieMessages && cookieMessages.length > 0 --><!-- /ko --><!-- ko if: messages().messages && messages().messages.length > 0 --><!-- /ko --></div></div><div class="columns">
+                <div class="column main">
+                    <input name="form_key" type="hidden" value="TjKxlc5ZZNd7AVKw">     
+                                             <div class="privacy-policy cms-content row">
+                                                 <div class="block block-collapsible-nav col-md-2">
+                                                     <div class="title block-collapsible-nav-title">Privacy Menu</div>
+                                                     <div id="privacy-policy-nav-content" class="block-collapsible-content content">
+                                                         <ul class="items">
+                                                             <li class="item current"><a href="#privacy-policy-title-1">Terms &amp; Conditions</a></li>
+                                                             <li class="item"><a href="#privacy-policy-title-2">Privacy Policy</a></li>
+                                                             <li class="item"><a href="#privacy-policy-title-3">Product Descriptions</a></li>
+                                                             <li class="item"><a href="#privacy-policy-title-4">Pricing</a></li>
+                                                             <li class="item"><a href="#privacy-policy-title-5">Orders</a></li>
+                                                             <li class="item"><a href="#privacy-policy-title-6">Payments</a></li>
+                                                             <li class="item"><a href="#privacy-policy-title-7">Delivery</a></li>
+                                                             <li class="item"><a href="#privacy-policy-title-8">Cancellation Policy</a></li>
+                                                             <li class="item"><a href="#privacy-policy-title-9">Return &amp; Refund Policy</a></li>
+                                                             <li class="item"><a href="#privacy-policy-title-10">Use of Medco E-Platforms</a></li>
+                                                         </ul>
+                                                     </div>
+                                                 </div>
+                                                 <div class="privacy-policy-content col-md-10">
+                                                     <h2 id="privacy-policy-title-1">Terms &amp; Conditions</h2>
+                                                     <ul>
+                                                         <li>These terms and conditions ("Terms") apply to all e-commerce platforms providing pharmacy services for the supply of products such as over the counter medicines,non prescription medicines, herbal medicines and food supplements, skin care products, medical apparatus for common sale and non-medical products including electrical products ("Products") through website, applications for mobile, or any other software ("Medco E-Platforms") operated by Medco Pharmacies, hereinafter referred to as ("Company", "we", "us", "our").</li>
+                                                         <li>These Terms set out the basis upon which you ("Users", "you", "your") can access and use Medco E-Platforms in the Sri Lanka , to buy Products and have them delivered to you ("Services").</li>
+                                                         <li>The Terms constitute the whole legal agreement between you and us and govern your use of Medco E-Platforms to acquire Products and completely replaces any prior agreements, if any, between you and us.</li>
+                                                         <h3 class="sub-title">Terms</h3>
+                                                         <li>By accessing Medco E-Platforms, you agree to be bound by these Terms. If you do not agree with any of the Terms, your sole recourse is to stop using Medco E-Platforms.</li>
+                                                         <li>The Company may amend these Terms at any time by posting an updated version of the Terms on Medco E-Platforms. The Company encourages you to check Medco E-Platforms regularly for any amendments to the Terms. Your continued use of Medco E-Platforms will constitute your express consent to these Terms.</li>
+                                                         <li>Nothing in these Terms affects your statutory rights, either as a consumer of services or otherwise.</li>
+                                                     </ul>
+
+                                                     <h2 id="privacy-policy-title-2">Privacy Policy</h2>
+                                                     <p>The personal information you provide in the course of using Medco E-Platforms will be used in accordance with our Privacy Policy, the terms of which are hereby incorporated into and form part of these Terms.</p>
+                                                     <h3 class="sub-title">Your Details</h3>
+                                                     <ul>
+                                                         <li>You will need to register with Medco E-Platforms to use any Services. To register, you must be at least 21 years of age and you must provide true, accurate, complete and current information (including name, date of birth, email address, credit/debit card details, mobile telephone number and other details) as requested during the account creation process. If you are under the legal age of majority, you may not register.</li>
+                                                         <li>If the prescription is for a person other than yourself, you will need to have the authority of the person whose prescription it is to have it dispensed by us. By placing an order to dispense another person's prescription you confirm that you have their authority to do so. You will provide us with any details that we may require confirming that you have such authority.</li>
+                                                         <li>By registering yourself on Medco E-Platforms, you warrant that the details you provide to the Company are correct and complete and you agree that you will inform the Company immediately of any changes to those details (e.g. change of email or postal address). You can access and update your details using the "My Account" area of Medco E-Platforms. You authorise us to use any information provided to us to verify your information (including any updated information), to obtain an initial credit authorisation from your credit card issuer at the time of registration, at Company's sole discretion. Your application for registration is dependent on acceptance of the same by Company, in its sole discretion.</li>
+                                                         <li>You are responsible for maintaining the confidentiality of your account user name and password and for preventing unauthorised access to your profile. You agree to accept responsibility for all activities that occur under your account. Please take all necessary steps to ensure that your user name and password is kept confidential and secure. Please inform the Company immediately if you have any reason to believe that your user name and/or password has become known to anyone else, or are being, or are likely to be, used in an unauthorised manner.</li>
+                                                         <li>The Company reserves the right to refuse access to Medco E-Platforms, terminate accounts, remove or edit content, or cancel/reject orders, at Company's sole discretion. If the Company cancels an order, it will be without charge to you.</li>
+                                                     </ul>
+
+
+                                                     <h2 id="privacy-policy-title-3">Product Descriptions</h2>
+                                                     <ul>
+                                                         <li>The Company is not the manufacturer of the Products sold via Medco E-Platforms. We do our best to ensure that information provided on Medco E-Platforms is accurate, but we do not warrant that it is correct, complete, reliable, current or error-free. You should not rely solely on the information presented on Medco E-Platforms and you should read labels, warnings and directions provided with the Products and consult your UAE licensed physician before purchasing any products on Medco E-Platforms.</li>
+                                                         <li>Electrical Products sold on Medco E-Platforms are designed for use in the UAE. They may not be suitable for use in other countries and you should check with the manufacturer before doing so. You should read the instructions that come with the Product before using the Product and observe any specific warnings given by the manufacturer.</li>
+                                                         <li>
+                                                             Not all medical Products are suitable for all medical ailments and potentially their use may interfere with treatment you are receiving or aggravate a condition. You should check with your licensed physician before using any medical Product.
+                                                         </li>
+                                                         <li>Physical fitness Products may not be suitable for use by some individuals. You should check with your licensed physician before embarking on any fitness programed.</li>
+                                                     </ul>
+
+
+                                                     <h2 id="privacy-policy-title-4">Pricing</h2>
+                                                     <ul>
+                                                         <li>Prices of all products are inclusive of VAT. Prices may change at any time due to revisions or other price changes advised from suppliers, vendors or governmental authorities. These price changes can reflect on Medco E-Platforms at any time throughout the day and may result in increased or decreased price of a Product. These revisions can be permanent or temporary and any changes in prices are at the discretion of the Company and are in line with pricing guidelines from suppliers, vendors and governmental authorities. You agree to pay the listed price applicable at the time of confirmation of your order and billing by us.</li>
+                                                         <li>There may be errors in the pricing that appears on Medco E-Platforms or during the order process. We will try to resolve, in good faith and in accordance with applicable laws, any issues that may arise as a result of such errors. You need to cooperate with us to resolve such issues, and you agree that we shall have full discretion to determine the appropriate resolution in such cases.</li>
+                                                     </ul>
+
+
+                                                     <h2 id="privacy-policy-title-5">Orders</h2>
+                                                     <ul>
+                                                         <li>When you place an order for Products, we collect certain personal and transactional information (e.g. name, address, email address). For details on how we use this information, please read our Privacy Policy.</li>
+                                                         <li>We accept orders for Products subject to availability. Please note additional special conditions apply for POM. If for any reason the Products you ordered are no longer available, we will contact you using the contact details you supplied when placing your order and either: (i) offer you an alternative Product of equivalent quality and price if this is possible; or ii. cancel the Product from your order and give you a full refund in respect of that Product.</li>
+                                                         <li>If we are unable to contact you or do not receive a response from you, we will process any remaining Products on your order and refund you for the Products we are unable to supply.</li>
+                                                         <li>By ordering Products, you agree to pay the full amount payable for such Products as indicated during the order process, along with any shipping costs or other charges applicable to that order.</li>
+                                                         <li>We reserve the right to refuse service, terminate your account or cancel orders, at our sole discretion.</li>
+                                                     </ul>
+
+
+                                                     <h2 id="privacy-policy-title-6">Payments</h2>
+                                                     <ul>
+                                                         <li>You may pay for the Products which you order online using Medco E-Platforms by supplying your credit/debit card details to our third party payment provider OR by paying cash on delivery. You may also use combination payment with multiple options of cash, card payment, "Medco Secure",rewards points or approved gift vouchers as provided in Medco E-Platforms checkout process.</li>
+                                                         <li>If you make a payment for Products ordered using Medco E-Platforms, the details you are asked to submit will be provided directly to our third party payment provider via a secured connection ("Payment Gateway").</li>
+                                                         <li>We reserve the right to cancel your transaction processing account at any time for any reason, at which time we will return the payment amount entered in the Payment Gateway, in an appropriate and reasonable timeframe.</li>
+                                                         <li>We reserve the right to refuse processing Services to you at any time for any reason. You also maintain the ability to discontinue use of the Payment Gateway at any time for any reason. Active recurring payments must be deleted before use of Services is discontinued. It is your responsibility to terminate any and all recurring payments on your account before relocating or moving, otherwise charges will continue to be assessed to your billing account during the period designated for recurring payments to take place.</li>
+                                                         <li>If you believe a transaction was made improperly, we in our sole discretion may void, issue a credit, or rescind any transaction made through the Payment Gateway prior to remittance of such payment to your payee. Payment disputes arising after payment has been settled to your payee are between you and payee alone. We may act as an intermediary if our actions can reasonably and efficiently handle said problem.</li>
+                                                     </ul>
+
+
+                                                     <h2 id="privacy-policy-title-7">Delivery</h2>
+                                                     <ul>
+                                                         <li>Medco E-Platforms can only be used for the delivery of Products in the Sri Lanka.</li>
+                                                         <li>When we accept an order, we aim to deliver your Product consignment within 3 working days of the date of order or at some other delivery date indicated at the time of order confirmation. Delivery dates are indicative only. We are not liable for any delay in delivery due to unforeseen reasons including but not limited to product unavailability, transport delays, natural calamities or any other reason beyond our reasonable control.</li>
+                                                         <li>Delivery occurs when the ordered Products are delivered to the delivery address you specified when placing your order. At this point, responsibility for loss, breakage and damage passes to you. Ownership of Products purchased passes to you when payment is received by us in full and the product is delivered to you / authorized person. You will be asked to sign for acceptance of the Products which will confirm that the Products are correct and have been received in good condition.</li>
+                                                         <li>If you are not at the delivery address, we will assume that any adults that are present at the delivery address are authorized by you to take delivery of the Products that you have ordered. If above criteria are not met or if there is no one at the delivery address, we will not leave the Products at the delivery address. We will contact you to arrange an alternative delivery time.</li>
+                                                         <li>While we aim to ship all Products in your order together, this may not always be possible due to Product characteristics or availability.</li>
+                                                         <li>Please note that all deliveries will be shipped with an invoice setting out the price.</li>
+                                                         <li>Free shipping applies for all orders above 69 AED. There is a charge of AED 10 for orders below 69 AED. These charges are subject to change without prior notice and you should the Company encourages you to check Medco E-Platforms regularly for any amendments to these Terms and such charges. Shipping charges will be calculated at the time of checkout online. Any deliveries to be made in a stipulated period of time or date may attract additional charges determined by Medco E-platforms and the same will be specified on the order value before placing an order.</li>
+                                                     </ul>
+
+
+                                                     <h2 id="privacy-policy-title-8">Cancellation Policy</h2>
+                                                     <ul>
+                                                         <li>Medco E-Platforms believes in helping its customers as far as possible and therefore, has a liberal cancellation policy.</li>
+                                                         <li>Under this policy cancellations of orders is permitted at any time before we have sent you an SMS message confirming our acceptance of your order.</li>
+                                                         <li>Unless required by law, Medco E-Platforms do not accept cancellation requests for perishable or temperature sensitive items. However, a refund and return can be made for such items if you establish, in our sole opinion, that there is a deficiency in the integrity of the packaging or product.</li>
+                                                     </ul>
+
+
+
+                                                     <h2 id="privacy-policy-title-9">Return &amp; Refund Policy</h2>
+                                                     <ul>
+                                                         <li>There can be certain circumstances, beyond our control, where you could receive a damaged/defective Product or a product that is not the same as per your original order. We shall replace the product with the same Products as per the order, at no extra cost. In such circumstances, before using the Product, please get in touch with our Customer Service Team, who will guide you on the process for replacing the product, at our Customer Service number +94 77 327 2746 or write to us at info@Medco.lk.</li>
+                                                         <li>Where Products are not damaged/defective we will only accept return of certain Products on a case by case basis under these Terms. The return process for Products ordered through Medco E-Platforms can be amended by us, in our sole discretion and may depend on the nature and category of the product ordered.</li>
+                                                     </ul>
+
+                                                     <h3 class="sub-title">Conditions for Return</h3>
+                                                     <ul>
+                                                         <li>Please notify us of receipt of a damaged/defective Product(s) within maximum 48 hours of delivery of the Product.</li>
+                                                         <li>Products to be returned must be in the same condition as you received them, including keeping hygienic seals. Unless required by law, used or opened products will not be replaced under any circumstances.</li>
+                                                         <li>Products should be returned in their original packaging along with the original price tags, labels and invoices.</li>
+                                                         <li>It is advised that the returned packets should be strongly and adequately packaged so that there is no further damage of goods in transit.</li>
+                                                         <li>Please contact our Customer Service Team to arrange for collection of your return. One of our drivers or shipping partners will pick up your return. Once collected your return will be inspected by us to determine if the return is acceptable.</li>
+                                                     </ul>
+
+                                                     <h3 class="sub-title">Refunds</h3>
+                                                     <p>Once we have found the basis for the return acceptable, in our sole opinion and the Product has been received by Medco E-Platforms, then the refund will be processed based on the mode of payment of the order. Orders paid by credit/debit card will be refunded by credit back to the credit/debit card within 15 workings days. However, We shall not be responsible for the delay in refund due to delay in processes of banks. For all other modes of payment, a refund will be made by way of cheque payable to the person named on our invoice and as provided at the time of order within 7 working days.</p>
+
+                                                     <h3 class="sub-title">Agreement To Deal Electronically; Electronic Communications And Notices</h3>
+                                                     <ul>
+                                                         <li>By clicking "Submit" on any step of a transaction on Medco E-Platforms, you agree to conduct such transaction by electronic means. You understand that by clicking the box titled "I agree to the Terms &amp; Conditions", you are agreeing to conduct an electronic transaction and to use and receive communications through electronic means. You agree to enter the requested information electronically via the Internet and to be notified regarding any transaction/promotion electronically through the email address you have provided. You understand that electronically signed documents have the same legal effect as hard copies with ink signatures.</li>
+                                                         <li>Except as otherwise provided in these Terms, we will give you any notices regarding Medco E-Platforms by posting them on Medco E-Platforms. To fulfill our obligations to you under these Terms, we may wish to communicate with you by email and/or by posting notices on Medco E-Platforms. You agree to receive communications from us electronically and that electronic communications will satisfy any legal requirement for communications that need to be in writing.</li>
+                                                     </ul>
+
+                                                     <h2 id="privacy-policy-title-10">Use of Medco E-Platforms</h2>
+                                                     <ul>
+                                                         <li>The Company tries to keep all information on Medco E-Platforms up to date, but it may not be correct all of the time. You should independently check the information you use is correct. You agree that you use Medco E-Platforms at your own risk. If you find any incorrect information, you can notify the Company by calling or emailing at the details specified in the Contact section below.</li>
+                                                         <li>You must not conduct or promote any illegal activities while using Medco E-Platforms. This includes any activities that (in Company's opinion) breach copyright, infringe on privacy or infringe any other third party rights, as well as activities that are defamatory to third persons. To do so may lead to prosecution.</li>
+                                                         <li>All content on Medco E-Platforms is for general information purposes, it is not intended to amount to advice on which you should rely. You must obtain professional or specialist advice before taking or refraining from, any action on the basis of the content on Medco E-Platforms.</li>
+                                                         <li>You must not use Medco E-Platforms to generate unsolicited emails, spam or promotional materials to other users. You must not do anything to cause damage to Medco E-Platforms or other users of the Medco E-Platforms, including any technical damage to other computers. You must not send any viruses or other material designed to adversely affect the operation of Medco E-Platforms, affect any other users of the Medco E-Platforms or affect any equipment or any data on Medco E-Platforms. You must not attempt to gain access to Medco E-Platforms or the system that runs Medco E-Platforms. You must not interfere with the security of Medco E-Platforms, its services, system resources or network. You must not use Medco E-Platforms in any manner that could damage, overburden or impair Medco E-Platforms or harvest or otherwise collect any information about other users. You must not change, edit, add to or produce summaries of its content anywhere else. You must not attempt to gain unauthorised access to our site, the server on which our site is stored or any server, computer or database connected to our site. You must not attack our site via a denial-of-service attack or a distributed denial-of-service attack. By breaching this provision, you would commit a criminal offence. We will report any such breach to the relevant law enforcement authorities and we will co-operate with those authorities by disclosing your identity to them. In the event of such a breach, your right to use our site will cease immediately.</li>
+                                                         <li>Please note that it is illegal to provide false information or fraudulently obtained information regarding the credit/debit card or without the consent of the cardholder. Any party engaged in illegal activities involving the use of Medco E-Platforms may be subject to prosecution. The Company does not guarantee that the Company will be able to prevent any illegal or inappropriate use of Medco E-Platforms or will give notice of any illegal or inappropriate use of Medco E-Platforms.</li>
+                                                         <li>You are responsible for configuring your information technology, computer programs and platform in order to access our site. You should use your own virus protection software.</li>
+                                                     </ul>
+
+                                                     <h3 class="sub-title">Change and Cessation of Operations</h3>
+                                                     <p>The Company reserves the right to change or correct any errors or omissions on Medco E-Platforms and to alter, limit or discontinue the provision of any of the services provided via Medco E-Platforms, at any time without prior notice to you. The Company will use reasonable efforts to include up-to-date and accurate information on Medco E-Platforms, but it reserves the right to delete, modify or supplement the content available on Medco E-Platforms at any time for any reason without prior notification.</p>
+
+
+                                                     <h3 class="sub-title">Third Party Links and Advertisements</h3>
+                                                     <ul>
+                                                         <li>Medco E-Platforms may contain links to other websites. The Company makes no representations or warranties as to the content, privacy practices and other practices of any websites operated by a third party and the Company does not assume responsibility for the content or practices of such websites. You should check the terms and conditions and privacy policies for all third party websites you visit to understand their procedures.</li>
+                                                         <li>If you use any material or visit any linked website, you do so at your own risk and it is your responsibility to take all protective measures to guard against viruses or other destructive material. The Company does not endorse and is not responsible for the use of or the content of any third party websites. The Company is not responsible for anything that may happen when you use them.</li>
+                                                     </ul>
+
+
+                                                     <h3 class="sub-title">Intellectual Property</h3>
+                                                     <ul>
+                                                         <li>Medco E-Platforms' content is protected by copyright, trade mark and other intellectual property rights. The Company or its affiliates or its licensors, retain all rights in such content. You are only permitted to access and use Medco E-Platforms for personal purposes. You may not use Medco E-Platforms or any of its content to further any commercial purpose, including any advertising or advertising revenue generation activity on your own website. You may not modify, copy, distribute, transmit, display, perform, reproduce, publish, license, commercially exploit, create derivative works from, transfer or sell any content or software contained within the Medco E-Platforms.</li>
+                                                         <li>The Company is not responsible for any error or inaccuracy in any advertising or sponsorship material available on Medco E-Platforms.</li>
+                                                     </ul>
+
+
+
+                                                     <h3 class="sub-title">Intellectual Property</h3>
+                                                     <p>You agree to comply with all legal requirements of the jurisdiction in which you are located with regard to your use of Medco E-Platforms and you acknowledge that you are entirely responsible for ensuring your own familiarity with such requirements and your own compliance with the same. Medco E-Platforms may at times provide opportunities for Users to post reviews and other comments, questions, suggestions or other information ("User Generated Content"). You warrant that any such User Generated Content submitted by you on Medco E-Platforms is original (and does not infringe the copyright of others), and you hereby grant the Company a perpetual, irrevocable, non-exclusive, royalty-free license to use such User Generated Content so submitted, without any further recourse to you and you hereby waive any moral rights in such User Generated Content. You agree that this license authorizes us to publish your User Generated Content and identify you as the source of that content by using the name or user name that you use to submit the content. You agree that you will not post any content that is contrary to morality, defamatory, inflammatory, that infringes copyright or that may otherwise breach common decency or be contrary to law. The Company has the right, but not the obligation, to monitor and edit or remove any activity or User Generated Content and takes no responsibility and assumes no liability for any User Generated Content posted by you or any third party.</p>
+
+
+                                                     <h3 class="sub-title">Disclaimer Of Warranty</h3>
+                                                     <p>Medco E-Platforms and its content are provided on an "as is" and "as available"basis. The Company, its parents, subsidiaries, affiliates and their respective suppliers and any of their owners, officers, directors, managers, members, agents and employees expressly disclaim (to the fullest extent permitted by applicable law) any and all express, implied and statutory warranties, including, without limitation, any warranties of merchantability, fitness for a particular purpose, freedom from computer virus, title and non-infringement of proprietary rights.</p>
+
+
+                                                     <h3 class="sub-title">Limitation Of Liability</h3>
+                                                     <p>To the maximum extent permissible by applicable law, Company, its parents, subsidiaries, affiliates and their respective suppliers and any of their owners, officers, directors, managers, members, agents and employees:</p>
+                                                     <ul>
+                                                         <li>Are not liable for any direct, indirect, punitive, incidental, special or consequential damages or loss (including, without limitation, incidental and consequential damages, lost profits or damages resulting from lost data or business interruption) arising out of or in way connected with your use of Products or the use or inability to use Medco E-Platforms and its content, whether based on warranty, contract, tort (including negligence), or any other legal theory and whether or not company is advised of the possibility of such damages; and</li>
+                                                         <li>Are excluded from any and all liability for damages caused by any problems or technical malfunction of any telephone network or lines, computer online systems, servers or providers, computer equipment, software, failure of any communications due to technical problems or traffic congestion on the internet or on Medco E-Platforms or combination thereof, including any injury or damage to any users or to any person's computer related to or resulting from use of Medco E-Platforms.</li>
+                                                     </ul>
+                                                     <p>Where it is not possible to exclude liability under applicable law, you agree that Company's maximum liability for any corresponding claim shall be limited to the amount paid for the Prescribed Products in question.</p>
+
+
+                                                     <h3 class="sub-title">Indemnity</h3>
+                                                     <p>You agree to hold harmless and indemnify Company, its parents, subsidiaries, affiliates and their respective suppliers and any of their owners, officers, directors, managers, members, agents and employees from and against any claims, liabilities, suits, judgments, litigation costs, causes of action, demands, recoveries, losses, damages (actual and consequential), fines, penalties and legal fees or other costs or expenses of any kind or nature arising from or in any way related to your use of Medco E-Platforms, including, but not limited to those brought by you or on your behalf in excess of the liability described above or by third parties as a result of your breach of these Terms, your violation of any law or the rights of a third party or your use of the Medco E-Platforms.</p>
+
+
+                                                     <h3 class="sub-title">Relationship</h3>
+                                                     <p>These Terms (as amended from time to time in accordance with its terms) and Privacy Policy sets out the entire understanding and agreement between you and the Company with respect to the use of Medco E-Platforms.</p>
+
+
+                                                     <h3 class="sub-title">Termination</h3>
+                                                     <p>The Company may terminate or suspend your access to all or part of Medco E-Platforms without prior notice, if it believes that your conduct is in violation of these Terms, applicable law or otherwise harmful to the interests of the Company or any third party. Notwithstanding, such termination or suspension, you agree that you will continue to be subject to the obligations that, by their nature, survive such termination or suspension, including the obligations relating to Intellectual Property Rights and User Generated Content.</p>
+
+
+                                                     <h3 class="sub-title">General</h3>
+                                                     <p>Relationship:</p>
+                                                     <p>None of the provisions of these Terms will be deemed to constitute a partnership or agency between you and Company and you will have no authority to bind the Company in any manner whatsoever.</p>
+                                                     <p>Severability:</p>
+                                                     <p>If any provision of these Terms is held by a court of competent jurisdiction to be invalid, illegal or unenforceable and can be deleted such provision without altering the essence of these Terms, the invalid, illegal or unenforceable provision will be severed and the remaining provisions will remain in full force or effect.</p>
+                                                     <p>No Waiver:</p>
+                                                     <p>Any failure by the Company to enforce any terms set out in these Terms or other policies with you is not a waiver of Company's rights to enforce those terms.</p>
+
+                                                     <h3 class="sub-title">Governing Law and Jurisdiction</h3>
+                                                     <p>The Terms shall be governed by the laws of Sri Lanaka. Any dispute regarding these Terms shall be subject to the exclusive jurisdiction of the Courts in Sri Lanaka</p>
+
+                                                     <h3 class="sub-title">Contact Us</h3>
+                                                     <p><strong>Medco Online Shopping</strong>, @*bearing commercial licence No. 689624 has a registered office at*@ <strong>20/4B, Peiris Road, Mount Lavenia, Sri Lanka</strong>. You can contact us regarding the Services or these Terms on <a href="mailto:info@Medco.lk">info@Medco.lk</a> and toll free Customer Service number <strong>+94 77 327 2746</strong>.</p>
+
+                                                 </div>
+
+                                             </div>
+                </div>
+            </div>
+        </main>
+
+    </div>
+</div>

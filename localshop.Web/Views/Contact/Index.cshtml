@@ -73,10 +73,41 @@
                 </div>
             </div>
         </div>
-
-        <div class="contact-map pb-90">
-            <div id="map"></div>
+        <div class="contact-info-wrap mb-50">
+            <h3>customer service</h3>
+            <div class="row">
+                <div class="col-lg-4 col-md-4">
+                    <div class="single-contact-info text-center mb-30">
+                        <i class="ti-location-pin"></i>
+                        <h4>our address</h4>
+                        <p>@ConfigurationManager.AppSettings["ServiceAddress"]</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <div class="single-contact-info extra-contact-info text-center mb-30">
+                        <ul>
+                            <li>
+                                <i class="ti-mobile"></i>@ConfigurationManager.AppSettings["ServicePhone"]
+                            </li>
+                            <li>
+                                <i class="ti-email"></i>
+                                <a href="mailto:@ConfigurationManager.AppSettings["ServiceMail"]">@ConfigurationManager.AppSettings["ServiceMail"]</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <div class="single-contact-info text-center mb-30">
+                        <i class=" ti-alarm-clock"></i>
+                        <h4>openning hour</h4>
+                        <p>@ConfigurationManager.AppSettings["OpeningTime"]</p>
+                    </div>
+                </div>
+            </div>
         </div>
+        @*<div class="contact-map pb-90">
+            <div id="map"></div>
+        </div>*@
 
         <div class="get-in-touch-wrap">
             <h3>Get In Touch</h3>

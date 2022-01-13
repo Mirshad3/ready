@@ -31,11 +31,13 @@ namespace localshop.Areas.Admin.Controllers
         private IOrderRepository _orderRepo;
         private ApplicationUserManager _userManager;
         private IProductRepository _productRepo;
-        public OrderController(ApplicationUserManager userManager, IOrderRepository orderRepo, IProductRepository productRepo)
+        private ICityRepository _cityRepo;
+        public OrderController(ApplicationUserManager userManager, IOrderRepository orderRepo, IProductRepository productRepo, ICityRepository cityRepo)
         {
             _orderRepo = orderRepo;
             UserManager = userManager;
             _productRepo = productRepo;
+            _cityRepo = cityRepo;
         }
         public ApplicationUserManager UserManager
         {
@@ -50,7 +52,7 @@ namespace localshop.Areas.Admin.Controllers
         }
         public ActionResult Index()
         {
-            var model = new List<OrderViewModel>();
+            var model = new List<OrderUserViewModel>();
 
             var orders = _orderRepo.Orders.OrderByDescending(o => o.OrderDate);
      foreach (var o in orders)
@@ -78,11 +80,15 @@ namespace localshop.Areas.Admin.Controllers
                        _orderRepo.UpdateStatus(o.Id, orderStatus);
                     }
                 }
-                var order = new OrderViewModel
-                {
+                var orderDetails = _orderRepo.GetOrderDetails(o.Id); 
+                var product = _productRepo.FindById(orderDetails.FirstOrDefault().ProductId);
+                var user = UserManager.FindById(product.UserId);
+                var order = new OrderUserViewModel
+                { 
                     Order = o,
                     PaymentMethod = _orderRepo.GetPaymentMethod(o.PaymentMethodId),
-                    OrderStatus = orderStatus
+                    OrderStatus = orderStatus,
+                    Owner = user.FullName
                 };
 
                 model.Add(order);
@@ -112,18 +118,18 @@ namespace localshop.Areas.Admin.Controllers
         public ActionResult ReadyShippingLabel(string id)
         {
           
-            var orders = _orderRepo.FindById(id);
-
-            var order = new OrderViewModel
+            var orders = _orderRepo.FindById(id); 
+            var order = new OrderViewModelWithUser
             {
                 Order = orders,
                 PaymentMethod = _orderRepo.GetPaymentMethod(orders.PaymentMethodId),
-                OrderStatus = _orderRepo.GetOrderStatus(orders.OrderStatusId)
+                OrderStatus = _orderRepo.GetOrderStatus(orders.OrderStatusId),
+                User = UserManager.FindById(User.Identity.GetUserId())
             };
              
             return View(order);
         }
-   public ActionResult IndexVendor()
+        public ActionResult IndexVendor()
         {
             var model = new List<OrderViewModel>();
             var userid = User.Identity.GetUserId();
@@ -263,7 +269,8 @@ namespace localshop.Areas.Admin.Controllers
                 if (user.Address1.Count() > 0 || user.Address2.Count() > 0) {
 
                     var response = PostNewOrderDataToApi(datas);
-                    var track = PostPickupDataToApi(user.FullName,user.Address1, user.Address2,user.City, user.State, details.Sum(m=>m.Quantity), oredrdetails.OrderWaybillid, user.PhoneNumber);
+                     var city = _cityRepo.Cities.Where(m => m.Id == user.City).FirstOrDefault().Name;
+                    var track = PostPickupDataToApi(user.FullName,user.Address1, user.Address2, city , user.State, details.Sum(m=>m.Quantity), oredrdetails.OrderWaybillid, user.PhoneNumber);
             }
             }
             return Json(new
@@ -334,7 +341,7 @@ namespace localshop.Areas.Admin.Controllers
                 StringBuilder postData = new StringBuilder();
                 postData.Append("apikey=KwyHFZKKZeqrWyDyEhqr&vehicleType=Bike&");
                 postData.Append("pickup_remark=" + HttpUtility.UrlEncode(OrderWaybillid.ToString() + " " + FullName) + "&");
-                postData.Append("pickup_address=" + HttpUtility.UrlEncode(Address1 + ", " + Address2 + ", " + City + ", " + State) + "&latitude=7.901608599999999&longitude=88.0087746&");
+                postData.Append("pickup_address=" + HttpUtility.UrlEncode(Address1 + " " + Address2 + " " + City + " " + State) + "&latitude=7.901608599999999&longitude=88.0087746&");
                 postData.Append("phone=" + HttpUtility.UrlEncode(Number) + "&");
                 postData.Append("qty=" + HttpUtility.UrlEncode(Quantity.ToString()));
                 //jsonData =  "apikey=KwyHFZKKZeqrWyDyEhqr&vehicleType=Bike&pickup_remark=test&pickup_address=sri lanka&latitude=6.901608599999999&longitude=80.0087746&phone=0760961206&qty=10";
