@@ -3,7 +3,7 @@
 
 @{
     Layout = null;
-    ViewBag.Title = "Tracking order";
+    ViewBag.Title = "Return Product";
 }
 
 <!DOCTYPE html>
@@ -33,36 +33,11 @@
 </head>
 <body>
     <div class="main-wrapper">
-        @Html.Action("trackingHeader", "nav")
+       
 
         <div class="section-padding-4 py-md-5 pt-0 pb-5">
             <div class="container-fluid">
-                @if (Model.Order == null)
-                {
-                    <p class="text-center">Please enter your order id above to track!</p>
-                    <div class="text-center">
-                        <a href="@Url.Action("index", "shop")" class="btn btn-light">Continue shopping</a>
-                    </div>
-                }
-                else
-                {
-                    if (TempData["OrderSuccess"] as string == "true")
-                    {
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                <strong>Thank you!</strong> @:Your order has been placed. You can access your order details anytime in your <a href="@Url.Action("orders", "account")" class="text-primary">orders section in profile</a>.
-                            }
-                            else
-                            {
-                                <strong>Thank you!</strong> @:Your order has been placed. Please save your <strong class="text-danger">Order ID</strong> if you are not logged in to track your order anytime.
-                            }
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    }
-
+               
                     <div id="printElement">
                         <div class="row">
                             <div class="col-lg-7 col-12">
@@ -74,47 +49,44 @@
                                         <div class="row mb-2">
                                             <div class="col-4">
                                                 <p class="font-weight-bold">Order ID:</p>
-                                                <p class="font-weight-bold">Order status:</p>
                                                 <p class="font-weight-bold">Payment method:</p>
                                                 <p class="font-weight-bold">Placed date:</p>
                                             </div>
                                             <div class="col-8">
+                                                <input type="hidden" id="orderIds" value=@Model.Order.Id />
                                                 <p>@Model.Order.Id</p>
-                                                @switch (Model.OrderStatus)
-                                                {
-                                                    case OrderStatusNames.Pending:
-                                                        {
-                                                            <p><span class="badge badge-warning">@Model.OrderStatus</span></p>
-                                                            break;
-                                                        }
-                                                    case OrderStatusNames.Approved:
-                                                        {
-                                                            <p><span class="badge badge-primary">@Model.OrderStatus</span></p>
-                                                            break;
-                                                        }
-                                                    case OrderStatusNames.Delivered:
-                                                        {
-                                                            <p><span class="badge badge-success">@Model.OrderStatus</span></p>
-                                                            break;
-                                                        }
-                                                    case OrderStatusNames.Cancelled:
-                                                        {
-                                                            <p><span class="badge badge-danger">@Model.OrderStatus</span></p>
-                                                            break;
-                                                        }
-                                                    default:
-                                                        {
-                                                            <p><span class="badge badge-secondary">@Model.OrderStatus</span></p>
-                                                            break;
-                                                        }
-                                                }
+
                                                 <p>@Model.PaymentMethod</p>
-                                                <p>@Model.Order.OrderDate</p>
+                                                <p id="orderDate">@Model.Order.OrderDate</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="font-weight-bold">PRODUCT</span>
+                                    <span class="font-weight-bold text-danger">TOTAL</span>
 
+                                </div>
+                                <hr />
+                                <div class="order-product">
+                                    <ul>
+                                        @{
+                                            decimal subTotal = 0;
+                                        }
+                                        @foreach (var od in Model.OrderDetails)
+                                        {
+                                            subTotal += od.SubTotal;
+                                        <li class="d-flex">
+                                            <input type="hidden" id="productId" value=@od.ProductId />
+                                            <div class="d-inline-block col-7 pl-0">@od.Name</div>
+                                            <strong class="text-danger col-3 pr-0">x @od.Quantity</strong>
+                                            <span class="col-2 text-right p-0">Rs @od.SubTotal</span>
+                                        </li>
+                                        }
+                                        
+                                    </ul>
+                                    <input type="hidden" value=@subTotal id="subTotal"/> 
+                                </div>
                                 <div class="card mb-4">
                                     <div class="card-header">
                                         <span class="h4">Shipment details</span>
@@ -175,44 +147,37 @@
                             <div id="order-details" class="col-lg-5">
                                 <div class="card mb-4">
                                     <div class="card-header">
-                                        <span class="h4">Order details</span>
+                                        <span class="h4">Return details</span>
                                     </div>
                                     <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <span class="font-weight-bold">PRODUCT</span>
-                                            <span class="font-weight-bold text-danger">TOTAL</span>
-                                        </div>
-                                        <hr />
-                                        <div class="order-product">
-                                            <ul>
-                                                @{
-                                                    decimal subTotal = 0;
-                                                }
-                                                @foreach (var od in Model.OrderDetails)
-                                                {
-                                                    subTotal += od.SubTotal;
-                                                    <li class="d-flex">
-                                                        <div class="d-inline-block col-7 pl-0">@od.Name</div>
-                                                        <strong class="text-danger col-2 pr-0">x @od.Quantity</strong>
-                                                        <span class="col-3 text-right p-0">Rs @od.SubTotal</span>
-                                                    </li>
-                                                }
-                                            </ul>
-                                        </div>
-                                        <hr />
-                                        <div class="d-flex justify-content-between">
-                                            <span class="font-weight-bold">SUBTOTAL</span>
-                                            <span class="font-weight-bold text-danger">Rs @subTotal</span>
-                                        </div>
-                                        <hr />
-                                        <div class="d-flex justify-content-between">
-                                            <span class="font-weight-bold">SHIPPING</span>
-                                            <span>Rs @Model.Order.ShippingPrice</span>
-                                        </div>
-                                        <hr />
-                                        <div class="d-flex justify-content-between">
-                                            <span class="font-weight-bold">TOTAL</span>
-                                            <span class="font-weight-bold text-danger">Rs @Model.Order.Total</span>
+                                        <div class="modal-body">
+                                            <form id="editCategory" role="form" data-parsley-validate novalidate>
+                                                <input type="hidden" id="categoryId" />
+
+                                                <div class="form-group">
+                                                    <label for="categoryName">Reason</label>
+                                                    <select class="form-group" id="reason">
+                                                        <option value="1">"Damage"</option>
+                                                        <option value="2">"Expire"</option>
+                                                        <option value="3">"Other Brand"</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="categoryName">Other Reason</label>
+                                                    <textarea id="otherReason"></textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="categoryName">Upload Image 1</label>
+                                                    <input type="file" id="img1"/>
+                                                    <label for="categoryName">Upload Image 2</label>
+                                                    <input type="file" id="img2"/>
+                                                    <label for="categoryName">Upload Image 3</label>
+                                                    <input type="file" id="img3"/>
+                                                </div>
+                                                <div class="text-right">
+                                                    <button class="btn btn-primary" id="returnBtn">Save</button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -225,14 +190,11 @@
                         <div class="col-lg-7 col-12">
                             <div class="d-flex justify-content-end">
                                 <a href="@Url.Action("index", "shop")" class="btn btn-light mr-2">Continue shopping</a>
-                                <button id="btn-print" class="btn btn-dark">
-                                    <i class="la la-print"></i>
-                                    Print invoice
-                                </button>
+                                
                             </div>
                         </div>
                     </div>
-                }
+                
             </div><!-- End row -->
         </div>
     </div>
@@ -245,19 +207,42 @@
     <!-- Plugins JS -->
     @Scripts.Render("~/content/client/js/tracking")
     @Scripts.Render("~/content/removeAds")
-
-    <script>
-        $('#btn-print').on('click', function () {
-            $('#order-details').addClass('col-lg-7').removeClass('col-lg-5');
-
-            printJS({
-                printable: 'printElement',
-                type: 'html',
-                targetStyles: ['*']
-            });
-
-            $('#order-details').addClass('col-lg-5').removeClass('col-lg-7');
-        });
-    </script>
+ <script>
+     $('#returnBtn').on('click', function (e) {
+         e.preventDefault();
+         $.ajax({
+             type: "POST",
+             dataType: "json",
+             url: "/tracking/save",
+             data: {
+                 OrderId: $('#orderIds').val(),
+                 ReturnDate: $('#orderDate p').text(),
+                 Image1: $('#img1').val(),
+                 Image2: $('#img2').val(),
+                 Image3: $('#img3').val(),
+                 Reason: $('#reason').val(),
+                 OtherReason: $('#otherReason').val(),
+                 SubTotal: $('#subTotal').val(),
+                 ProductId: $('#productId').val()
+             },
+             success: function (response) {
+                 if (response.success) {    
+                    
+                   
+                    // window.open("/shop/index");
+                     toastr["success"]("Saved!");
+                 } else {
+                     toastr["error"]("Something went wrong!");
+                 }
+             },
+             error: function () {
+                 alert("Something went wrong!");
+             },
+             complete: function () {
+                 $('#editModal').modal('toggle');
+             }
+         });
+     });
+ </script>
 </body>
 </html>

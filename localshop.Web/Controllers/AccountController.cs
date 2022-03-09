@@ -24,13 +24,17 @@ namespace localshop.Controllers
         private IMapper _mapper;
         private IOrderRepository _orderRepo;
         private ICityRepository _cityRepo;
-        public AccountController(ICityRepository cityRepo,ApplicationUserManager userManager, ApplicationSignInManager signInManager, IMapper mapper, IOrderRepository orderRepo)
+        private IAccountRepository _accountRepo;
+        public AccountController(ICityRepository cityRepo, IAccountRepository accountRepo,ApplicationUserManager userManager, ApplicationSignInManager signInManager, IMapper mapper, IOrderRepository orderRepo)
         {
             UserManager = userManager;
             SignInManager = signInManager;
             _mapper = mapper;
             _orderRepo = orderRepo;
             _cityRepo = cityRepo;
+            _accountRepo = accountRepo;
+
+
         }
 
         public ApplicationSignInManager SignInManager
@@ -123,7 +127,29 @@ namespace localshop.Controllers
             TempData["SaveSuccess"] = "true";
             return RedirectToAction("info");
         }
+        [HttpGet]
+        public ViewResult UpdateBankInfo()
+        { 
+            return View();
+        }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateBankInfo(BankAccountDTO bankAccount)
+        {
+            var user = _accountRepo.FindById(User.Identity.GetUserId());
+
+            if (!ModelState.IsValid)
+            {
+                return View(bankAccount);
+            }
+
+            user = _mapper.Map(bankAccount, user);
+            _accountRepo.Save(bankAccount);
+
+            TempData["SaveSuccess"] = "true";
+            return RedirectToAction("info");
+        }
         [HttpGet]
         public ViewResult ChangePassword()
         {

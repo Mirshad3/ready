@@ -11,4 +11,9 @@ namespace localshop.Areas.Admin.ViewModels
         public IList<ListUserViewModel> ListUser { get; set; }
         public IList<ApplicationRole> Roles { get; set; }
     }
+    public class ListUserWithAccountViewModel
+    {
+        public IList<ListUserBankViewModel> ListUser { get; set; }
+        public IList<ApplicationRole> Roles { get; set; }
+    }
 }

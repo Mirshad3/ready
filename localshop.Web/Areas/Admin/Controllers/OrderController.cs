@@ -88,7 +88,7 @@ namespace localshop.Areas.Admin.Controllers
                     Order = o,
                     PaymentMethod = _orderRepo.GetPaymentMethod(o.PaymentMethodId),
                     OrderStatus = orderStatus,
-                    Owner = user.FullName
+                    Owner = user == null ? null : user.FullName
                 };
 
                 model.Add(order);

@@ -1,0 +1,75 @@
+﻿@using localshop.Core.Common
+
+@model ListUserWithAccountViewModel
+
+
+@{
+    ViewBag.Title = "Vendors";
+}
+
+@section topbar {
+    @Html.Action("topbar", "nav", new { header = NavigationHeader.UserIndex })
+}
+
+@section thirdPartyCss {
+    @Styles.Render("~/content/admin/css/datatables_sweetalert", "~/content/admin/css/toastr")
+}
+
+@section thirdPartyJs {
+    @Scripts.Render("~/content/admin/js/datatables_sweetalert", "~/content/admin/js/toastr")
+
+    <!-- Controller -->
+    @Scripts.Render("~/content/admin/js/user/index")
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card-box overflow-auto">
+            <table id="customdatatable" class="table table-striped table-bordered nowrap">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Account Name</th>
+                        <th>Account No</th>
+                        <th>Bank Name</th>
+                        <th>Branch Name</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var user in Model.ListUser)
+                    {
+                    <tr data-user-id="@user.User.Id">
+                        <td>@user.User.Id</td>
+                        <td>@user.User.FullName</td>
+                        @if (user.bankAccounts != null)
+                        {
+                            <td>@user.bankAccounts.AccountName</td>
+                            <td>@user.bankAccounts.AccountNumber</td>
+                            <td>@user.bankAccounts.BankName</td>
+                            <td>@user.bankAccounts.Branch</td>
+                        }
+                        else
+                        {
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        }
+
+                        <td>@user.User.Email</td>
+                        <td>
+                            @Html.ActionLink("View", "ReturnCashVenderByUserId", new { id = @user.User.Id }, new { @class = "btn btn-primary btn-md glyphicon glyphicon-edit" })
+
+                        </td>
+
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div> <!-- end row -->

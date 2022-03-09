@@ -16,7 +16,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>localshop</RootNamespace>
     <AssemblyName>localshop</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
@@ -154,6 +154,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -218,6 +219,7 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -259,6 +261,7 @@
     <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReturnController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReviewController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Models\Configuration.cs" />
@@ -344,6 +347,8 @@
     <Content Include="Assets\admin\css\icons.css" />
     <Content Include="Assets\admin\css\icons.min.css" />
     <Content Include="Assets\admin\css\icons.min.css.map" />
+    <Content Include="Assets\admin\css\main.css" />
+    <Content Include="Assets\admin\css\styles.css" />
     <Content Include="Assets\admin\data\ajax_children.json" />
     <Content Include="Assets\admin\data\ajax_roots.json" />
     <Content Include="Assets\admin\fonts\dripicons-v2.eot" />
@@ -457,6 +462,7 @@
     <Content Include="Assets\admin\js\controllers\product\add.js" />
     <Content Include="Assets\admin\js\controllers\product\edit.js" />
     <Content Include="Assets\admin\js\controllers\product\index.js" />
+    <Content Include="Assets\admin\js\controllers\return\index.js" />
     <Content Include="Assets\admin\js\controllers\review\index.js" />
     <Content Include="Assets\admin\js\controllers\user\index.js" />
     <Content Include="Assets\admin\js\pages\chartist.init.js" />
@@ -1895,6 +1901,9 @@
     <Content Include="Areas\Admin\Views\HomePage\SpecialFeaturedList.cshtml" />
     <Content Include="Areas\Admin\Views\Order\ReadyShippingLabel.cshtml" />
     <Content Include="Areas\Admin\Views\Order\ReadyShipping.cshtml" />
+    <Content Include="Areas\Admin\Views\Return\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\Vendors.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\View.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -1933,6 +1942,8 @@
     <Content Include="Views\Account\_RegisterVendor.cshtml" />
     <Content Include="Views\Home\Home.cshtml" />
     <Content Include="Views\Contact\Privacy.cshtml" />
+    <Content Include="Views\Tracking\Return.cshtml" />
+    <Content Include="Views\Account\UpdateBankInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\localshop.Core\localshop.Core.csproj">

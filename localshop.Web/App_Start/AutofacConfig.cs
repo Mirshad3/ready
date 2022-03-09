@@ -69,7 +69,7 @@ namespace localshop
             builder.Register(c => HttpContext.Current.GetOwinContext().Authentication).As<IAuthenticationManager>();
             builder.Register(c =>  Startup.DataProtectionProvider).InstancePerRequest();
             builder.RegisterType<CityRepository>().As<ICityRepository>().AsSelf().InstancePerRequest();
-
+            builder.RegisterType<ReturnCashRepository>().As<IReturnCashRepository>().AsSelf().InstancePerRequest();
             builder.RegisterType<ProductRepository>().As<IProductRepository>().AsSelf().InstancePerRequest();
             builder.RegisterType<CategoryRepository>().As<ICategoryRepository>().AsSelf().InstancePerRequest();
             builder.RegisterType<StatusRepository>().As<IStatusRepository>().AsSelf().InstancePerRequest();
@@ -78,6 +78,8 @@ namespace localshop
             builder.RegisterType<HomePageRepository>().As<IHomePageRepository>().AsSelf().InstancePerRequest();
             builder.RegisterType<WishlistRepository>().As<IWislistRepository>().AsSelf().InstancePerRequest();
             builder.RegisterType<ReviewRepository>().As<IReviewRepository>().AsSelf().InstancePerRequest();
+            builder.RegisterType<AccountRepository>().As<IAccountRepository>().AsSelf().InstancePerRequest();
+
         }
     }
 }

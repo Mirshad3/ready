@@ -1,4 +1,7 @@
-﻿using System;
+﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,10 +11,48 @@ namespace localshop.Areas.Admin.Controllers
 {
     public class DashboardController : BaseController
     {
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
+        private IMapper _mapper; 
+        public DashboardController()
+        {
+        }
+
+        public DashboardController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IMapper mapper)
+        {
+            UserManager = userManager;
+            SignInManager = signInManager;
+            _mapper = mapper; 
+        }
+
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
         // GET: Admin/Dashboard
         public ActionResult Index()
         {
-            return View();
+            var model = UserManager.FindById(User.Identity.GetUserId()); 
+            return View(model);
         }
     }
 }

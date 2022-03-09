@@ -77,6 +77,7 @@ namespace localshop
             bundles.Add(new ScriptBundle("~/content/admin/js/product/index").Include("~/Assets/admin/js/controllers/product/index.js"));
             bundles.Add(new ScriptBundle("~/content/admin/js/review/index").Include("~/Assets/admin/js/controllers/review/index.js"));
             bundles.Add(new ScriptBundle("~/content/admin/js/user/index").Include("~/Assets/admin/js/controllers/user/index.js"));
+            bundles.Add(new ScriptBundle("~/content/admin/js/return/index").Include("~/Assets/admin/js/controllers/return/index.js"));
         }
 
         public static void RegisterClientStyles(BundleCollection bundles)

@@ -25,6 +25,7 @@ namespace localshop.Domain.Concretes
         public DbSet<Image> Images { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<City> Cities { get; set; }
+        public DbSet<BankAccount> BankAccounts { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -36,6 +37,7 @@ namespace localshop.Domain.Concretes
         public DbSet<Banner> Banners { get; set; }
         public DbSet<Wishlist> Wishlists { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<ReturnCash> ReturnCashes { get; set; }
         #endregion
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -153,6 +155,11 @@ namespace localshop.Domain.Concretes
             modelBuilder.Entity<Review>().Property(r => r.Body).IsRequired();
             modelBuilder.Entity<Review>().Property(r => r.Rating).IsRequired();
 
+            //------------------------------------------------------------------------
+            // return cash
+            modelBuilder.Entity<ReturnCash>().HasKey(b => b.Id);
+            modelBuilder.Entity<ReturnCash>().Property(b => b.OrderId).IsRequired();
+            modelBuilder.Entity<ReturnCash>().Property(b => b.ReturnDate).IsRequired();
             base.OnModelCreating(modelBuilder);
         }
     }

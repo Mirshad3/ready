@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>localshop.Core</RootNamespace>
     <AssemblyName>localshop.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -75,6 +76,7 @@
     <Compile Include="Common\StatusNames.cs" />
     <Compile Include="Common\StringHelper.cs" />
     <Compile Include="DTO\AddProductDTO.cs" />
+    <Compile Include="DTO\BankAccountDTO.cs" />
     <Compile Include="DTO\BannerDTO.cs" />
     <Compile Include="DTO\CategoryDTO.cs" />
     <Compile Include="DTO\CityDTO.cs" />
@@ -87,6 +89,7 @@
     <Compile Include="DTO\PaymentMethodDTO.cs" />
     <Compile Include="DTO\ProductDTO.cs" />
     <Compile Include="DTO\ProductSpecificationDTO.cs" />
+    <Compile Include="DTO\ReturnCashDTO.cs" />
     <Compile Include="DTO\ReviewDTO.cs" />
     <Compile Include="DTO\SpecialFeaturedDTO.cs" />
     <Compile Include="DTO\StatusDTO.cs" />

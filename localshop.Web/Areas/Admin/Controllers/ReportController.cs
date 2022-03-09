@@ -23,12 +23,14 @@ namespace localshop.Areas.Admin.Controllers
         private IProductRepository _productRepo;
         private ApplicationUserManager _userManager;
         private ApplicationRoleManager _roleManager;
-        public ReportController(ApplicationUserManager userManager, ApplicationRoleManager roleManager, IOrderRepository orderRepo, IProductRepository productRepo)
+        private IAccountRepository _accountRepo;
+        public ReportController(IAccountRepository accountRepo,ApplicationUserManager userManager, ApplicationRoleManager roleManager, IOrderRepository orderRepo, IProductRepository productRepo)
         {
             _orderRepo = orderRepo;
             UserManager = userManager;
             _productRepo = productRepo;
             RoleManager = roleManager;
+            _accountRepo = accountRepo;
         }
         public ApplicationUserManager UserManager
         {
@@ -252,12 +254,12 @@ namespace localshop.Areas.Admin.Controllers
 
             return View(model);
         }
-
-        public ActionResult ReturnCashVenderByUserId(string userId)
+        [HttpGet]
+        public ActionResult ReturnCashVenderByUserId(string id)
         {
             var model = new List<InvoiceTotalViewModel>();
 
-            var orders = _orderRepo.GetOrdersByOwner(userId);
+            var orders = _orderRepo.GetOrdersByOwner(id);
             if (orders.Count() > 0) {
             DateTime day0 = orders[0].OrderDate.AddDays(-1);
                 var dates = DateRange();
@@ -318,7 +320,7 @@ namespace localshop.Areas.Admin.Controllers
             return Json(_supplierList.Where(r => r.UserRole == RoleNames.Modifier).ToList(), JsonRequestBehavior.AllowGet);
         }
 
-        
+
         //static IEnumerable<List<T>> Partition<T>(List<T> input, Func<T, DateTime> DateSelector, TimeSpan partitionSize)
         //{
         //    var partitionEnd = DateSelector(input.First()).Add(partitionSize);
@@ -337,5 +339,42 @@ namespace localshop.Areas.Admin.Controllers
         //    }
         //    yield return partition;
         //}
-    }
+        [HttpGet]
+        public ActionResult Vendors()
+        {
+            var listUser = new List<ListUserBankViewModel>();
+
+            foreach (var user in UserManager.Users.OrderByDescending(u => u.CreatedDate).ToList())
+            {
+                var roles = UserManager.GetRoles(user.Id);
+
+                if (roles.Any(r => r.Contains(RoleNames.Root)))
+                {
+                    continue;
+                }
+
+                var u = new ListUserBankViewModel
+                {
+                    User = user,
+                    Roles = roles,
+                    bankAccounts = _accountRepo.FindById(user.Id)
+                };
+
+                listUser.Add(u);
+            }
+
+            var model = new ListUserWithAccountViewModel
+            {
+                ListUser = listUser,
+                Roles = RoleManager.Roles.Where(r => r.Name == RoleNames.Modifier).ToList()
+            };
+
+            return View(model);
+        }
+        public ActionResult View(string id)
+        {
+
+            return View();
+        }
+        }
 }

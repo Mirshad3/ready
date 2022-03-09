@@ -10,11 +10,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>localshop.Domain</RootNamespace>
     <AssemblyName>localshop.Domain</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -83,9 +84,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstractions\ICategoryRepository.cs" />
+    <Compile Include="Abstractions\IAccountRepository.cs" />
     <Compile Include="Abstractions\ICityRepository.cs" />
     <Compile Include="Abstractions\IContactRepository.cs" />
     <Compile Include="Abstractions\IHomePageRepository.cs" />
+    <Compile Include="Abstractions\IReturnCashRepository.cs" />
     <Compile Include="Abstractions\IOrderRepository.cs" />
     <Compile Include="Abstractions\IProductRepository.cs" />
     <Compile Include="Abstractions\IReviewRepository.cs" />
@@ -93,9 +96,11 @@
     <Compile Include="Abstractions\IWislistRepository.cs" />
     <Compile Include="Concretes\ApplicationDbContext.cs" />
     <Compile Include="Concretes\CategoryRepository.cs" />
+    <Compile Include="Concretes\AccountRepository.cs" />
     <Compile Include="Concretes\CityRepository.cs" />
     <Compile Include="Concretes\ContactRepository.cs" />
     <Compile Include="Concretes\HomePageRepository.cs" />
+    <Compile Include="Concretes\ReturnCashRepository.cs" />
     <Compile Include="Concretes\OrderRepository.cs" />
     <Compile Include="Concretes\ProductRepository.cs" />
     <Compile Include="Concretes\ReviewRepository.cs" />
@@ -103,6 +108,7 @@
     <Compile Include="Concretes\WishlistRepository.cs" />
     <Compile Include="Entities\ApplicationRole.cs" />
     <Compile Include="Entities\ApplicationUser.cs" />
+    <Compile Include="Entities\BankAccount.cs" />
     <Compile Include="Entities\Banner.cs" />
     <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\City.cs" />
@@ -114,6 +120,7 @@
     <Compile Include="Entities\PaymentMethod.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Entities\ProductSpecification.cs" />
+    <Compile Include="Entities\ReturnCash.cs" />
     <Compile Include="Entities\Review.cs" />
     <Compile Include="Entities\SpecialFeatured.cs" />
     <Compile Include="Entities\Status.cs" />
@@ -259,6 +266,18 @@
     <Compile Include="Migrations\202110261452034_category-status.designer.cs">
       <DependentUpon>202110261452034_category-status.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202201150832149_returncash.cs" />
+    <Compile Include="Migrations\202201150832149_returncash.designer.cs">
+      <DependentUpon>202201150832149_returncash.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202201150954224_returncashes.cs" />
+    <Compile Include="Migrations\202201150954224_returncashes.designer.cs">
+      <DependentUpon>202201150954224_returncashes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202202120323125_bank-details.cs" />
+    <Compile Include="Migrations\202202120323125_bank-details.designer.cs">
+      <DependentUpon>202202120323125_bank-details.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -378,6 +397,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202110261452034_category-status.resx">
       <DependentUpon>202110261452034_category-status.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202201150832149_returncash.resx">
+      <DependentUpon>202201150832149_returncash.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202201150954224_returncashes.resx">
+      <DependentUpon>202201150954224_returncashes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202202120323125_bank-details.resx">
+      <DependentUpon>202202120323125_bank-details.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

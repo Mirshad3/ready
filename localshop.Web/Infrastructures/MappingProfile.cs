@@ -34,6 +34,7 @@ namespace localshop.Infrastructures
         {
             #region Domain to DTO
             CreateMap<ApplicationUser, UpdateProfileDTO>();
+            CreateMap<BankAccount, BankAccountDTO>();
             CreateMap<Product, ProductDTO>();
             CreateMap<Category, CategoryDTO>();
             CreateMap<City, CityDTO>();
@@ -48,6 +49,7 @@ namespace localshop.Infrastructures
 
             #region DTO to Domain
             CreateMap<UpdateProfileDTO, ApplicationUser>();
+            CreateMap<BankAccountDTO, BankAccount>();
             CreateMap<ProductDTO, Product>().ForMember(m => m.Images, opt => opt.Ignore());
             CreateMap<CategoryDTO, Category>();
             CreateMap<CityDTO, City>();
@@ -70,6 +72,7 @@ namespace localshop.Infrastructures
                 .ForMember(o => o.UserId, opt => opt.MapFrom(u => u.Id));
             CreateMap<Order, OrderDTO>();
             CreateMap<OrderDetail, OrderDetailDTO>();
+            CreateMap<ReturnCash, ReturnCashDTO>();
             CreateMap<Wishlist, WishlistDTO>();
             #endregion
 
@@ -77,6 +80,7 @@ namespace localshop.Infrastructures
             #region DTO to Domain
             CreateMap<OrderDTO, Order>();
             CreateMap<OrderDetailDTO, OrderDetail>();
+            CreateMap<ReturnCashDTO, ReturnCash>();
             CreateMap<ContactDTO, Contact>();
             CreateMap<WishlistDTO, Wishlist>();
             #endregion
