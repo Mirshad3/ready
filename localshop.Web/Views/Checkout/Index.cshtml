@@ -92,7 +92,7 @@
                                     <div class="your-order-info order-total">
                                         <ul>
                                             <input type="hidden" value="@Model.Order.SubTotal" id="totalSubTotal" />
-                                            <input type="hidden" value="'Medco'+'@DateTime.Now'" id="dateunique" />
+                                            <input type="hidden" value="Medco+@DateTime.Now.ToLongDateString()" id="dateunique" />
                                             <li>Total <span id="total-cost">Rs @Model.Order.SubTotal  </span></li>
                                         </ul>
                                     </div>

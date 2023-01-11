@@ -284,7 +284,7 @@ namespace localshop.Areas.Admin.Controllers
                             DateRange = 15,
                             StartDate = item.Date,
                             SubTotal = item.SubTotal,
-
+                            UserId = id,
                             DetuctionPersontage = deduction,
                             Detuction = (item.SubTotal * deduction) / 100,
                             ReturnTotal = item.SubTotal - ((item.SubTotal * deduction) / 100),
@@ -295,6 +295,50 @@ namespace localshop.Areas.Admin.Controllers
                 }
             }
             return View(model); 
+        }
+
+        [HttpGet]
+        public ActionResult ProductByUserId(string id, DateTime date)
+        {
+            var model = new List<InvoiceTotalViewModel>();
+
+            var orders = _orderRepo.GetOrdersByOwner(id);
+            if (orders.Count() > 0)
+            {
+                DateTime day0 = orders[0].OrderDate.AddDays(-1);
+                var dates = DateRange();
+                foreach (var da in dates)
+                {
+                    var q = orders.Where(m => m.OrderStatusId == "f9d10000-d769-34e6-a60e-08d7b48f1d56" && m.OrderDate > da.Item1 && m.OrderDate < da.Item2).GroupBy(x => ((int)((x.OrderDate.Subtract(day0).TotalDays - 1) / 15)))
+                .Select(x => new
+                {
+                    x.Key,
+                    Date = day0.AddDays(x.Key * 15 + 1),
+                    Total = x.Sum(y => y.Total),
+                    SubTotal = x.Sum(y => y.SubTotal)
+                });
+                    foreach (var item in q)
+                    {
+                        //Console.WriteLine($"{item.Date.ToString("yyyy-MM-dd")} {item.Amount}");
+                        var deduction = Convert.ToInt32(ConfigurationManager.AppSettings["Detuction"].ToString());
+                        var tex = Convert.ToInt32(ConfigurationManager.AppSettings["Tex"].ToString());
+                        var order = new InvoiceTotalViewModel
+                        {
+                            Total = item.Total,
+                            DateRange = 15,
+                            StartDate = item.Date,
+                            SubTotal = item.SubTotal,
+
+                            DetuctionPersontage = deduction,
+                            Detuction = (item.SubTotal * deduction) / 100,
+                            ReturnTotal = item.SubTotal - ((item.SubTotal * deduction) / 100),
+                            Tex = tex
+                        };
+                        model.Add(order);
+                    }
+                }
+            }
+            return View(model);
         }
 
         public JsonResult getVendors()

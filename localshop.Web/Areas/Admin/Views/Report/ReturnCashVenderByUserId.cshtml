@@ -47,6 +47,7 @@
                             <th>Deduction Amount</th>
                             <th>Tex</th>
                             <th>Return Amount</th>
+                            <th>Products</th>
                         </tr>
                     </thead>
 
@@ -61,6 +62,7 @@
                                 <td>@o.Detuction</td>
                                 <td>@o.Tex</td>
                                 <td>@o.ReturnTotal</td>
+                                <td>@Html.ActionLink("Report", "ProductByUserId", new { id = o.UserId, date= o.StartDate })</td>
                             </tr>
                         }
 

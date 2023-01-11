@@ -1,4 +1,4 @@
-﻿$('document').ready(function () {
+﻿$(function () {
     toastr.options = {
         "closeButton": false,
         "debug": false,
@@ -61,7 +61,7 @@
         });
     });
     var groupColumn = 6;
-    var table = $('#productdatatable').DataTable({
+    var table = $('#datatable').DataTable({
         "columnDefs": [
             { "visible": false, "targets": groupColumn }
         ],
@@ -85,7 +85,7 @@
     });
 
     // Order by the grouping
-    $('#productdatatable tbody').on('click', 'tr.group', function () {
+    $('#datatable tbody').on('click', 'tr.group', function () {
         var currentOrder = table.order()[0];
         if (currentOrder[0] === groupColumn && currentOrder[1] === 'asc') {
             table.order([groupColumn, 'desc']).draw();

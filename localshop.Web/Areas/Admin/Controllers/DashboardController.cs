@@ -13,7 +13,7 @@ namespace localshop.Areas.Admin.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private IMapper _mapper; 
+        private IMapper _mapper;
         public DashboardController()
         {
         }
@@ -22,7 +22,7 @@ namespace localshop.Areas.Admin.Controllers
         {
             UserManager = userManager;
             SignInManager = signInManager;
-            _mapper = mapper; 
+            _mapper = mapper;
         }
 
         public ApplicationSignInManager SignInManager
@@ -51,7 +51,11 @@ namespace localshop.Areas.Admin.Controllers
         // GET: Admin/Dashboard
         public ActionResult Index()
         {
-            var model = UserManager.FindById(User.Identity.GetUserId()); 
+            var model = UserManager.FindById(User.Identity.GetUserId());
+            if (model.Address1 == null || model.PhoneNumber == null || model.LastName == null)
+            {
+               return RedirectToAction("Account", "UpdateInfo");
+            }
             return View(model);
         }
     }

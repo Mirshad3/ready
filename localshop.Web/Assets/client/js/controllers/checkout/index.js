@@ -58,10 +58,12 @@
         var total = $("#totalSubTotal").val();
         var email = $("#Email").val();
         var phoneNumber = $("#PhoneNumber").val();
+        console.log("apiValues", total, email, phoneNumber, $("#dateunique").val(), $("#Email").val(), $("#PhoneNumber").val() );
+        debugger;
         if (phoneNumber != null || email != null || total != null) {
             DirectPayCardPayment.init({
                 container: 'card_container', //<div id="card_container"></div>
-                merchantId: 'EM14096', //your merchant_id
+                merchantId: 'EM14096', //your merchant_id EM14096
                 amount: total,
                 refCode: $("#dateunique").val(), //unique referance code form merchant
                 currency: 'LKR',
@@ -73,7 +75,7 @@
                 responseCallback: responseCallback,
                 errorCallback: errorCallback,
                 logo: 'https://test.com/directpay_logo.png',
-                apiKey: '028861b9e9f28b020471dd57dd71718b18118e090ae0d221d537b7b6f9c8d2e8'
+                apiKey: '028861b9e9f28b020471dd57dd71718b18118e090ae0d221d537b7b6f9c8d2e8' //028861b9e9f28b020471dd57dd71718b18118e090ae0d221d537b7b6f9c8d2e8
             });
         } else {
             alert("Phone Number or Email Empty");
