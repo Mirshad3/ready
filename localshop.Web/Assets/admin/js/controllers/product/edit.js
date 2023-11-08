@@ -78,17 +78,13 @@
     $('.btn-choose-images').on('click', function (e) {
         e.preventDefault();
         CKFinder.modal({
-            resourceType: 'Images',
+            resourceType: 'Image',
             chooseFiles: true,
             onInit: function (finder) {
                 finder.on('files:choose', function (evt) {
                     var files = evt.data.files;
-                    var chosenFiles = '';
                     files.forEach(function (file, i) {
-                        var newUrl = '/ckfinder' + file.get('url').split('ckfinder')[1];
-
-                        console.log(listImages);
-                        console.log(listImages.indexOf(newUrl));
+                        var newUrl = file.getUrl();
 
                         if (listImages.indexOf(newUrl) < 0) {
                             listImages.push(newUrl);
@@ -96,17 +92,20 @@
                             $('#Images').val(listImages.join('@'));
 
                             $('#productImages').append(`
-                                <div class="position-relative m-2">
-                                    <img src="${newUrl}" />
-                                    <a href="javascript:void(0)" class="position-absolute px-1 bg-light clear-image" style="top:0;left:0;"><span class="fas fa-times"></span></a>
-                                </div>`);
+                        <div class="position-relative m-2">
+                            <img src="${newUrl}" />
+                            <a href="javascript:void(0)" class="position-absolute px-1 bg-light clear-image" style="top:0;left:0;"><span class="fas fa-times"></span></a>
+                        </div>`);
                         }
                     });
                 });
                 finder.on('file:choose:resizedImage', function (evt) {
                     document.getElementById('url').value = evt.data.resizedUrl;
                 });
-            }
+            },
+            filebrowserBrowseUrl: '/ckfinder/connector/azstore/index.html?type=Images',
+            filebrowserUploadUrl: '/ckfinder/connector/azstore/connector?command=QuickUpload&type=Images',
         });
+
     });
 });

@@ -35,13 +35,13 @@
     $('.btn-choose-banner-image').on('click', function (e) {
         e.preventDefault();
         CKFinder.modal({
-            resourceType: 'Images',
+            resourceType: 'Image',
             chooseFiles: true,
             onInit: function (finder) {
                 finder.on('files:choose', function (evt) {
                     var file = evt.data.files.first();
-
-                    var newUrl = '/ckfinder' + file.get('url').split('ckfinder')[1];
+                    var newUrl = file.getUrl();
+                   // var newUrl = '/ckfinder' + file.get('url').split('ckfinder')[1];
 
                     bannerImage.val(newUrl);
 

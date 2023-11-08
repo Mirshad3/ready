@@ -1,13 +1,16 @@
 ﻿using CKSource.CKFinder.Connector.Config;
+using CKSource.CKFinder.Connector.Core.Acl;
 using CKSource.CKFinder.Connector.Core.Builders;
 using CKSource.CKFinder.Connector.Core.Logs;
 using CKSource.CKFinder.Connector.Host.Owin;
 using CKSource.CKFinder.Connector.KeyValue.FileSystem;
 using CKSource.CKFinder.Connector.Logs.NLog;
+using CKSource.FileSystem.Azure;
 using CKSource.FileSystem.Local;
 using localshop.Infrastructures;
 using Microsoft.Owin;
 using Owin;
+using System.Linq;
 
 [assembly: OwinStartupAttribute(typeof(localshop.Startup))]
 namespace localshop
@@ -48,59 +51,72 @@ namespace localshop
              * Create an instance of authenticator implemented.
              */
             var customAuthenticator = new CKFinderAuthenticator();
-            
- 
-            connectorBuilder
-                /*
-                 * Provide the global configuration.
-                 *
-                 * If you installed CKSource.CKFinder.Connector.Config, you should load the static configuration
-                 * from XML:
-                 * connectorBuilder.LoadConfig();
-                 */
+
+
+            var connector = connectorBuilder
                 .LoadConfig()
                 .SetAuthenticator(customAuthenticator)
                 .SetRequestConfiguration(
                     (request, config) =>
-                    {                 
-                        /*
-                         * If you installed CKSource.CKFinder.Connector.Config, you might want to load the static
-                         * configuration from XML as a base configuration to modify:
-                         */
-                         config.LoadConfig();
-                         
-                        /*
-                         * Configure settings per request.
-                         *
-                         * The minimal configuration has to include at least one backend, one resource type
-                         * and one ACL rule.
-                         *
-                         * For example:
-                         */
-                         //config.AddBackend("default", new LocalStorage(@"C:\files"));
-                         //config.AddResourceType("images", builder => builder.SetBackend("default", "images"));
-                         //config.AddAclRule(new AclRule(
-                         //    new StringMatcher("*"),
-                         //    new StringMatcher("*"),
-                         //    new StringMatcher("*"),
-                         //    new Dictionary<Permission, PermissionType> { { Permission.All, PermissionType.Allow } }));
-                         
-        
-                        /*
-                         * If you installed CKSource.CKFinder.Connector.KeyValue.FileSystem, you may enable caching:
-                         */
-                         var defaultBackend = config.GetBackend("default");
-                         var keyValueStoreProvider = new FileSystemKeyValueStoreProvider(defaultBackend);
-                         config.SetKeyValueStoreProvider(keyValueStoreProvider);
-                    }
-                );
-            
-            /*
-             * Build the connector middleware.
-             */
-            var connector = connectorBuilder
+                    {
+// config.LoadConfig();
+
+                        var defaultBackend = config.GetBackend("default");
+                        var keyValueStoreProvider = new FileSystemKeyValueStoreProvider(defaultBackend);
+                        config.SetKeyValueStoreProvider(keyValueStoreProvider);
+
+                        // Remove dummy resource type
+                        config.RemoveResourceType("dummy");
+
+                        var queryParameters = request.QueryParameters;
+
+                        // This code lacks some input validation - make sure the user is allowed to access passed appId
+                        string appId = queryParameters.ContainsKey("appId") ? Enumerable.FirstOrDefault(queryParameters["appId"]) : string.Empty;
+
+                        // set up an array of StringMatchers for folder to hide!
+                        StringMatcher[] hideFoldersMatcher = new StringMatcher[] { new StringMatcher(".*"), new StringMatcher("CVS"), new StringMatcher("thumbs"), new StringMatcher("__thumbs") };
+
+                        // image type resource setup
+                        var fileSystem_Images = new AzureStorage(account: "medcoblob",
+                                                    key: "wc0yOD6lNZuBSFoYos/GK29ThHYYY6Agia+S4DmoawiplMRQRA1gQ3y+5Ug6Gu94U99CQgrp1nfY+AStp6JZZw==",
+                                                    container: "medcoimg");
+
+                        string[] allowedExtentions_Images = new string[] { "gif", "jpeg", "jpg", "png" };
+
+                        config.AddBackend("azstore", fileSystem_Images, string.Format("https://medcoblob.blob.core.windows.net/medcoimg/", appId), false);
+
+                        config.AddResourceType("Image", resourceBuilder => {
+                            resourceBuilder.SetBackend("azstore", "/")
+                            .SetAllowedExtensions(allowedExtentions_Images)
+                            .SetHideFoldersMatchers(hideFoldersMatcher)
+                            .SetMaxFileSize(5242880);
+                        });
+
+                        // file type resource setup
+                        ////var fileSystem_Files = new AzureStorage(secret: "SECRET-HERE",
+                        ////                                key: "KEY-HERE",
+                        ////                                bucket: "BUCKET-HERE",
+                        ////                                region: "us-east-1",
+                        ////                                root: string.Format("docs/{0}/userfiles/", appId),
+                        ////                                signatureVersion: "4");
+                        //////var fileSystem_Files = new AzureStorage(account: "medcoblob",
+                        //////                            key: "wc0yOD6lNZuBSFoYos/GK29ThHYYY6Agia+S4DmoawiplMRQRA1gQ3y+5Ug6Gu94U99CQgrp1nfY+AStp6JZZw==",
+                        //////                            container: "medcoimg",
+                        //////                            root: string.Format("docs/{0}/userfiles/", appId));
+                        //////string[] allowedExtentions_Files = new string[] { "csv", "doc", "docx", "gif", "jpeg", "jpg", "ods", "odt", "pdf", "png", "ppt", "pptx", "rtf", "txt", "xls", "xlsx" };
+
+                        //////config.AddBackend("azFiles", fileSystem_Files, string.Format("CDNURL-HERE/docs/{0}/userfiles/", appId), false);
+
+                        //////config.AddResourceType("Files", resourceBuilder => {
+                        //////    resourceBuilder.SetBackend("azFiles", "/")
+                        //////    .SetAllowedExtensions(allowedExtentions_Files)
+                        //////    .SetHideFoldersMatchers(hideFoldersMatcher)
+                        //////    .SetMaxFileSize(10485760);
+                        //////});
+
+                    })
                 .Build(connectorFactory);
- 
+
             /*
              * Add the CKFinder connector middleware to the web application pipeline.
              */
