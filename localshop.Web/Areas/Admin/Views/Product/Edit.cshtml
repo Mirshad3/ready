@@ -113,83 +113,87 @@
                             <div>
                                 <h4 class="mt-0 header-title">Product images</h4>
                                 <p class="text-muted font-14">
-                                    Add images for product
+                                    Add images for the product
                                 </p>
                             </div>
                             <button type="button" class="btn btn-primary ml-auto align-self-start btn-choose-images">Choose images</button>
                         </div>
+
                         @Html.HiddenFor(m => m.Images)
+
                         <div class="d-flex flex-wrap" id="productImages">
                             @foreach (var image in Model.Product.Images)
                             {
                                 <div class="position-relative m-2">
                                     <img src="@image" />
-                                    <a href="javascript:void(0)" class="position-absolute px-1 bg-light clear-image" style="top:0;left:0;"><span class="fas fa-times"></span></a>
+                                    <button class="position-absolute px-1 bg-light clear-image" onclick="deleteImage('@image')">Delete</button>
                                 </div>
                             }
                         </div>
                     </div>
                 </div> <!-- end row -->
-            </div> <!-- end card-box -->
-                                    if (1 == 2)
-                                    {
-            <div class="card-box">
-                <div class="row">
-                    <div class="col-12">
-                        <h4 class="mt-0 header-title">Product specifications</h4>
-                        <p class="text-muted font-14">
-                            Add product specifications below
-                        </p>
+            </div>
 
-                        <div class="p-2">
-                            <div class="form-horizontal">
-                                @{
-                                    var propSpecification = ViewData.ModelMetadata.Properties.First(p => p.PropertyName == "ProductSpecification");
-                                }
-                                @foreach (var prop in propSpecification.Properties)
-                                {
-                                    if (prop.PropertyName == "ProductId")
-                                    {
-                                        @Html.Hidden($"ProductSpecification.{prop.PropertyName}")
-                                        continue;
+            <input type="file" id="fileInput" style="display: none;" multiple>
+            if (1 == 2)
+            {
+                <div class="card-box">
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="mt-0 header-title">Product specifications</h4>
+                            <p class="text-muted font-14">
+                                Add product specifications below
+                            </p>
+
+                            <div class="p-2">
+                                <div class="form-horizontal">
+                                    @{
+                                        var propSpecification = ViewData.ModelMetadata.Properties.First(p => p.PropertyName == "ProductSpecification");
                                     }
-
-                                    if (prop.ModelType == typeof(bool?))
+                                    @foreach (var prop in propSpecification.Properties)
                                     {
-                                        <div class="row">
-                                            <div class="col-sm-2"></div>
-                                            <div class="col-sm-10">
-                                                <div class="form-group form-check">
-                                                    @Html.CheckBox($"ProductSpecification.{prop.PropertyName}", new { @class = "form-check-input" })
-                                                    @Html.Label($"ProductSpecification.{prop.PropertyName}", prop.DisplayName, new { @class = "form-check-label" })
+                                        if (prop.PropertyName == "ProductId")
+                                        {
+                                            @Html.Hidden($"ProductSpecification.{prop.PropertyName}")
+                                            continue;
+                                        }
+
+                                        if (prop.ModelType == typeof(bool?))
+                                        {
+                                            <div class="row">
+                                                <div class="col-sm-2"></div>
+                                                <div class="col-sm-10">
+                                                    <div class="form-group form-check">
+                                                        @Html.CheckBox($"ProductSpecification.{prop.PropertyName}", new { @class = "form-check-input" })
+                                                        @Html.Label($"ProductSpecification.{prop.PropertyName}", prop.DisplayName, new { @class = "form-check-label" })
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        <div class="form-group row">
-                                            @Html.Label($"ProductSpecification.{prop.PropertyName}", prop.DisplayName, new { @class = "col-sm-2 col-form-label" })
-                                            <div class="col-sm-10">
-                                                @if (prop.ModelType == typeof(int?))
-                                                {
-                                                    @Html.TextBox($"ProductSpecification.{prop.PropertyName}", null, new { @class = "form-control", data_parsley_type = "digits" })
-                                                }
-                                                else
-                                                {
-                                                    @Html.TextBox($"ProductSpecification.{prop.PropertyName}", null, new { @class = "form-control" })
-                                                }
+                                        }
+                                        else
+                                        {
+                                            <div class="form-group row">
+                                                @Html.Label($"ProductSpecification.{prop.PropertyName}", prop.DisplayName, new { @class = "col-sm-2 col-form-label" })
+                                                <div class="col-sm-10">
+                                                    @if (prop.ModelType == typeof(int?))
+                                                    {
+                                                        @Html.TextBox($"ProductSpecification.{prop.PropertyName}", null, new { @class = "form-control", data_parsley_type = "digits" })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.TextBox($"ProductSpecification.{prop.PropertyName}", null, new { @class = "form-control" })
+                                                    }
+                                                </div>
                                             </div>
-                                        </div>
-                                    }
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- end row -->
-            </div> <!-- end card-box -->
                                         }
                                     }
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- end row -->
+                </div> <!-- end card-box -->
+            }
+        }
     </div><!-- end col -->
 </div>
 <!-- end row -->

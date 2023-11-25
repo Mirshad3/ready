@@ -51,31 +51,48 @@
         }
     });
 
-   
-     
+    function generateGuid() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = Math.random() * 16 | 0,
+                v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+    function convertToLocalFormat(localPhoneNumber) {
+        // Check if the local phone number starts with "0"
+        if (localPhoneNumber.startsWith("0")) {
+            // Remove the leading "0" and add the country code "+94"
+            return "+94" + localPhoneNumber.substring(1);
+        } else {
+            // If it doesn't start with "0", assume it's already in international format
+            return localPhoneNumber;
+        }
+    }
 
     function popup() {
         var total = $("#totalSubTotal").val();
         var email = $("#Email").val();
         var phoneNumber = $("#PhoneNumber").val();
-        console.log("apiValues", total, email, phoneNumber, $("#dateunique").val(), $("#Email").val(), $("#PhoneNumber").val() );
+        var internationalPhoneNumber = convertToLocalFormat(phoneNumber);
+        var refCode = generateGuid();
+        console.log("apiValues", total, email, phoneNumber, refCode, $("#dateunique").val(), $("#Email").val(), $("#PhoneNumber").val() );
         debugger;
         if (phoneNumber != null || email != null || total != null) {
             DirectPayCardPayment.init({
                 container: 'card_container', //<div id="card_container"></div>
                 merchantId: 'EM14096', //your merchant_id EM14096
                 amount: total,
-                refCode: $("#dateunique").val(), //unique referance code form merchant
+                refCode: refCode, //unique referance code form merchant
                 currency: 'LKR',
                 type: 'ONE_TIME_PAYMENT',
                 customerEmail: $("#Email").val(),
-                customerMobile: $("#PhoneNumber").val(),
+                customerMobile: internationalPhoneNumber,
                 description: 'Medco Products',  //product or service description
                 debug: true,
                 responseCallback: responseCallback,
                 errorCallback: errorCallback,
                 logo: 'https://test.com/directpay_logo.png',
-                apiKey: '028861b9e9f28b020471dd57dd71718b18118e090ae0d221d537b7b6f9c8d2e8' //028861b9e9f28b020471dd57dd71718b18118e090ae0d221d537b7b6f9c8d2e8
+                apiKey: '557f3c1cae613bcbe2a3cb28998dd6967e9412b0533264236e055fcada94d398' //028861b9e9f28b020471dd57dd71718b18118e090ae0d221d537b7b6f9c8d2e8
             });
         } else {
             alert("Phone Number or Email Empty");

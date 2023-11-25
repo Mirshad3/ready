@@ -54,7 +54,7 @@ namespace localshop.Areas.Admin.Controllers
             var model = UserManager.FindById(User.Identity.GetUserId());
             if (model.Address1 == null || model.PhoneNumber == null || model.LastName == null)
             {
-               return RedirectToAction("Account", "UpdateInfo");
+               return RedirectToAction("UpdateProfile", "Account");
             }
             return View(model);
         }

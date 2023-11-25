@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using System.Web;
 using System.Configuration;
 using System.Linq;
+using System;
 
 public class FileController : Controller
 {
@@ -34,20 +35,36 @@ public class FileController : Controller
 
             CloudBlockBlob blob = container.GetBlockBlobReference(file.FileName);
             blob.UploadFromStream(file.InputStream);
+
+            // Return a JSON response with the URL of the uploaded file
+            return Json(new { success = true, url = blob.Uri.ToString() });
         }
 
-        return RedirectToAction("Index");
+        // Return a JSON response indicating failure
+        return Json(new { success = false, message = "No file uploaded" });
     }
 
+
+    [HttpPost]
     public ActionResult Delete(string fileName)
     {
-        CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionString);
-        CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-        CloudBlobContainer container = blobClient.GetContainerReference(containerName);
+        try
+        {
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionString);
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            CloudBlobContainer container = blobClient.GetContainerReference(containerName);
 
-        CloudBlockBlob blob = container.GetBlockBlobReference(fileName);
-        blob.Delete();
+            CloudBlockBlob blob = container.GetBlockBlobReference(fileName);
+            blob.Delete();
 
-        return RedirectToAction("Index");
+            // Return a JSON response indicating success
+            return Json(new { success = true, message = "File deleted successfully" });
+        }
+        catch (Exception ex)
+        {
+            // Return a JSON response indicating failure
+            return Json(new { success = false, message = $"Error deleting file: {ex.Message}" });
+        }
     }
+
 }
