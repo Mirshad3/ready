@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Directpay IPG</title>
+    <script src="https://cdn.directpay.lk/v3/directpayipg.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+  </head>
+  <body>
+    <button onclick="incont()">In Container Checkout</button>
+    <button onclick="popup()">Popup Checkout</button>
+
+    <div id="card_container"></div>
+
+    <script>
+      var json = {
+        merchant_id: "FM11605",
+        amount: "20.00",
+        type: "ONE_TIME", //ONE_TIME   RECURRING
+        order_id: "njsa123u5",
+        currency: "LKR",
+        return_url: "",
+        response_url: "http://localhost/response.php",
+        first_name: "user",
+        last_name: "user",
+        phone: "0774592258",
+        email: "user@mail.lk",
+        page_type: "IN_APP",
+        logo: "https://esecretary.lk/images/logo.png",
+      };
+      var dataString = CryptoJS.enc.Base64.stringify(
+        CryptoJS.enc.Utf8.parse(JSON.stringify(json))
+      );
+      var hmacDigest = CryptoJS.HmacSHA256(
+        dataString,
+        "f5c6abd22db203d3b6cd8019369621605bd4d711cdc7a5c715b44b4ed73cca83"
+      );
+
+      var dp = new DirectPayIpg.Init({
+        signature: hmacDigest,
+        dataString: dataString,
+        stage: "PROD", //DEV
+        container: "card_container",
+      });
+
+      function incont() {
+        dp.doInContainerCheckout()
+          .then((data) => {
+            console.log("client-res", JSON.stringify(data));
+            alert(JSON.stringify(data));
+          })
+          .catch((error) => {
+            console.log("client-error", JSON.stringify(error));
+            alert(JSON.stringify(error));
+          });
+      }
+
+      function popup() {
+        dp.doInAppCheckout()
+          .then((data) => {
+            console.log("client-res", JSON.stringify(data));
+            alert(JSON.stringify(data));
+          })
+          .catch((error) => {
+            console.log("client-error", JSON.stringify(error));
+            alert(JSON.stringify(error));
+          });
+      }
+    </script>
+  </body>
+</html>

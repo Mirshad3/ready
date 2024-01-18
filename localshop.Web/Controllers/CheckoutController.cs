@@ -72,7 +72,7 @@ namespace localshop.Controllers
             ViewBag.CityName = new SelectList(_cityRepo.Cities.ToList(), "Id", "Name");
             // Calculate summary
             model.Order.SubTotal = cart.Summary;
-
+            model.Order.Total = cart.Summary + 375;
             return View(model);
         }
 
@@ -132,7 +132,8 @@ namespace localshop.Controllers
             // Get order details and calulate summary
             var orderDetails = GetOrderDetails(cart, false);
             order.SubTotal = cart.Summary;
-            order.ShippingPrice = GetShippingCost(order.City);
+            //order.ShippingPrice = GetShippingCost(order.City);
+            order.ShippingPrice = 375;
             order.Total = order.SubTotal + order.ShippingPrice;
 
             // Save order to repository

@@ -1,7 +1,7 @@
 ﻿
 
 @using localshop.Core.Common
-@model OrderViewModelWithUser
+@model IEnumerable<OrderViewModelWithUser>
 
 @{
     ViewBag.Title = "ReadyShippingLabel";
@@ -15,7 +15,7 @@
 @section thirdPartyCss {
     @Styles.Render("~/content/admin/css/dropify", "~/content/admin/css/toastr")
 
-    <style>
+<style>
         .ck-editor__editable_inline {
             min-height: 150px;
         }
@@ -25,7 +25,17 @@
             height: 150px;
             object-fit: scale-down;
         }
-    </style>
+        .table {
+            margin-bottom: 0.15rem !important;
+        }
+            .table > p {
+                margin-bottom: 0px;
+            }
+        .text-left{
+            margin-bottom: 5px !important;
+        }
+        
+</style>
 }
 
 @section thirdPartyJs {
@@ -33,7 +43,7 @@
 
     <!-- CKFinder -->
     <script src="~/Assets/plugins/CKFinderScripts/ckfinder.js"></script>
-
+    <link href="~/Assets/admin/css/main.css" rel="stylesheet" />
     <!-- CKEditor -->
     <script src="~/Assets/plugins/ckeditor5-build-classic-16.0.0/ckeditor.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
@@ -41,52 +51,58 @@
     @Scripts.Render("~/content/admin/js/order/index")
 }
 
-
 <main role="main" class="container" id="section-to-print">
-    <div class="col-12 border border-dark">
-        <div class="row">
-            <div class="col-7">
+    <div class="row">
+        <!-- Repeat the following block for each dataset (four times in total) -->
+        @foreach (var datas in Model)
+        {
+            <div class="col-6 border border-dark h-50 pb-4 pt-3" >
+
+
                 <div class="row">
                     <img src="@ImageLinks.LogoLight" width="200" alt="logo">
                     <img style="height:125px; width:250px; padding-left:30px;" src="https://staff.koombiyodelivery.lk/thems/assets/img/logo-wbg.png" />
 
                 </div>
-                <hr />
-                <p class="text-left">From:@Model.User.FullName </p>
-                <p class="text-left">Contact Number: @Model.User.PhoneNumber </p>
-                <p class="text-left">Date: @Model.Order.OrderDate </p>
-                <hr />
-                <p class="text-left">To:@Model.Order.FirstName @Model.Order.LastName </p>
-                <p class="text-left">Address:@Model.Order.Address1 @Model.Order.Address2 @Model.Order.State</p><br><br><br>
-                <p class="text-left">Phone No: @Model.Order.PhoneNumber</p><br>
+                @*<hr />*@
+                <p class="text-left" style="padding-top: 17px">From:@datas.User.FullName </p>
+                <p class="text-left">Contact Number: @datas.User.PhoneNumber </p>
+                <p class="text-left">Date: @datas.Order.OrderDate </p>
+                @*<hr />*@
+                <p class="text-left"  style="padding-top: 13px">To:@datas.Order.FirstName @datas.Order.LastName </p>
+                <p class="text-left">Address:@datas.Order.Address1 @datas.Order.Address2 @datas.Order.State</p>
+                <p class="text-left">Phone No: @datas.Order.PhoneNumber</p><br>
                 <div class="table table-bordered">
                     <h4>PROOF OF DELIVERY</h4>
                 </div>
                 <svg class="barcode"
                      jsbarcode-format="code39"
-                     jsbarcode-value=@Model.Order.OrderWaybillid
+                     jsbarcode-value=@datas.Order.OrderWaybillid
                      jsbarcode-textmargin="0"
                      jsbarcode-fontoptions="bold">
                 </svg>
                 <div style="padding-left:10px;" class="table table-bordered">
-                    <h5>COD AMOUNT: @Model.Order.Total</h5>
+                    <h5>COD AMOUNT: @datas.Order.Total</h5>
                 </div>
                 <div style="padding-left:10px;" class="table table-bordered">
-                    <p class="lead" id="OrderWaybillid">Order No:@Model.Order.OrderWaybillid </p>
+                    <p class="lead" id="OrderWaybillid">Order No:@datas.Order.OrderWaybillid </p>
                 </div>
                 <div style="padding-left:10px;" class="table table-bordered">
                     <p>Weight: < 1Kg </p>
                 </div>
-                <div class="card bg-faded">
-                    <div class="card-header">
-                        <p class="text-left">Description:@Model.Order.OrderNotes </p>
-                    </div>
-                </div>
+                <div style="padding-left:10px;" class="table table-bordered">
+                    
+                        <p class="text-left">Description:@datas.Order.OrderNotes </p>
+                     
+                </div> 
             </div>
-            
-        </div>
-        <hr />
 
+
+              
+          
+        }
     </div>
-</main>
-<input type="button" class="not-print btn btn-success" value="Print" onclick="window.print();"/> 
+    </main>
+
+ 
+<input type="button" class="not-print no-print btn btn-success" value="Print" onclick="window.print();"/> 

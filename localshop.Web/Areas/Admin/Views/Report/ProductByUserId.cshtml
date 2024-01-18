@@ -1,17 +1,230 @@
-﻿
+﻿@using localshop.Core.Common
+@model TrackingViewModel
+
 @{
     Layout = null;
+    ViewBag.Title = "Tracking order";
 }
 
 <!DOCTYPE html>
-
-<html>
+<html class="no-js" lang="en">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>ProductByUserId</title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>localshop - @(ViewBag.Title ?? "Medco store")</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- CSS
+    ============================================ -->
+    <!-- Bootstrap CSS -->
+    @Styles.Render("~/content/client/css/vendor")
+
+    <!-- Icon Font CSS -->
+    <link rel="stylesheet" href="~/Assets/client/css/vendor/line-awesome.css">
+    <link rel="stylesheet" href="~/Assets/client/css/vendor/themify.css">
+
+    <!-- Plugins CSS -->
+    @Styles.Render("~/content/client/css/tracking")
+
+    <!-- Main CSS -->
+    @Styles.Render("~/content/client/css/app")
 </head>
 <body>
-    <div> 
+    <div class="main-wrapper">
+       
+
+        <div class="section-padding-4 py-md-5 pt-0 pb-5">
+            <div class="container-fluid">
+                
+                     
+
+                    <div id="printElement">
+                        <div class="row">
+                            <div class="col-lg-7 col-12">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <span class="h4">Order information</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row mb-2">
+                                            <div class="col-4">
+                                                <p class="font-weight-bold">Order ID:</p>
+                                                <p class="font-weight-bold">Order status:</p>
+                                                <p class="font-weight-bold">Payment method:</p>
+                                                <p class="font-weight-bold">Placed date:</p>
+                                            </div>
+                                            <div class="col-8">
+                                                <p>@Model.Order.Id</p>
+                                                @switch (Model.OrderStatus)
+                                                {
+                                                    case OrderStatusNames.Pending:
+                                                        {
+                                                            <p><span class="badge badge-warning">@Model.OrderStatus</span></p>
+                                                            break;
+                                                        }
+                                                    case OrderStatusNames.Approved:
+                                                        {
+                                                            <p><span class="badge badge-primary">@Model.OrderStatus</span></p>
+                                                            break;
+                                                        }
+                                                    case OrderStatusNames.Delivered:
+                                                        {
+                                                            <p><span class="badge badge-success">@Model.OrderStatus</span></p>
+                                                            break;
+                                                        }
+                                                    case OrderStatusNames.Cancelled:
+                                                        {
+                                                            <p><span class="badge badge-danger">@Model.OrderStatus</span></p>
+                                                            break;
+                                                        }
+                                                    default:
+                                                        {
+                                                            <p><span class="badge badge-secondary">@Model.OrderStatus</span></p>
+                                                            break;
+                                                        }
+                                                }
+                                                <p>@Model.PaymentMethod</p>
+                                                <p>@Model.Order.OrderDate</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <span class="h4">Shipment details</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row mb-2">
+                                            <div class="col-4">
+                                                <p class="font-weight-bold">Full name:</p>
+                                                <p class="font-weight-bold">Email:</p>
+                                                <p class="font-weight-bold">Phone number:</p>
+                                                <p class="font-weight-bold">Country:</p>
+                                                <p class="font-weight-bold">City:</p>
+                                                <p class="font-weight-bold">State:</p>
+                                                <p class="font-weight-bold">Postcode/ZIP:</p>
+                                                <p class="font-weight-bold">Address 1:</p>
+                                                <p class="font-weight-bold">Address 2:</p>
+                                            </div>
+                                            <div class="col-8">
+                                                <p>@($"{Model.Order.LastName} {Model.Order.FirstName}")</p>
+                                                <p>@Model.Order.Email</p>
+                                                <p>@Model.Order.PhoneNumber</p>
+                                                <p>@Model.Order.Country</p>
+                                                <p>@Model.Order.City</p>
+                                                <p>@Model.Order.State</p>
+                                                <p>@Model.Order.Zip</p>
+                                                <p>@Model.Order.Address1</p>
+                                                <p>@Model.Order.Address2</p>
+                                            </div>
+                                        </div>
+
+                                        @if (Model.Order.IsShipToDifferentAddress)
+                                        {
+                                            <hr />
+                                            <div class="row mb-2">
+                                                <div class="col-4">
+                                                    <p class="font-weight-bold">Country:</p>
+                                                    <p class="font-weight-bold">City:</p>
+                                                    <p class="font-weight-bold">State:</p>
+                                                    <p class="font-weight-bold">Postcode/ZIP:</p>
+                                                    <p class="font-weight-bold">Address 1:</p>
+                                                    <p class="font-weight-bold">Address 2:</p>
+                                                </div>
+                                                <div class="col-8">
+                                                    <p>@Model.Order.DiffCountry</p>
+                                                    <p>@Model.Order.DiffCity</p>
+                                                    <p>@Model.Order.DiffState</p>
+                                                    <p>@Model.Order.DiffZip</p>
+                                                    <p>@Model.Order.DiffAddress1</p>
+                                                    <p>@Model.Order.DiffAddress2</p>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div id="order-details" class="col-lg-5">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <span class="h4">Order details</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <span class="font-weight-bold">PRODUCT</span>
+                                            <span class="font-weight-bold text-danger">TOTAL</span>
+                                        </div>
+                                        <hr />
+                                        <div class="order-product">
+                                            <ul>
+                                                @{
+                                                    decimal subTotal = 0;
+                                                }
+                                                @foreach (var od in Model.OrderDetails)
+                                                {
+                                                    subTotal += od.SubTotal;
+                                                    <li class="d-flex">
+                                                        <div class="d-inline-block col-7 pl-0">@od.Name</div>
+                                                        <strong class="text-danger col-2 pr-0">x @od.Quantity</strong>
+                                                        <span class="col-3 text-right p-0">Rs @od.SubTotal</span>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                        <hr />
+                                        <div class="d-flex justify-content-between">
+                                            <span class="font-weight-bold">SUBTOTAL</span>
+                                            <span class="font-weight-bold text-danger">Rs @subTotal</span>
+                                        </div>
+                                        <hr />
+                                        <div class="d-flex justify-content-between">
+                                            <span class="font-weight-bold">SHIPPING</span>
+                                            <span>Rs @Model.Order.ShippingPrice</span>
+                                        </div>
+                                        <hr />
+                                        <div class="d-flex justify-content-between">
+                                            <span class="font-weight-bold">TOTAL</span>
+                                            <span class="font-weight-bold text-danger">Rs @Model.Order.Total</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- End row -->
+
+                    </div>
+
+                    
+                
+            </div><!-- End row -->
+        </div>
     </div>
+
+    <!-- JS
+    ============================================ -->
+    <!-- Core JS -->
+    @Scripts.Render("~/content/client/js/vendor")
+
+    <!-- Plugins JS -->
+    @Scripts.Render("~/content/client/js/tracking")
+    @Scripts.Render("~/content/removeAds")
+
+    <script>
+        $('#btn-print').on('click', function () {
+            $('#order-details').addClass('col-lg-7').removeClass('col-lg-5');
+
+            printJS({
+                printable: 'printElement',
+                type: 'html',
+                targetStyles: ['*']
+            });
+
+            $('#order-details').addClass('col-lg-5').removeClass('col-lg-7');
+        });
+    </script>
 </body>
 </html>

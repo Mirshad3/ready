@@ -1,5 +1,5 @@
 
-USE [medco]
+USE [db_aa21a5_readymedco]
 GO
 /****** Object:  Table [dbo].[__MigrationHistory]    Script Date: 11/25/2023 5:18:12 PM ******/
 SET ANSI_NULLS ON
@@ -529,7 +529,7 @@ INSERT [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'b5f8cc89-5b45-414b
 GO
 INSERT [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'e54a9f85-6620-447f-86d0-2b4bca713917', N'caf78bb6-a0d7-4a59-b526-6510f32d9dd6') 
 GO 
-INSERT [dbo].[AspNetUsers] ([Id], [FirstName], [LastName], [Image], [City], [State], [Zip], [Country], [Address1], [Address2], [CreatedDate], [Email], [EmailConfirmed], [PasswordHash], [SecurityStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEndDateUtc], [LockoutEnabled], [AccessFailedCount], [UserName], [ShopName]) VALUES (N'a38cb145-28a7-4fb1-b824-eef4a58824a4', N'Medco', N'Ecommerce', N'/Assets/admin/images/logo-sm.png', N'09020000-5d9d-0015-5b40-08d978048c75', N'Western ', N'94', N'Sri Lankas', N'Division No 06', N'Udappu', CAST(N'2021-06-06T10:10:00.553' AS DateTime), N'admin@admin.com', 1, N'AFopE13glpBq79CWLzGO9p0QjD0dmX2w45Jj4t3pAf1ARzZYT7d4o/wzIxaZxVXg8g==', N'08ac334a-e64e-4495-ae60-580fe2dba893', N'0778998490', 0, 0, NULL, 0, 0, N'admin@admin.com', NULL)
+INSERT [dbo].[AspNetUsers] ([Id], [FirstName], [LastName], [Image], [City], [State], [Zip], [Country], [Address1], [Address2], [CreatedDate], [Email], [EmailConfirmed], [PasswordHash], [SecurityStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEndDateUtc], [LockoutEnabled], [AccessFailedCount], [UserName], [ShopName]) VALUES (N'a38cb145-28a7-4fb1-b824-eef4a58824a4', N'db_aa21a5_readymedco', N'Ecommerce', N'/Assets/admin/images/logo-sm.png', N'09020000-5d9d-0015-5b40-08d978048c75', N'Western ', N'94', N'Sri Lankas', N'Division No 06', N'Udappu', CAST(N'2021-06-06T10:10:00.553' AS DateTime), N'admin@admin.com', 1, N'AFopE13glpBq79CWLzGO9p0QjD0dmX2w45Jj4t3pAf1ARzZYT7d4o/wzIxaZxVXg8g==', N'08ac334a-e64e-4495-ae60-580fe2dba893', N'0778998490', 0, 0, NULL, 0, 0, N'admin@admin.com', NULL)
 GO
 INSERT [dbo].[AspNetUsers] ([Id], [FirstName], [LastName], [Image], [City], [State], [Zip], [Country], [Address1], [Address2], [CreatedDate], [Email], [EmailConfirmed], [PasswordHash], [SecurityStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEndDateUtc], [LockoutEnabled], [AccessFailedCount], [UserName], [ShopName]) VALUES (N'a69c45bd-bf73-457f-b5fa-0c199a4cc2b9', NULL, NULL, N'/Assets/admin/images/logo-sm.png', NULL, NULL, NULL, NULL, NULL, NULL, CAST(N'2021-09-28T12:14:38.583' AS DateTime), N'aux71030@gmail.com', 1, N'ABHcj3WLiJuW9Dh+OY7IHE2NIxXrEBHzGtjR5GohiO3rRL42WELtwFeGogP+D9lXHw==', N'e968fb2f-ebc8-4359-8388-1d5a9834e943', NULL, 0, 0, NULL, 0, 0, N'aux71030@gmail.com', NULL)
 GO
@@ -854,5 +854,5 @@ ALTER TABLE [dbo].[Wishlists] CHECK CONSTRAINT [FK_dbo.Whishlists_dbo.Products_P
 GO
 USE [master]
 GO
-ALTER DATABASE [medco] SET  READ_WRITE 
+ALTER DATABASE [db_aa21a5_readymedco] SET  READ_WRITE 
 GO

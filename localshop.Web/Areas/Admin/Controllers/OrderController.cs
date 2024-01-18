@@ -115,20 +115,50 @@ namespace localshop.Areas.Admin.Controllers
 
             return View(model);
         }
+        //public ActionResult ReadyShippingLabel(string id)
+        //{
+          
+        //    var orders = _orderRepo.FindById(id); 
+        //    var order = new OrderViewModelWithUser
+        //    {
+        //        Order = orders,
+        //        PaymentMethod = _orderRepo.GetPaymentMethod(orders.PaymentMethodId),
+        //        OrderStatus = _orderRepo.GetOrderStatus(orders.OrderStatusId),
+        //        User = UserManager.FindById(User.Identity.GetUserId())
+        //    };
+             
+        //    return View(order);
+        //}
         public ActionResult ReadyShippingLabel(string id)
         {
-          
-            var orders = _orderRepo.FindById(id); 
-            var order = new OrderViewModelWithUser
+            if (id == null || id.Length == 0)
             {
-                Order = orders,
-                PaymentMethod = _orderRepo.GetPaymentMethod(orders.PaymentMethodId),
-                OrderStatus = _orderRepo.GetOrderStatus(orders.OrderStatusId),
-                User = UserManager.FindById(User.Identity.GetUserId())
-            };
-             
-            return View(order);
+                // Handle the case where no order IDs are provided
+                return RedirectToAction("Index"); // Redirect to an appropriate action
+            }
+
+            
+            var orderViewModels = new List<OrderViewModelWithUser>();
+            string[] idsa = id.Split(',');
+            // If you need to process each order separately, you can loop through them
+            foreach (var ida in idsa)
+            {
+                var order = _orderRepo.FindById(ida);
+                var orderViewModel = new OrderViewModelWithUser
+                {
+                    Order = order,
+                    PaymentMethod = _orderRepo.GetPaymentMethod(order.PaymentMethodId),
+                    OrderStatus = _orderRepo.GetOrderStatus(order.OrderStatusId),
+                    User = UserManager.FindById(User.Identity.GetUserId())
+                };
+
+                orderViewModels.Add(orderViewModel);
+            }
+
+            // Pass the list of OrderViewModels to the view
+            return View(orderViewModels);
         }
+
         public ActionResult IndexVendor()
         {
             var model = new List<OrderViewModel>();
@@ -256,7 +286,7 @@ namespace localshop.Areas.Admin.Controllers
                 receiverName = oredrdetails.LastName,
                 receiverPhone = oredrdetails.PhoneNumber,
                 receiverStreet = oredrdetails.Address1,
-                description = "Cash On Delivery",
+                description = oredrdetails.PaymentMethodId == "f9d10000-d769-34e6-aadb-08d7b492a03e" ? "Cash On Delivery": "Online Payment",//"Cash On Delivery",
                 spclNote = oredrdetails.OrderNotes == null ? "No Notes": oredrdetails.OrderNotes,
                 orderWaybillid = oredrdetails.OrderWaybillid,
                 getCod = oredrdetails.Total.ToString()
@@ -311,7 +341,8 @@ namespace localshop.Areas.Admin.Controllers
                 postData.Append("receiverName=" + HttpUtility.UrlEncode(courierOrderViewModel.receiverName) + "&");
                 postData.Append("receiverStreet=" + HttpUtility.UrlEncode(courierOrderViewModel.receiverStreet) + "&");
                 postData.Append("receiverDistrict=" + HttpUtility.UrlEncode(courierOrderViewModel.receiverDistrict) + "&");
-                postData.Append("receiverCity=" + HttpUtility.UrlEncode(courierOrderViewModel.receiverCity) + "&");
+                var city = _cityRepo.Cities.Where(m => m.Id == courierOrderViewModel.receiverCity).FirstOrDefault().Name;
+                postData.Append("receiverCity=" + HttpUtility.UrlEncode(city) + "&");
                 postData.Append("receiverPhone=" + HttpUtility.UrlEncode(courierOrderViewModel.receiverPhone) + "&");
                 postData.Append("description=" + HttpUtility.UrlEncode(courierOrderViewModel.description) + "&");
                 postData.Append("spclNote=" + HttpUtility.UrlEncode(courierOrderViewModel.spclNote) + "&");

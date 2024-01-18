@@ -85,15 +85,15 @@
                                     <div class="your-order-info order-shipping">
                                         <ul>
                                             <li>
-                                                Shipping <p id="partialDiv">Rs @Model.Order.ShippingPrice</p>
+                                                Shipping <p id="partialDiv">Rs 375.00 @*@Model.Order.ShippingPrice*@</p>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="your-order-info order-total">
                                         <ul>
-                                            <input type="hidden" value="@Model.Order.SubTotal" id="totalSubTotal" />
+                                            <input type="hidden" value="@Model.Order.Total" id="totalSubTotal" />
                                             <input type="hidden" value="Medco+@DateTime.Now.ToLongDateString()" id="dateunique" />
-                                            <li>Total <span id="total-cost">Rs @Model.Order.SubTotal  </span></li>
+                                            <li>Total <span id="total-cost">Rs @Model.Order.Total  </span></li>
                                         </ul>
                                     </div>
                                 </div>

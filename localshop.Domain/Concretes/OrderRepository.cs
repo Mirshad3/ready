@@ -40,18 +40,41 @@ namespace localshop.Domain.Concretes
                 .Select(o => _mapper.Map<Order, OrderDTO>(o)).ToList();
             return orders;
         }
+        //public IList<OrderDTO> GetOrdersByOwner(string ownerId)
+        //{
+        //    var orderDetails = _context.OrderDetails.Where(od => od.Product.UserId == ownerId);
+        //    var orders = new List<OrderDTO>();
+        //    foreach (var orderDetail in orderDetails)
+        //    {
+        //         var order = _context.Orders.Where(o => o.Id == orderDetail.OrderId).AsEnumerable()
+        //          .Select(o => _mapper.Map<Order, OrderDTO>(o)).ToList();
+                
+        //    }
+            
+        //    return orders;
+        //}
         public IList<OrderDTO> GetOrdersByOwner(string ownerId)
         {
             var orderDetails = _context.OrderDetails.Where(od => od.Product.UserId == ownerId);
             var orders = new List<OrderDTO>();
+
             foreach (var orderDetail in orderDetails)
             {
-                orders = _context.Orders.Where(o => o.Id == orderDetail.OrderId).AsEnumerable()
-                  .Select(o => _mapper.Map<Order, OrderDTO>(o)).ToList();
+                var order = _context.Orders
+                    .Where(o => o.Id == orderDetail.OrderId)
+                    .AsEnumerable()
+                    .Select(o => _mapper.Map<Order, OrderDTO>(o))
+                    .FirstOrDefault();  // Use FirstOrDefault to get a single order or null
+
+                if (order != null)
+                {
+                    orders.Add(order);  // Add the order to the list
+                }
             }
-            
+
             return orders;
         }
+
         public IList<OrderDTO> GetOrdersByZone(string cityId)
         {
             var orderByCity = _context.Orders.Where(o => o.City == cityId && o.OrderStatusId == OrderStatusNames.Delivered);
@@ -232,7 +255,9 @@ namespace localshop.Domain.Concretes
         {
             orderDTO.Id = "#" + string.Join("", NewId.Next().ToString("D").ToUpperInvariant().Split('-'));
             orderDTO.OrderDate = DateTime.Now;
-            orderDTO.OrderWaybillid = _context.Orders.OrderByDescending(m => m.OrderWaybillid).FirstOrDefault().OrderWaybillid;
+            var orderbillId = _context.Orders.OrderByDescending(m => m.OrderWaybillid).FirstOrDefault();
+            
+            orderDTO.OrderWaybillid = orderbillId != null? orderbillId.OrderWaybillid : 00001;
             orderDTO.OrderWaybillid = orderDTO.OrderWaybillid + 1;
             var order = _mapper.Map<OrderDTO, Order>(orderDTO);
 

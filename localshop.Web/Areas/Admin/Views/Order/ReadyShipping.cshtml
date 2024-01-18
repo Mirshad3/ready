@@ -19,6 +19,26 @@
 
     <!-- Controller -->
     @Scripts.Render("~/content/admin/js/order/index");
+<script>
+        // Function to handle the click event of the print button
+        function printSelectedLabels() {
+            var selectedOrderIds = [];
+
+            // Iterate through all checkboxes and add the selected order IDs to the list
+            $("input[name='selectedOrder']:checked").each(function () {
+                selectedOrderIds.push($(this).val());
+            });
+            debugger;
+            // Redirect to the readyShippingLabel action with the selected order IDs
+            if (selectedOrderIds.length > 0) {
+                    var encodedOrderIds = selectedOrderIds.map(encodeURIComponent).join(',');
+                    var url = '@Url.Action("readyShippingLabel", "order")' + '?id=' + encodedOrderIds;
+                window.location.href = url;
+            } else {
+                alert('Please select at least one order.');
+            }
+        }
+</script>
 }
 
 <div class="row">
@@ -27,6 +47,7 @@
             <table id="datatable" class="table table-striped table-bordered nowrap">
                 <thead>
                     <tr>
+                        <th></th>
                         <th>Order ID</th>
                         <th>Placed date</th>
                         <th>Order amount</th>
@@ -41,24 +62,27 @@
                 <tbody>
                     @foreach (var o in Model)
                     {
-                    <tr data-orderid="@o.Order.Id">
-                        <td>@o.Order.Id</td>
-                        <td>@o.Order.OrderDate</td>
-                        <td>@o.Order.SubTotal</td>
-                        <td>@o.PaymentMethod</td>
-                        <td>@o.Order.Address1  </td>
-                        <td>@o.Order.Address2  </td>
-                        <td>@o.Order.OrderWaybillid</td>
-                        <td class="text-center">
-                            <a href="@Url.Action("readyShippingLabel", "order", new { id=o.Order.Id })" class="btn btn-outline-success btn-sm" title="Label order" >
-                                <i class="fas fa-search"></i>
-                            </a> 
-                        </td>
-                    </tr>
+                        <tr data-orderid="@o.Order.Id">
+                            <td>
+                                <input type="checkbox" name="selectedOrder" value="@o.Order.Id" />
+                            </td>
+                            <td>@o.Order.Id</td>
+                            <td>@o.Order.OrderDate</td>
+                            <td>@o.Order.SubTotal</td>
+                            <td>@o.PaymentMethod</td>
+                            <td>@o.Order.Address1  </td>
+                            <td>@o.Order.Address2  </td>
+                            <td>@o.Order.OrderWaybillid</td>
+                            <td class="text-center">
+                                <a href="@Url.Action("readyShippingLabel", "order", new { id=o.Order.Id })" class="btn btn-outline-success btn-sm" title="Label order">
+                                    <i class="fas fa-search"></i>
+                                </a>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
+            <button type="button" class="btn btn-success" onclick="printSelectedLabels()">Print Selected Labels</button>
         </div>
     </div>
 </div> <!-- end row -->
- 

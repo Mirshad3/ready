@@ -1,11 +1,16 @@
-﻿using Elmah.ContentSyndication;
+﻿using CKSource.CKFinder.Connector.Core.Authentication;
+using Elmah.ContentSyndication;
+using Glimpse.Mvc.Tab;
 using localshop.Areas.Admin.ViewModels;
 using localshop.Core.Common;
+using localshop.Core.DTO;
 using localshop.Domain.Abstractions;
 using localshop.Domain.Entities;
 using localshop.Domain.Migrations;
+using localshop.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -24,13 +29,15 @@ namespace localshop.Areas.Admin.Controllers
         private ApplicationUserManager _userManager;
         private ApplicationRoleManager _roleManager;
         private IAccountRepository _accountRepo;
-        public ReportController(IAccountRepository accountRepo,ApplicationUserManager userManager, ApplicationRoleManager roleManager, IOrderRepository orderRepo, IProductRepository productRepo)
+        private ICityRepository _CityRepo;
+        public ReportController(IAccountRepository accountRepo,ApplicationUserManager userManager, ApplicationRoleManager roleManager, IOrderRepository orderRepo, IProductRepository productRepo, ICityRepository CityRepo)
         {
             _orderRepo = orderRepo;
             UserManager = userManager;
             _productRepo = productRepo;
             RoleManager = roleManager;
             _accountRepo = accountRepo;
+            _CityRepo = CityRepo;
         }
         public ApplicationUserManager UserManager
         {
@@ -62,23 +69,41 @@ namespace localshop.Areas.Admin.Controllers
             var products = _orderRepo.GetAllOrderDetails().GroupBy(m => m.ProductId)
      .Select(group => new { ProductId = group.FirstOrDefault().ProductId, Items = group.ToList() })
      .ToList();
+            //foreach (var pr in products)
+            //{
+                var orders = _orderRepo.Orders.OrderByDescending(o => o.OrderDate);
+
             foreach (var pr in products)
             {
-                var orders = _orderRepo.Orders.OrderByDescending(o => o.OrderDate);
-               
-                foreach (var o in orders)
+                foreach (var nr in pr.Items)
                 {
                     var order = new InvoiceReportViewModel
                     {
-                        Order = o,
-                        Product = _productRepo.FindById(pr.ProductId),
-                        OrderDetail = pr.Items.FirstOrDefault(),
-                        OrderStatus = _orderRepo.GetOrderStatus(o.OrderStatusId)
+                        Order = orders.Where(m => m.Id == nr.OrderId).FirstOrDefault(),
+                        Product = _productRepo.FindById(nr.ProductId),
+                        OrderDetail = nr,
+                        OrderStatus = _orderRepo.GetOrderStatus(orders.Where(m => m.Id == nr.OrderId).FirstOrDefault().OrderStatusId)
                     };
                     model.Add(order);
-                };
+                }
                
-            }
+            };
+            ////foreach (var o in orders)
+            ////{
+            ////    var productId = products.Select(m => m.Items.Where(k => k.OrderId == o.Id)).FirstOrDefault();
+            ////    foreach (var pr in productId)
+            ////    {
+            ////        var order = new InvoiceReportViewModel
+            ////        {
+            ////            Order = o,
+            ////            Product = _productRepo.FindById(pr.ProductId),
+            ////            OrderDetail = pr,
+            ////            OrderStatus = _orderRepo.GetOrderStatus(o.OrderStatusId)
+            ////        };
+            ////        model.Add(order);
+            ////    };
+            ////}
+            //}
 
             return View(model);
         }
@@ -127,35 +152,35 @@ namespace localshop.Areas.Admin.Controllers
 
             List<DateTime> splitDates = new List<DateTime>
                   {
-             new DateTime(2021,10,15),
-             new DateTime(2021,11,1),
-             new DateTime(2021,11,15),
-             new DateTime(2021,12,1),
-             new DateTime(2021,12,15),
-             new DateTime(2022,1,1),
-             new DateTime(2022,1,15),
-             new DateTime(2022,2,1),
-             new DateTime(2022,2,15),
-             new DateTime(2022,3,1),
-             new DateTime(2022,3,15),
-             new DateTime(2022,4,1),
-             new DateTime(2022,4,15),
-             new DateTime(2022,5,1),
-             new DateTime(2022,5,15),
-             new DateTime(2022,6,1),
-             new DateTime(2022,6,15),
-             new DateTime(2022,7,1),
-             new DateTime(2022,7,15),
-             new DateTime(2022,8,1),
-             new DateTime(2022,8,15),
-             new DateTime(2022,9,1),
-             new DateTime(2022,9,15),
-             new DateTime(2022,10,1),
-             new DateTime(2022,10,15),
-             new DateTime(2022,11,1),
-             new DateTime(2022,11,15),
-             new DateTime(2022,12,1),
-             new DateTime(2022,12,15),
+             new DateTime(2023,10,15),
+             new DateTime(2023,11,1),
+             new DateTime(2023,11,15),
+             new DateTime(2023,12,1),
+             new DateTime(2023,12,15),
+             new DateTime(2024,1,1),
+             new DateTime(2024,1,15),
+             new DateTime(2024,2,1),
+             new DateTime(2024,2,15),
+             new DateTime(2024,3,1),
+             new DateTime(2024,3,15),
+             new DateTime(2024,4,1),
+             new DateTime(2024,4,15),
+             new DateTime(2024,5,1),
+             new DateTime(2024,5,15),
+             new DateTime(2024,6,1),
+             new DateTime(2024,6,15),
+             new DateTime(2024,7,1),
+             new DateTime(2024,7,15),
+             new DateTime(2024,8,1),
+             new DateTime(2024,8,15),
+             new DateTime(2024,9,1),
+             new DateTime(2024,9,15),
+             new DateTime(2024,10,1),
+             new DateTime(2024,10,15),
+             new DateTime(2024,11,1),
+             new DateTime(2024,11,15),
+             new DateTime(2024,12,1),
+             new DateTime(2024,12,15),
                      };
 
             var realDates = splitDates
@@ -168,13 +193,15 @@ namespace localshop.Areas.Admin.Controllers
             var dates = realDates.Zip(realDates.Skip(1), (a, b) => Tuple.Create(a.AddDays(1), b));
             return dates;
         }
-        public ActionResult ReturnCash()
+        public ActionResult ReturnCash(string id)
         {
             var model = new List<InvoiceTotalViewModel>();
             ////////////////////////
             // var products = _orderRepo.GetAllOrderDetails();
-            var dates = DateRange();
-            var orders = _orderRepo.Orders;
+
+            var dates = DateRange(); 
+            var orders = id == null? _orderRepo.Orders: _orderRepo.GetOrdersByOwner(id);
+            
             DateTime day0 = orders[0].OrderDate.AddDays(-1); 
             foreach (var da in dates) {
                 var q = orders.Where(m => m.OrderStatusId == "f9d10000-d769-34e6-786e-08d7b48f1d56" && m.OrderDate > da.Item1 && m.OrderDate < da.Item2)
@@ -294,50 +321,35 @@ namespace localshop.Areas.Admin.Controllers
                     }
                 }
             }
-            return View(model); 
+        
+            return View(model);
+
         }
 
         [HttpGet]
         public ActionResult ProductByUserId(string id, DateTime date)
         {
-            var model = new List<InvoiceTotalViewModel>();
+            var order = _orderRepo.FindById(id);
+            List<OrderDetailDTO> orderDetails = null;
 
-            var orders = _orderRepo.GetOrdersByOwner(id);
-            if (orders.Count() > 0)
+            if (order != null)
             {
-                DateTime day0 = orders[0].OrderDate.AddDays(-1);
-                var dates = DateRange();
-                foreach (var da in dates)
-                {
-                    var q = orders.Where(m => m.OrderStatusId == "f9d10000-d769-34e6-a60e-08d7b48f1d56" && m.OrderDate > da.Item1 && m.OrderDate < da.Item2).GroupBy(x => ((int)((x.OrderDate.Subtract(day0).TotalDays - 1) / 15)))
-                .Select(x => new
-                {
-                    x.Key,
-                    Date = day0.AddDays(x.Key * 15 + 1),
-                    Total = x.Sum(y => y.Total),
-                    SubTotal = x.Sum(y => y.SubTotal)
-                });
-                    foreach (var item in q)
-                    {
-                        //Console.WriteLine($"{item.Date.ToString("yyyy-MM-dd")} {item.Amount}");
-                        var deduction = Convert.ToInt32(ConfigurationManager.AppSettings["Detuction"].ToString());
-                        var tex = Convert.ToInt32(ConfigurationManager.AppSettings["Tex"].ToString());
-                        var order = new InvoiceTotalViewModel
-                        {
-                            Total = item.Total,
-                            DateRange = 15,
-                            StartDate = item.Date,
-                            SubTotal = item.SubTotal,
-
-                            DetuctionPersontage = deduction,
-                            Detuction = (item.SubTotal * deduction) / 100,
-                            ReturnTotal = item.SubTotal - ((item.SubTotal * deduction) / 100),
-                            Tex = tex
-                        };
-                        model.Add(order);
-                    }
-                }
+                orderDetails = _orderRepo.GetOrderDetails(id).ToList();
+                order.City = _CityRepo.FindById(order.City).Name;
             }
+
+            var model = new TrackingViewModel
+            {
+                Order = order,
+                OrderDetails = orderDetails
+            };
+
+            if (model.Order != null)
+            {
+                model.OrderStatus = _orderRepo.GetOrderStatus(order.OrderStatusId) ?? "...";
+                model.PaymentMethod = _orderRepo.GetPaymentMethod(order.PaymentMethodId) ?? "...";
+            }
+
             return View(model);
         }
 

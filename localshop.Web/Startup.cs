@@ -6,6 +6,7 @@ using CKSource.CKFinder.Connector.KeyValue.FileSystem;
 using CKSource.CKFinder.Connector.Logs.NLog;
 using CKSource.FileSystem.Local;
 using localshop.Infrastructures;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Owin;
 using Owin;
 
@@ -14,6 +15,14 @@ namespace localshop
 {
     public partial class Startup
     {
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            // Other service registrations...
+
+            // Register the hosted service
+            services.AddHostedService<DailyEmailSenderService>();
+        }
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);

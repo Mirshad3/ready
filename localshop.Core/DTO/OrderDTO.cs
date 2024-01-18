@@ -17,6 +17,7 @@ namespace localshop.Core.DTO
 
         [Required]
         public decimal SubTotal { get; set; }
+        public decimal GrandTotal { get; set; }
         public decimal Total { get; set; }
         public DateTime OrderDate { get; set; }
 
